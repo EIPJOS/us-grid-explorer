@@ -1,18 +1,18 @@
-# Virginia Grid Explorer
+# US Grid Explorer
 
-An original Virginia-focused infrastructure intelligence application for exploring data centers, power plants, transmission, substations, grid signals, and development pressure.
+An original nationwide infrastructure intelligence application for exploring data centers, power plants, transmission, substations, grid regions, market signals, and development pressure across the United States.
 
 ## Status
 
-V2 is under active development. The earlier `virginia-data-center-map` project remains the deployed prototype while this repository is rebuilt as a React/Vite application.
+V2 is under active development. Virginia is the first validated regional dataset, not the product boundary. National layers will come from authoritative federal and grid-operator sources, while data center records will expand state by state with explicit coverage and confidence labels.
 
 ## Planned Views
 
-- Explore: full-screen infrastructure map
-- Dashboard: grid and development metrics
+- Explore: full-screen national infrastructure map
+- Dashboard: national and regional grid metrics
 - Facilities: searchable infrastructure directory
-- Analysis: county comparisons and pressure scoring
-- Sources: methodology, licensing, and freshness
+- Analysis: state, county, and grid-region comparisons
+- Sources: methodology, licensing, coverage, and freshness
 
 ## Local Development
 

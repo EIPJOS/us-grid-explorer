@@ -9,6 +9,7 @@ export const featureTypes = Object.freeze({
 export const confidenceLevels = Object.freeze({
   VERIFIED: "verified",
   REPORTED: "reported",
+  COMMUNITY_REPORTED: "community_reported",
   ESTIMATED: "estimated"
 });
 

@@ -101,14 +101,19 @@ export default function ExploreMap({
     if (!showDataCenters) return;
 
     dataCenters.forEach((center) => {
-      const marker = L.circleMarker([center.latitude, center.longitude], {
-        radius: Math.max(6, Math.min(15, 5 + center.estimatedMw / 90)),
+      const [longitude, latitude] = center.geometry.coordinates;
+      const marker = L.circleMarker([latitude, longitude], {
+        renderer: canvasRendererRef.current,
+        radius: 5.5,
         color: "#f1ff9b",
-        weight: 1.6,
+        weight: 1.2,
         fillColor: "#dfff3f",
-        fillOpacity: 0.84
+        fillOpacity: 0.78
       });
-      marker.bindTooltip(`<strong>${escapeHtml(center.name)}</strong><br>Data center cluster`);
+      const operator = center.properties.operator;
+      marker.bindTooltip(
+        `<strong>${escapeHtml(center.name)}</strong><br>${escapeHtml(operator || "Community-reported data center")}`
+      );
       marker.on("click", () => onSelect({ type: "data_center", feature: center }));
       marker.addTo(layer);
     });

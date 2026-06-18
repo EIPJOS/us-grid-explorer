@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { Database, Map, Radio, Search, Zap } from "lucide-react";
-import { dataCenters } from "./data/datacenters.js";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
 import SearchPanel from "./components/SearchPanel.jsx";
@@ -21,6 +20,7 @@ const INITIAL_FUEL_VISIBILITY = {
 
 export default function App() {
   const [plantPayload, setPlantPayload] = useState(null);
+  const [dataCenterPayload, setDataCenterPayload] = useState(null);
   const [loadError, setLoadError] = useState("");
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [focusRequest, setFocusRequest] = useState(null);
@@ -31,13 +31,14 @@ export default function App() {
   useEffect(() => {
     let active = true;
 
-    fetch("/data/power-plants.json")
-      .then((response) => {
-        if (!response.ok) throw new Error(`Power-plant data returned ${response.status}`);
-        return response.json();
-      })
-      .then((payload) => {
-        if (active) setPlantPayload(payload);
+    Promise.all([
+      fetchLayer("/data/power-plants.json", "Power-plant"),
+      fetchLayer("/data/data-centers.json", "Data-center")
+    ])
+      .then(([plants, centers]) => {
+        if (!active) return;
+        setPlantPayload(plants);
+        setDataCenterPayload(centers);
       })
       .catch((error) => {
         if (active) setLoadError(error.message);
@@ -49,6 +50,7 @@ export default function App() {
   }, []);
 
   const plants = plantPayload?.features ?? [];
+  const dataCenters = dataCenterPayload?.features ?? [];
   const fuelCounts = useMemo(() => {
     const counts = Object.fromEntries(
       Object.keys(INITIAL_FUEL_VISIBILITY).map((category) => [category, 0])
@@ -73,12 +75,17 @@ export default function App() {
       id: center.id,
       type: "data_center",
       name: center.name,
-      subtitle: `${center.city}, ${center.county} County, VA`,
-      coordinates: [center.longitude, center.latitude],
+      subtitle: dataCenterSubtitle(center),
+      coordinates: center.geometry.coordinates,
       feature: center
     }));
     return [...centerItems, ...plantItems];
-  }, [plants]);
+  }, [plants, dataCenters]);
+
+  const sourceRegistry = useMemo(() => ({
+    ...(plantPayload?.meta?.sources ?? {}),
+    ...(dataCenterPayload?.meta?.sources ?? {})
+  }), [plantPayload, dataCenterPayload]);
 
   function selectFromSearch(item) {
     setSelectedFeature({ type: item.type, feature: item.feature });
@@ -126,7 +133,7 @@ export default function App() {
         <SearchPanel
           icon={<Search size={18} />}
           items={searchItems}
-          loading={!plantPayload && !loadError}
+          loading={(!plantPayload || !dataCenterPayload) && !loadError}
           onSelect={selectFromSearch}
         />
 
@@ -140,22 +147,34 @@ export default function App() {
           onTogglePowerPlants={() => setShowPowerPlants((value) => !value)}
           onToggleDataCenters={() => setShowDataCenters((value) => !value)}
           onToggleFuel={toggleFuel}
-          loading={!plantPayload && !loadError}
+          loading={(!plantPayload || !dataCenterPayload) && !loadError}
           loadError={loadError}
         />
 
         <SelectionPanel
           selection={selectedFeature}
-          sourceRegistry={plantPayload?.meta?.sources ?? {}}
+          sourceRegistry={sourceRegistry}
           onClose={() => setSelectedFeature(null)}
         />
 
         <div className="coverage-note">
           <strong>Coverage</strong>
           <span>Power plants: nationwide</span>
-          <span>Data centers: Virginia seed region</span>
+          <span>Data centers: nationwide community reports</span>
         </div>
       </main>
     </div>
   );
+}
+
+async function fetchLayer(url, label) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${label} data returned ${response.status}`);
+  return response.json();
+}
+
+function dataCenterSubtitle(center) {
+  const { city, state, address, operator } = center.properties;
+  const location = [city, state].filter(Boolean).join(", ");
+  return location || address || operator || "Community-reported location";
 }

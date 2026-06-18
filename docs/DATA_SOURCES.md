@@ -16,4 +16,12 @@ EIA states that the Early Release is preliminary, incompletely edited, and inapp
 
 ## Data Centers
 
-The current data-center layer contains Virginia cluster-level seed records carried forward from the prototype. Coordinates, square footage, and demand estimates remain approximate. The national catalog will show explicit state-level coverage and source confidence rather than implying that the seed layer is complete.
+- Publisher: OpenStreetMap contributors
+- Dataset: OpenStreetMap data-center tags via Overpass
+- Source: https://www.openstreetmap.org/
+- Checked: 2026-06-18
+- Coverage: 1,592 community-reported U.S. features
+- License: ODbL 1.0
+- Refresh target: monthly
+
+OpenStreetMap is community-maintained and incomplete. Missing facilities do not indicate that no data center exists in an area. Names, operators, addresses, status, and coordinates may be missing, approximate, duplicated, or outdated. The application does not estimate facility capacity where no public value is reported.

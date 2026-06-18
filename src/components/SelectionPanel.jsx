@@ -14,7 +14,7 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
 
   const isPlant = selection.type === "power_plant";
   const feature = selection.feature;
-  const source = isPlant ? sourceRegistry[feature.sourceRef] : null;
+  const source = sourceRegistry[feature.sourceRef] ?? null;
 
   return (
     <aside className="selection-panel floating-panel">
@@ -37,11 +37,12 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
         </dl>
       ) : (
         <dl>
-          <Detail label="Location" value={`${feature.city}, ${feature.county} County, VA`} />
-          <Detail label="Operator" value={feature.operator} />
-          <Detail label="Status" value={feature.status} />
-          <Detail label="Modeled demand" value={`${feature.estimatedMw.toLocaleString()} MW`} />
-          <Detail label="Coverage" value="Virginia seed dataset" />
+          <Detail label="Location" value={dataCenterLocation(feature)} />
+          <Detail label="Operator" value={feature.properties.operator || "Not reported"} />
+          <Detail label="Status" value={formatLabel(feature.properties.status)} />
+          <Detail label="Capacity" value="Not publicly reported" />
+          <Detail label="OSM record" value={`${feature.properties.osmType} ${feature.properties.osmId}`} />
+          <Detail label="Coverage" value="Community-reported" />
         </dl>
       )}
 
@@ -63,4 +64,9 @@ function Detail({ label, value }) {
 
 function formatLabel(value) {
   return String(value ?? "Other").replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function dataCenterLocation(feature) {
+  const { address, city, state } = feature.properties;
+  return address || [city, state].filter(Boolean).join(", ") || "Location only";
 }

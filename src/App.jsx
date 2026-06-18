@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { Database, Map, Radio, Search, Zap } from "lucide-react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
 import SearchPanel from "./components/SearchPanel.jsx";
 import SelectionPanel from "./components/SelectionPanel.jsx";
+import FacilitiesView from "./components/FacilitiesView.jsx";
+
+const GridSignalsView = lazy(() => import("./components/GridSignalsView.jsx"));
 
 const INITIAL_FUEL_VISIBILITY = {
   oil_gas: true,
@@ -19,6 +22,7 @@ const INITIAL_FUEL_VISIBILITY = {
 };
 
 export default function App() {
+  const [activeView, setActiveView] = useState("explore");
   const [plantPayload, setPlantPayload] = useState(null);
   const [dataCenterPayload, setDataCenterPayload] = useState(null);
   const [loadError, setLoadError] = useState("");
@@ -92,6 +96,13 @@ export default function App() {
     setFocusRequest({ coordinates: item.coordinates, id: item.id, nonce: Date.now() });
   }
 
+  function viewFacilityOnMap(selection) {
+    const coordinates = selection.feature.geometry.coordinates;
+    setSelectedFeature(selection);
+    setFocusRequest({ coordinates, id: selection.feature.id, nonce: Date.now() });
+    setActiveView("explore");
+  }
+
   function toggleFuel(category) {
     setFuelVisibility((current) => ({ ...current, [category]: !current[category] }));
   }
@@ -108,61 +119,79 @@ export default function App() {
         </a>
 
         <nav aria-label="Primary navigation">
-          <button className="active"><Map size={16} />Explore</button>
-          <button><Database size={16} />Facilities</button>
-          <button><Radio size={16} />Grid signals</button>
+          <button className={activeView === "explore" ? "active" : ""} onClick={() => setActiveView("explore")}><Map size={16} />Explore</button>
+          <button className={activeView === "facilities" ? "active" : ""} onClick={() => setActiveView("facilities")}><Database size={16} />Facilities</button>
+          <button className={activeView === "signals" ? "active" : ""} onClick={() => setActiveView("signals")}><Radio size={16} />Grid signals</button>
         </nav>
 
         <div className="release-badge">
           <i></i>
-          EIA-860 2025 early release
+          {activeView === "signals" ? "EIA-930 hourly data" : "EIA-860 2025 early release"}
         </div>
       </header>
 
-      <main className="explore-shell">
-        <ExploreMap
+      {activeView === "explore" && (
+        <main className="explore-shell">
+          <ExploreMap
+            plants={plants}
+            dataCenters={dataCenters}
+            fuelVisibility={fuelVisibility}
+            showPowerPlants={showPowerPlants}
+            showDataCenters={showDataCenters}
+            focusRequest={focusRequest}
+            onSelect={setSelectedFeature}
+          />
+
+          <SearchPanel
+            icon={<Search size={18} />}
+            items={searchItems}
+            loading={(!plantPayload || !dataCenterPayload) && !loadError}
+            onSelect={selectFromSearch}
+          />
+
+          <LayerPanel
+            plantCount={plants.length}
+            dataCenterCount={dataCenters.length}
+            fuelCounts={fuelCounts}
+            fuelVisibility={fuelVisibility}
+            showPowerPlants={showPowerPlants}
+            showDataCenters={showDataCenters}
+            onTogglePowerPlants={() => setShowPowerPlants((value) => !value)}
+            onToggleDataCenters={() => setShowDataCenters((value) => !value)}
+            onToggleFuel={toggleFuel}
+            loading={(!plantPayload || !dataCenterPayload) && !loadError}
+            loadError={loadError}
+          />
+
+          <SelectionPanel
+            selection={selectedFeature}
+            sourceRegistry={sourceRegistry}
+            onClose={() => setSelectedFeature(null)}
+          />
+
+          <div className="coverage-note">
+            <strong>Coverage</strong>
+            <span>Power plants: nationwide</span>
+            <span>Data centers: nationwide community reports</span>
+          </div>
+        </main>
+      )}
+
+      {activeView === "facilities" && (
+        <FacilitiesView
           plants={plants}
           dataCenters={dataCenters}
-          fuelVisibility={fuelVisibility}
-          showPowerPlants={showPowerPlants}
-          showDataCenters={showDataCenters}
-          focusRequest={focusRequest}
-          onSelect={setSelectedFeature}
-        />
-
-        <SearchPanel
-          icon={<Search size={18} />}
-          items={searchItems}
-          loading={(!plantPayload || !dataCenterPayload) && !loadError}
-          onSelect={selectFromSearch}
-        />
-
-        <LayerPanel
-          plantCount={plants.length}
-          dataCenterCount={dataCenters.length}
-          fuelCounts={fuelCounts}
-          fuelVisibility={fuelVisibility}
-          showPowerPlants={showPowerPlants}
-          showDataCenters={showDataCenters}
-          onTogglePowerPlants={() => setShowPowerPlants((value) => !value)}
-          onToggleDataCenters={() => setShowDataCenters((value) => !value)}
-          onToggleFuel={toggleFuel}
           loading={(!plantPayload || !dataCenterPayload) && !loadError}
           loadError={loadError}
+          onViewOnMap={viewFacilityOnMap}
         />
+      )}
 
-        <SelectionPanel
-          selection={selectedFeature}
-          sourceRegistry={sourceRegistry}
-          onClose={() => setSelectedFeature(null)}
-        />
-
-        <div className="coverage-note">
-          <strong>Coverage</strong>
-          <span>Power plants: nationwide</span>
-          <span>Data centers: nationwide community reports</span>
-        </div>
-      </main>
+      {activeView === "signals" && (
+        <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading grid signals...</div></main>}>
+          <GridSignalsView />
+        </Suspense>
+      )}
     </div>
   );
 }

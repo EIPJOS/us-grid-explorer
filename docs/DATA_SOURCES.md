@@ -25,3 +25,13 @@ EIA states that the Early Release is preliminary, incompletely edited, and inapp
 - Refresh target: monthly
 
 OpenStreetMap is community-maintained and incomplete. Missing facilities do not indicate that no data center exists in an area. Names, operators, addresses, status, and coordinates may be missing, approximate, duplicated, or outdated. The application does not estimate facility capacity where no public value is reported.
+
+## Grid Signals
+
+- Publisher: U.S. Energy Information Administration
+- Dataset: EIA-930 Hourly Electric Grid Monitor, balancing-authority demand
+- Source: https://www.eia.gov/electricity/gridmonitor/about
+- Frequency: hourly
+- Operators currently displayed: PJM, ERCOT, MISO, CAISO, NYISO, ISO-NE, and SPP
+
+Demand values are preliminary hourly operating data reported by balancing authorities. The interface shows the source period and labels the unit as MWh during the reported hour. API failures produce a visible error state rather than cached or fabricated live values.

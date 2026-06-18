@@ -32,9 +32,15 @@ export function validateMapFeature(feature) {
   if (!Array.isArray(feature?.geometry?.coordinates)) {
     errors.push("geometry.coordinates must be an array");
   }
-  if (!feature?.source?.url) errors.push("source.url is required");
-  if (!feature?.source?.checkedAt) errors.push("source.checkedAt is required");
-  if (!feature?.source?.confidence) errors.push("source.confidence is required");
+  if (!feature?.sourceRef && !feature?.source?.url) {
+    errors.push("sourceRef or source.url is required");
+  }
+  if (feature?.source && !feature.source.checkedAt) {
+    errors.push("source.checkedAt is required when source is embedded");
+  }
+  if (feature?.source && !feature.source.confidence) {
+    errors.push("source.confidence is required when source is embedded");
+  }
 
   return errors;
 }

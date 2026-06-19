@@ -6,13 +6,21 @@ An original nationwide infrastructure intelligence application for exploring dat
 
 V2 is under active development. Virginia is the first validated regional dataset, not the product boundary. National layers will come from authoritative federal and grid-operator sources, while data center records will expand state by state with explicit coverage and confidence labels.
 
-## Planned Views
+## Current Views
 
-- Explore: full-screen national infrastructure map
-- Dashboard: national and regional grid metrics
-- Facilities: searchable infrastructure directory
-- Analysis: state, county, and grid-region comparisons
-- Sources: methodology, licensing, coverage, and freshness
+- Explore: full-screen national infrastructure map with plants, data centers, transmission, substations, and geographic search
+- Facilities: searchable, filterable infrastructure directory
+- Grid Signals: live EIA-930 hourly demand for seven major grid operators
+- Analysis: finalized state capacity, fuel mix, and facility comparisons
+- Learn: six interactive lessons, data stories, and map onboarding
+
+## Planned Work
+
+- AI grid guide with sourced answers and map actions
+- Automated data refresh workflows
+- Outage and weather-risk layers
+- URL-based routing and shareable selections
+- Expanded tests, accessibility, and monitoring
 
 ## Local Development
 

@@ -1,4 +1,4 @@
-import { ChevronDown, Database, Server, Zap } from "lucide-react";
+import { ChevronDown, Compass, Database, Server, Zap } from "lucide-react";
 import { FUEL_COLORS } from "./ExploreMap.jsx";
 
 const FUEL_LABELS = {
@@ -27,6 +27,7 @@ export default function LayerPanel({
   onToggleDataCenters,
   onToggleTransmission,
   onToggleSubstations,
+  onStartTour,
   onToggleFuel,
   loading,
   loadError
@@ -101,6 +102,7 @@ export default function LayerPanel({
       )}
 
       {loadError && <p className="panel-error">Could not load power plants: {loadError}</p>}
+      <button className="tour-launch" onClick={onStartTour}><Compass size={15} />Take the map tour</button>
     </aside>
   );
 }

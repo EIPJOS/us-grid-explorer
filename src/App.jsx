@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { BarChart3, Database, Map, Radio, Search, Zap } from "lucide-react";
+import { BarChart3, BookOpen, Database, Map, Radio, Search, Zap } from "lucide-react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
 import SearchPanel from "./components/SearchPanel.jsx";
@@ -8,6 +8,7 @@ import FacilitiesView from "./components/FacilitiesView.jsx";
 
 const GridSignalsView = lazy(() => import("./components/GridSignalsView.jsx"));
 const AnalysisView = lazy(() => import("./components/AnalysisView.jsx"));
+const LearnView = lazy(() => import("./components/LearnView.jsx"));
 
 const INITIAL_FUEL_VISIBILITY = {
   oil_gas: true,
@@ -54,6 +55,7 @@ const STATIC_SOURCES = {
 
 export default function App() {
   const [activeView, setActiveView] = useState("explore");
+  const [tourOpen, setTourOpen] = useState(false);
   const [plantPayload, setPlantPayload] = useState(null);
   const [dataCenterPayload, setDataCenterPayload] = useState(null);
   const [loadError, setLoadError] = useState("");
@@ -176,11 +178,12 @@ export default function App() {
           <button className={activeView === "facilities" ? "active" : ""} onClick={() => setActiveView("facilities")}><Database size={16} />Facilities</button>
           <button className={activeView === "signals" ? "active" : ""} onClick={() => setActiveView("signals")}><Radio size={16} />Grid signals</button>
           <button className={activeView === "analysis" ? "active" : ""} onClick={() => setActiveView("analysis")}><BarChart3 size={16} />Analysis</button>
+          <button className={activeView === "learn" ? "active" : ""} onClick={() => setActiveView("learn")}><BookOpen size={16} />Learn</button>
         </nav>
 
         <div className="release-badge">
           <i></i>
-          {activeView === "signals" ? "EIA-930 hourly data" : activeView === "analysis" ? "EIA-860 2024 final" : "EIA-860 2025 early release"}
+          {activeView === "signals" ? "EIA-930 hourly data" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
         </div>
       </header>
 
@@ -220,6 +223,7 @@ export default function App() {
             onToggleDataCenters={() => setShowDataCenters((value) => !value)}
             onToggleTransmission={() => setShowTransmission((value) => !value)}
             onToggleSubstations={() => setShowSubstations((value) => !value)}
+            onStartTour={() => setTourOpen(true)}
             onToggleFuel={toggleFuel}
             loading={(!plantPayload || !dataCenterPayload) && !loadError}
             loadError={loadError}
@@ -236,6 +240,8 @@ export default function App() {
             <span>Power plants: nationwide</span>
             <span>Data centers: nationwide community reports</span>
           </div>
+
+          {tourOpen && <TourOverlay onClose={() => setTourOpen(false)} />}
         </main>
       )}
 
@@ -260,6 +266,42 @@ export default function App() {
           <AnalysisView dataCenters={dataCenters} />
         </Suspense>
       )}
+
+      {activeView === "learn" && (
+        <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading learning center...</div></main>}>
+          <LearnView plants={plants} dataCenters={dataCenters} fuelCounts={fuelCounts} />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+
+function TourOverlay({ onClose }) {
+  const [step, setStep] = useState(0);
+  const steps = [
+    { eyebrow: "Welcome", title: "Read the grid as a system", body: "US Grid Explorer connects generation, data centers, transmission, substations, and live demand in one sourced workspace." },
+    { eyebrow: "Step 1 of 4", title: "Control the infrastructure layers", body: "Use Map Layers to compare fuels, reveal the high-voltage network, and add transmission-associated substations." },
+    { eyebrow: "Step 2 of 4", title: "Search facilities and places", body: "Find a plant or data center instantly, or press Enter to geocode any U.S. city, address, or ZIP code." },
+    { eyebrow: "Step 3 of 4", title: "Inspect the evidence", body: "Select a map feature to see capacity, voltage, owner, status, coverage quality, and the underlying source." },
+    { eyebrow: "Step 4 of 4", title: "Move from map to analysis", body: "Facilities, Grid Signals, Analysis, and Learn turn the map into a complete infrastructure research tool." }
+  ];
+  const current = steps[step];
+  return (
+    <div className={`tour-overlay step-${step}`}>
+      <div className="tour-shade"></div>
+      <section className="tour-card">
+        <span>{current.eyebrow}</span>
+        <h2>{current.title}</h2>
+        <p>{current.body}</p>
+        <div className="tour-progress">{steps.map((_, index) => <i key={index} className={index <= step ? "active" : ""}></i>)}</div>
+        <footer>
+          <button className="tour-skip" onClick={onClose}>Exit tour</button>
+          <div>
+            {step > 0 && <button onClick={() => setStep((value) => value - 1)}>Back</button>}
+            <button className="tour-next" onClick={() => step + 1 < steps.length ? setStep((value) => value + 1) : onClose()}>{step + 1 < steps.length ? "Next" : "Start exploring"}</button>
+          </div>
+        </footer>
+      </section>
     </div>
   );
 }

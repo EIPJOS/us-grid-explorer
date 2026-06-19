@@ -16,6 +16,7 @@ export const FUEL_COLORS = {
 
 const CONUS_BOUNDS = L.latLngBounds([24.3, -125.2], [49.8, -66.5]);
 const TRANSMISSION_SERVICE = "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Electric_Power_Transmission_Lines/FeatureServer/0/query";
+const SUBSTATION_SERVICE = "https://services6.arcgis.com/OO2s4OoyCZkYJ6oE/arcgis/rest/services/Substations/FeatureServer/0/query";
 
 export default function ExploreMap({
   plants,
@@ -24,6 +25,7 @@ export default function ExploreMap({
   showPowerPlants,
   showDataCenters,
   showTransmission,
+  showSubstations,
   focusRequest,
   onSelect
 }) {
@@ -32,6 +34,7 @@ export default function ExploreMap({
   const plantLayerRef = useRef(null);
   const dataCenterLayerRef = useRef(null);
   const transmissionLayerRef = useRef(null);
+  const substationLayerRef = useRef(null);
   const canvasRendererRef = useRef(null);
 
   useEffect(() => {
@@ -53,9 +56,15 @@ export default function ExploreMap({
     map.fitBounds(CONUS_BOUNDS, { padding: [18, 18] });
     map.createPane("transmissionPane");
     map.getPane("transmissionPane").style.zIndex = "330";
+    map.createPane("substationPane");
+    map.getPane("substationPane").style.zIndex = "360";
     mapRef.current = map;
     canvasRendererRef.current = L.canvas({ padding: 0.45 });
     transmissionLayerRef.current = L.geoJSON(null, { pane: "transmissionPane" }).addTo(map);
+    substationLayerRef.current = L.geoJSON(null, {
+      pane: "substationPane",
+      pointToLayer: (feature, latlng) => L.circleMarker(latlng, substationStyle(feature, map.getZoom()))
+    }).addTo(map);
     plantLayerRef.current = L.layerGroup().addTo(map);
     dataCenterLayerRef.current = L.layerGroup().addTo(map);
 
@@ -131,6 +140,73 @@ export default function ExploreMap({
       map.off("moveend zoomend", scheduleLoad);
     };
   }, [showTransmission, onSelect]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const layer = substationLayerRef.current;
+    if (!map || !layer) return;
+
+    let controller = null;
+    let timer = null;
+
+    async function loadVisibleSubstations() {
+      controller?.abort();
+      controller = new AbortController();
+
+      if (!showSubstations) {
+        layer.clearLayers();
+        return;
+      }
+
+      const bounds = map.getBounds();
+      const zoom = map.getZoom();
+      const minimumVoltage = zoom <= 4 ? 345 : zoom <= 6 ? 230 : zoom <= 8 ? 100 : 0;
+      const where = minimumVoltage ? `MAX_VOLT >= ${minimumVoltage}` : "1=1";
+      const params = new URLSearchParams({
+        where,
+        geometry: [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()].join(","),
+        geometryType: "esriGeometryEnvelope",
+        inSR: "4326",
+        spatialRel: "esriSpatialRelIntersects",
+        outSR: "4326",
+        outFields: "OBJECTID,ID,NAME,CITY,STATE,TYPE,STATUS,COUNTY,SOURCE,SOURCEDATE,VAL_METHOD,VAL_DATE,LINES,MAX_VOLT,MIN_VOLT,MAX_INFER,MIN_INFER",
+        returnGeometry: "true",
+        resultRecordCount: "2000",
+        f: "geojson"
+      });
+
+      try {
+        const response = await fetch(`${SUBSTATION_SERVICE}?${params}`, { signal: controller.signal });
+        if (!response.ok) throw new Error(`Substation service returned ${response.status}`);
+        const geojson = await response.json();
+        layer.clearLayers();
+        layer.addData(geojson);
+        layer.eachLayer((featureLayer) => {
+          const feature = featureLayer.feature;
+          if (!feature) return;
+          featureLayer.setStyle(substationStyle(feature, zoom));
+          featureLayer.bindTooltip(substationTooltip(feature.properties), { direction: "top", opacity: 0.96 });
+          featureLayer.on("click", () => onSelect(normalizeSubstationFeature(feature)));
+        });
+      } catch (error) {
+        if (error.name !== "AbortError") console.warn(error.message);
+      }
+    }
+
+    function scheduleLoad() {
+      clearTimeout(timer);
+      timer = setTimeout(loadVisibleSubstations, 180);
+    }
+
+    map.on("moveend zoomend", scheduleLoad);
+    scheduleLoad();
+
+    return () => {
+      clearTimeout(timer);
+      controller?.abort();
+      map.off("moveend zoomend", scheduleLoad);
+    };
+  }, [showSubstations, onSelect]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -250,4 +326,58 @@ function normalizeTransmissionFeature(feature) {
       sourceRef: "national-transmission-lines"
     }
   };
+}
+
+function substationStyle(feature, zoom) {
+  const voltage = Number(feature?.properties?.MAX_VOLT) || 0;
+  return {
+    pane: "substationPane",
+    radius: zoom <= 5 ? 2.2 : zoom <= 8 ? 3 : 4,
+    color: voltage >= 500 ? "#ffd84d" : "#75d5ff",
+    weight: 0.8,
+    fillColor: voltage >= 500 ? "#ffd84d" : "#75d5ff",
+    fillOpacity: 0.82
+  };
+}
+
+function substationTooltip(properties) {
+  const name = escapeHtml(substationName(properties.NAME));
+  const voltage = Number(properties.MAX_VOLT) || 0;
+  return `<strong>${name}</strong><br>${voltage ? `${voltage.toLocaleString()} kV maximum` : "Voltage not reported"}`;
+}
+
+function normalizeSubstationFeature(feature) {
+  const properties = feature.properties ?? {};
+  const name = substationName(properties.NAME);
+  return {
+    type: "substation",
+    feature: {
+      id: `substation-${properties.OBJECTID ?? properties.ID}`,
+      type: "substation",
+      name,
+      geometry: feature.geometry,
+      properties: {
+        city: properties.CITY || "",
+        state: properties.STATE || "",
+        county: properties.COUNTY || "",
+        type: properties.TYPE || "",
+        status: properties.STATUS || "",
+        lines: Number(properties.LINES) || 0,
+        maxVoltage: Number(properties.MAX_VOLT) || 0,
+        minVoltage: Number(properties.MIN_VOLT) || 0,
+        maxInferred: properties.MAX_INFER || "",
+        minInferred: properties.MIN_INFER || "",
+        sourceName: properties.SOURCE || "",
+        sourceDate: properties.SOURCEDATE || "",
+        validationMethod: properties.VAL_METHOD || "",
+        validationDate: properties.VAL_DATE || ""
+      },
+      sourceRef: "hifld-substations-2025"
+    }
+  };
+}
+
+function substationName(value) {
+  const name = String(value || "").trim();
+  return !name || /^unknown\d*$/i.test(name) ? "Unnamed substation" : name;
 }

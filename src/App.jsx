@@ -30,6 +30,15 @@ const STATIC_SOURCES = {
     confidence: "reported",
     cadence: "periodic",
     note: "National line segments are queried by visible map area. Voltage and ownership fields may be missing or inferred."
+  },
+  "hifld-substations-2025": {
+    publisher: "HIFLD / Oak Ridge National Laboratory and partner agencies",
+    dataset: "HIFLD Substations 1/9/2025",
+    url: "https://www.arcgis.com/home/item.html?id=83397b209bfb4007a2f4c00e70df8e5d",
+    checkedAt: "2026-06-18",
+    confidence: "reported",
+    cadence: "periodic",
+    note: "National transmission-associated substations, primarily 69 kV and above. Lower-voltage coverage is not complete."
   }
 };
 
@@ -43,6 +52,7 @@ export default function App() {
   const [showDataCenters, setShowDataCenters] = useState(true);
   const [showPowerPlants, setShowPowerPlants] = useState(true);
   const [showTransmission, setShowTransmission] = useState(true);
+  const [showSubstations, setShowSubstations] = useState(false);
   const [fuelVisibility, setFuelVisibility] = useState(INITIAL_FUEL_VISIBILITY);
 
   useEffect(() => {
@@ -153,6 +163,7 @@ export default function App() {
             showPowerPlants={showPowerPlants}
             showDataCenters={showDataCenters}
             showTransmission={showTransmission}
+            showSubstations={showSubstations}
             focusRequest={focusRequest}
             onSelect={setSelectedFeature}
           />
@@ -172,9 +183,11 @@ export default function App() {
             showPowerPlants={showPowerPlants}
             showDataCenters={showDataCenters}
             showTransmission={showTransmission}
+            showSubstations={showSubstations}
             onTogglePowerPlants={() => setShowPowerPlants((value) => !value)}
             onToggleDataCenters={() => setShowDataCenters((value) => !value)}
             onToggleTransmission={() => setShowTransmission((value) => !value)}
+            onToggleSubstations={() => setShowSubstations((value) => !value)}
             onToggleFuel={toggleFuel}
             loading={(!plantPayload || !dataCenterPayload) && !loadError}
             loadError={loadError}

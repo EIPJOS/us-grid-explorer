@@ -22,9 +22,11 @@ export default function LayerPanel({
   showPowerPlants,
   showDataCenters,
   showTransmission,
+  showSubstations,
   onTogglePowerPlants,
   onToggleDataCenters,
   onToggleTransmission,
+  onToggleSubstations,
   onToggleFuel,
   loading,
   loadError
@@ -84,7 +86,19 @@ export default function LayerPanel({
           <small>Lower-voltage lines appear as you zoom in.</small>
         </div>
       )}
-      <div className="locked-layer"><span>Substations</span><small>Next layer</small></div>
+      <LayerToggle
+        icon={<Database size={16} />}
+        label="Substations"
+        count="77,946"
+        checked={showSubstations}
+        onChange={onToggleSubstations}
+      />
+      {showSubstations && (
+        <div className="substation-legend">
+          <i></i><span>Transmission-associated substation</span>
+          <small>Lower-voltage sites appear as you zoom in.</small>
+        </div>
+      )}
 
       {loadError && <p className="panel-error">Could not load power plants: {loadError}</p>}
     </aside>

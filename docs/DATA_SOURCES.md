@@ -45,3 +45,14 @@ Demand values are preliminary hourly operating data reported by balancing author
 - Delivery: viewport queries through the public ArcGIS FeatureServer
 
 The map requests only lines intersecting the visible map area. At national zoom it displays 345 kV and higher; 230 kV and lower-voltage lines appear progressively as the user zooms in. The public service limits each request to 2,000 records, so dense local views may be incomplete. Ownership, voltage, status, and endpoints may be missing or inferred in the source data.
+
+## Substations
+
+- Publisher: HIFLD / Oak Ridge National Laboratory and partner agencies
+- Dataset: HIFLD Substations 1/9/2025
+- Source: https://www.arcgis.com/home/item.html?id=83397b209bfb4007a2f4c00e70df8e5d
+- Checked: 2026-06-18
+- Coverage: 77,946 points
+- Delivery: viewport queries through the public ArcGIS FeatureServer
+
+The source primarily represents transmission-associated substations at 69 kV and above, although some lower-voltage facilities are included. Lower-voltage coverage is not complete. The map progressively reveals substations by maximum voltage as the user zooms and limits each viewport request to 2,000 features.

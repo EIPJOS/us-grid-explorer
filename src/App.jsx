@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { BarChart3, BookOpen, Database, Map, Radio, Search, Zap } from "lucide-react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
@@ -62,11 +62,13 @@ export default function App() {
   const [loadError, setLoadError] = useState("");
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [focusRequest, setFocusRequest] = useState(null);
+  const [viewportBounds, setViewportBounds] = useState(null);
   const [showDataCenters, setShowDataCenters] = useState(true);
   const [showPowerPlants, setShowPowerPlants] = useState(true);
-  const [showTransmission, setShowTransmission] = useState(true);
+  const [showTransmission, setShowTransmission] = useState(false);
   const [showSubstations, setShowSubstations] = useState(false);
   const [fuelVisibility, setFuelVisibility] = useState(INITIAL_FUEL_VISIBILITY);
+  const hasChosenFuel = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -91,16 +93,12 @@ export default function App() {
 
   const plants = plantPayload?.features ?? [];
   const dataCenters = dataCenterPayload?.features ?? [];
-  const fuelCounts = useMemo(() => {
-    const counts = Object.fromEntries(
-      Object.keys(INITIAL_FUEL_VISIBILITY).map((category) => [category, 0])
-    );
-    plants.forEach((plant) => {
-      const category = plant.properties.primaryFuel;
-      counts[category] = (counts[category] ?? 0) + 1;
-    });
-    return counts;
-  }, [plants]);
+  const visiblePlants = useMemo(
+    () => viewportBounds ? plants.filter((plant) => isPointInBounds(plant, viewportBounds)) : plants,
+    [plants, viewportBounds]
+  );
+  const visibleFuelCounts = useMemo(() => countPlantsByFuel(visiblePlants), [visiblePlants]);
+  const nationalFuelCounts = useMemo(() => countPlantsByFuel(plants), [plants]);
 
   const searchItems = useMemo(() => {
     const plantItems = plants.map((plant) => ({
@@ -160,6 +158,13 @@ export default function App() {
   }
 
   function toggleFuel(category) {
+    if (!hasChosenFuel.current) {
+      hasChosenFuel.current = true;
+      setFuelVisibility(Object.fromEntries(
+        Object.keys(INITIAL_FUEL_VISIBILITY).map((fuel) => [fuel, fuel === category])
+      ));
+      return;
+    }
     setFuelVisibility((current) => ({ ...current, [category]: !current[category] }));
   }
 
@@ -215,6 +220,7 @@ export default function App() {
             showSubstations={showSubstations}
             focusRequest={focusRequest}
             onSelect={setSelectedFeature}
+            onViewportChange={setViewportBounds}
           />
 
           <SearchPanel
@@ -227,9 +233,9 @@ export default function App() {
           />
 
           <LayerPanel
-            plantCount={plants.length}
+            plantCount={visiblePlants.length}
             dataCenterCount={dataCenters.length}
-            fuelCounts={fuelCounts}
+            fuelCounts={visibleFuelCounts}
             fuelVisibility={fuelVisibility}
             showPowerPlants={showPowerPlants}
             showDataCenters={showDataCenters}
@@ -285,7 +291,7 @@ export default function App() {
 
       {activeView === "learn" && (
         <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading learning center...</div></main>}>
-          <LearnView plants={plants} dataCenters={dataCenters} fuelCounts={fuelCounts} />
+          <LearnView plants={plants} dataCenters={dataCenters} fuelCounts={nationalFuelCounts} />
         </Suspense>
       )}
 
@@ -339,6 +345,23 @@ async function fetchLayer(url, label) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`${label} data returned ${response.status}`);
   return response.json();
+}
+
+function countPlantsByFuel(plants) {
+  const counts = Object.fromEntries(
+    Object.keys(INITIAL_FUEL_VISIBILITY).map((category) => [category, 0])
+  );
+  plants.forEach((plant) => {
+    const category = plant.properties.primaryFuel;
+    counts[category] = (counts[category] ?? 0) + 1;
+  });
+  return counts;
+}
+
+function isPointInBounds(feature, bounds) {
+  const [longitude, latitude] = feature.geometry.coordinates;
+  return longitude >= bounds.west && longitude <= bounds.east
+    && latitude >= bounds.south && latitude <= bounds.north;
 }
 
 function dataCenterSubtitle(center) {

@@ -27,7 +27,8 @@ export default function ExploreMap({
   showTransmission,
   showSubstations,
   focusRequest,
-  onSelect
+  onSelect,
+  onViewportChange
 }) {
   const elementRef = useRef(null);
   const mapRef = useRef(null);
@@ -73,6 +74,25 @@ export default function ExploreMap({
       mapRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    function reportViewport() {
+      const bounds = map.getBounds();
+      onViewportChange({
+        west: bounds.getWest(),
+        south: bounds.getSouth(),
+        east: bounds.getEast(),
+        north: bounds.getNorth()
+      });
+    }
+
+    map.on("moveend", reportViewport);
+    reportViewport();
+    return () => map.off("moveend", reportViewport);
+  }, [onViewportChange]);
 
   useEffect(() => {
     const map = mapRef.current;

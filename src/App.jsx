@@ -39,6 +39,15 @@ const STATIC_SOURCES = {
     confidence: "reported",
     cadence: "periodic",
     note: "National transmission-associated substations, primarily 69 kV and above. Lower-voltage coverage is not complete."
+  },
+  "arcgis-world-geocoder": {
+    publisher: "Esri",
+    dataset: "ArcGIS World Geocoding Service",
+    url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+    checkedAt: "2026-06-18",
+    confidence: "reported",
+    cadence: "live",
+    note: "Geographic search results are returned by the ArcGIS geocoder and may be approximate."
   }
 };
 
@@ -120,6 +129,25 @@ export default function App() {
     setFocusRequest({ coordinates: item.coordinates, id: item.id, nonce: Date.now() });
   }
 
+  function selectPlace(place) {
+    const feature = {
+      id: `place-${place.location.x}-${place.location.y}`,
+      type: "place",
+      name: place.address,
+      geometry: { type: "Point", coordinates: [place.location.x, place.location.y] },
+      properties: {
+        addressType: place.attributes.Addr_type,
+        city: place.attributes.City,
+        state: place.attributes.RegionAbbr,
+        postalCode: place.attributes.Postal,
+        score: place.score
+      },
+      sourceRef: "arcgis-world-geocoder"
+    };
+    setSelectedFeature({ type: "place", feature });
+    setFocusRequest({ coordinates: feature.geometry.coordinates, id: feature.id, nonce: Date.now() });
+  }
+
   function viewFacilityOnMap(selection) {
     const coordinates = selection.feature.geometry.coordinates;
     setSelectedFeature(selection);
@@ -173,6 +201,8 @@ export default function App() {
             items={searchItems}
             loading={(!plantPayload || !dataCenterPayload) && !loadError}
             onSelect={selectFromSearch}
+            onSearchPlace={searchPlaces}
+            onSelectPlace={selectPlace}
           />
 
           <LayerPanel
@@ -236,4 +266,23 @@ function dataCenterSubtitle(center) {
   const { city, state, address, operator } = center.properties;
   const location = [city, state].filter(Boolean).join(", ");
   return location || address || operator || "Community-reported location";
+}
+
+async function searchPlaces(query) {
+  const url = new URL("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates");
+  url.searchParams.set("SingleLine", query);
+  url.searchParams.set("f", "json");
+  url.searchParams.set("countryCode", "USA");
+  url.searchParams.set("maxLocations", "6");
+  url.searchParams.set("outFields", "Match_addr,Addr_type,City,RegionAbbr,Postal");
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Place search returned ${response.status}`);
+  const payload = await response.json();
+  const seen = new Set();
+  return (payload.candidates ?? []).filter((candidate) => {
+    const key = `${candidate.address}-${candidate.location?.x}-${candidate.location?.y}`;
+    if (!candidate.location || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }

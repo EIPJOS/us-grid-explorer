@@ -1,4 +1,4 @@
-import { ExternalLink, Server, X, Zap } from "lucide-react";
+import { ExternalLink, MapPin, Server, X, Zap } from "lucide-react";
 
 export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
   if (!selection) {
@@ -15,15 +15,16 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
   const isPlant = selection.type === "power_plant";
   const isTransmission = selection.type === "transmission_line";
   const isSubstation = selection.type === "substation";
+  const isPlace = selection.type === "place";
   const feature = selection.feature;
   const source = sourceRegistry[feature.sourceRef] ?? null;
 
   return (
     <aside className="selection-panel floating-panel">
       <button className="close-button" onClick={onClose} aria-label="Close details"><X size={17} /></button>
-      <span className="eyebrow">{isPlant ? "Power plant" : isTransmission ? "Transmission line" : isSubstation ? "Substation" : "Data center"}</span>
+      <span className="eyebrow">{isPlant ? "Power plant" : isTransmission ? "Transmission line" : isSubstation ? "Substation" : isPlace ? "Place" : "Data center"}</span>
       <div className="detail-heading">
-        <span>{isPlant || isTransmission || isSubstation ? <Zap size={20} /> : <Server size={20} />}</span>
+        <span>{isPlace ? <MapPin size={20} /> : isPlant || isTransmission || isSubstation ? <Zap size={20} /> : <Server size={20} />}</span>
         <h2>{feature.name}</h2>
       </div>
 
@@ -54,6 +55,15 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
           <Detail label="Minimum voltage" value={feature.properties.minVoltage ? `${feature.properties.minVoltage.toLocaleString()} kV` : "Not reported"} />
           <Detail label="Connected lines" value={feature.properties.lines || "Not reported"} />
           <Detail label="Status" value={feature.properties.status || "Not reported"} />
+        </dl>
+      ) : isPlace ? (
+        <dl>
+          <Detail label="Result type" value={formatLabel(feature.properties.addressType)} />
+          <Detail label="City" value={feature.properties.city || "Not reported"} />
+          <Detail label="State" value={feature.properties.state || "Not reported"} />
+          <Detail label="ZIP code" value={feature.properties.postalCode || "Not reported"} />
+          <Detail label="Match score" value={`${Math.round(feature.properties.score)}%`} />
+          <Detail label="Purpose" value="Map navigation" />
         </dl>
       ) : (
         <dl>

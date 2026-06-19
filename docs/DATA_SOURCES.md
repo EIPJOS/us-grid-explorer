@@ -56,3 +56,13 @@ The map requests only lines intersecting the visible map area. At national zoom 
 - Delivery: viewport queries through the public ArcGIS FeatureServer
 
 The source primarily represents transmission-associated substations at 69 kV and above, although some lower-voltage facilities are included. Lower-voltage coverage is not complete. The map progressively reveals substations by maximum voltage as the user zooms and limits each viewport request to 2,000 features.
+
+## Geographic Search
+
+- Publisher: Esri
+- Dataset: ArcGIS World Geocoding Service
+- Source: https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer
+- Coverage: U.S. cities, addresses, and ZIP codes
+- Request behavior: explicit user submission only
+
+Geocoding results are used for map navigation and include the service's match score and address type. Results may be approximate and do not change the underlying infrastructure datasets.

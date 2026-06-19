@@ -13,10 +13,10 @@ V2 is under active development. Virginia is the first validated regional dataset
 - Grid Signals: live EIA-930 hourly demand for seven major grid operators
 - Analysis: finalized state capacity, fuel mix, and facility comparisons
 - Learn: six interactive lessons, data stories, and map onboarding
+- Grid Guide: sourced OpenAI assistant with selected-feature context and optional map actions
 
 ## Planned Work
 
-- AI grid guide with sourced answers and map actions
 - Automated data refresh workflows
 - Outage and weather-risk layers
 - URL-based routing and shareable selections

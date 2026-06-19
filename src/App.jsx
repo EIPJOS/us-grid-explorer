@@ -5,6 +5,7 @@ import LayerPanel from "./components/LayerPanel.jsx";
 import SearchPanel from "./components/SearchPanel.jsx";
 import SelectionPanel from "./components/SelectionPanel.jsx";
 import FacilitiesView from "./components/FacilitiesView.jsx";
+import GridGuide from "./components/GridGuide.jsx";
 
 const GridSignalsView = lazy(() => import("./components/GridSignalsView.jsx"));
 const AnalysisView = lazy(() => import("./components/AnalysisView.jsx"));
@@ -162,6 +163,21 @@ export default function App() {
     setFuelVisibility((current) => ({ ...current, [category]: !current[category] }));
   }
 
+  function applyGuideAction(action) {
+    if (!action || action.type === "none") return;
+    if (action.type === "select_view" && ["explore", "facilities", "signals", "analysis", "learn"].includes(action.target)) {
+      setActiveView(action.target);
+      return;
+    }
+    if (action.type === "show_layer") {
+      if (action.target === "power_plants") setShowPowerPlants(true);
+      if (action.target === "data_centers") setShowDataCenters(true);
+      if (action.target === "transmission") setShowTransmission(true);
+      if (action.target === "substations") setShowSubstations(true);
+      setActiveView("explore");
+    }
+  }
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -272,6 +288,19 @@ export default function App() {
           <LearnView plants={plants} dataCenters={dataCenters} fuelCounts={fuelCounts} />
         </Suspense>
       )}
+
+      <GridGuide
+        activeView={activeView}
+        selectedFeature={selectedFeature?.feature ?? null}
+        counts={{ powerPlants: plants.length, dataCenters: dataCenters.length }}
+        layers={{
+          powerPlants: showPowerPlants,
+          dataCenters: showDataCenters,
+          transmission: showTransmission,
+          substations: showSubstations
+        }}
+        onApplyAction={applyGuideAction}
+      />
     </div>
   );
 }

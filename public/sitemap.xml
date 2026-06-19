@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://us-grid-explorer.vercel.app</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/states/virginia/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/states/texas/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/states/california/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/states/pennsylvania/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/states/arizona/</loc><changefreq>monthly</changefreq></url>
+</urlset>

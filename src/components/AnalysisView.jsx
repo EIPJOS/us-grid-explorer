@@ -1,13 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { BarChart3, Database, Server, Zap } from "lucide-react";
+import { ArrowUpRight, BarChart3, Database, Plus, Server, X, Zap } from "lucide-react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
-  Cell,
   Legend,
-  Pie,
-  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -42,11 +39,20 @@ const STATE_NAMES = {
   WY: "Wyoming", PR: "Puerto Rico"
 };
 
-export default function AnalysisView({ dataCenters }) {
+const STATE_PROFILES = [
+  ["VA", "virginia"],
+  ["TX", "texas"],
+  ["CA", "california"],
+  ["PA", "pennsylvania"],
+  ["AZ", "arizona"]
+];
+
+const COMPARISON_COLORS = ["#dfff3f", "#7d9fff", "#ff9e4f", "#bd80ff"];
+
+export default function AnalysisView({ dataCenters, initialStates }) {
   const [payload, setPayload] = useState(null);
   const [error, setError] = useState("");
-  const [selectedState, setSelectedState] = useState("VA");
-  const [compareState, setCompareState] = useState("TX");
+  const [selectedStates, setSelectedStates] = useState(() => normalizeInitialStates(initialStates));
 
   useEffect(() => {
     fetch("/data/state-analysis.json")
@@ -57,6 +63,14 @@ export default function AnalysisView({ dataCenters }) {
       .then(setPayload)
       .catch((requestError) => setError(requestError.message));
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("view", "analysis");
+    params.set("states", selectedStates.join(","));
+    params.delete("state");
+    window.history.replaceState(null, "", `${window.location.pathname}?${params}`);
+  }, [selectedStates]);
 
   const dataCenterCounts = useMemo(() => {
     const counts = {};
@@ -74,18 +88,29 @@ export default function AnalysisView({ dataCenters }) {
     stateName: STATE_NAMES[state.state] ?? state.state
   })), [states, dataCenterCounts]);
 
-  const selected = joinedStates.find((state) => state.state === selectedState);
-  const comparison = joinedStates.find((state) => state.state === compareState);
-  const topCapacity = [...joinedStates]
-    .sort((a, b) => b.operatingCapacityMw - a.operatingCapacityMw)
-    .slice(0, 12);
+  const selected = selectedStates
+    .map((stateCode) => joinedStates.find((state) => state.state === stateCode))
+    .filter(Boolean);
   const topDataCenters = [...joinedStates]
     .sort((a, b) => b.dataCenterCount - a.dataCenterCount)
     .slice(0, 10);
   const knownStateCount = Object.values(dataCenterCounts).reduce((sum, count) => sum + count, 0);
 
   if (error) return <main className="view-shell"><div className="view-error">{error}</div></main>;
-  if (!payload || !selected || !comparison) return <main className="view-shell"><div className="page-loading">Loading finalized EIA analysis...</div></main>;
+  if (!payload || selected.length !== selectedStates.length) return <main className="view-shell"><div className="page-loading">Loading finalized EIA analysis...</div></main>;
+
+  function changeState(index, nextState) {
+    setSelectedStates((current) => current.map((state, stateIndex) => stateIndex === index ? nextState : state));
+  }
+
+  function addState() {
+    const nextState = joinedStates.find((state) => !selectedStates.includes(state.state));
+    if (nextState) setSelectedStates((current) => [...current, nextState.state]);
+  }
+
+  function removeState(index) {
+    setSelectedStates((current) => current.filter((_, stateIndex) => stateIndex !== index));
+  }
 
   return (
     <main className="view-shell analysis-view">
@@ -96,44 +121,72 @@ export default function AnalysisView({ dataCenters }) {
           <p>Compare finalized generation capacity and facility counts with community-reported data-center coverage.</p>
         </div>
         <div className="analysis-selectors">
-          <label>Primary state<select value={selectedState} onChange={(event) => setSelectedState(event.target.value)}>{joinedStates.map(stateOption)}</select></label>
-          <span>versus</span>
-          <label>Comparison<select value={compareState} onChange={(event) => setCompareState(event.target.value)}>{joinedStates.map(stateOption)}</select></label>
+          {selectedStates.map((stateCode, index) => (
+            <label key={`${stateCode}-${index}`}>
+              State {index + 1}
+              <span>
+                <select value={stateCode} onChange={(event) => changeState(index, event.target.value)}>
+                  {joinedStates.map((state) => stateOption(state, selectedStates, stateCode))}
+                </select>
+                {selectedStates.length > 2 && <button type="button" onClick={() => removeState(index)} aria-label={`Remove ${STATE_NAMES[stateCode]}`}><X size={14} /></button>}
+              </span>
+            </label>
+          ))}
+          {selectedStates.length < 4 && <button className="add-state-button" type="button" onClick={addState}><Plus size={15} />Add state</button>}
         </div>
       </section>
 
       <section className="comparison-grid">
-        <StateSummary state={selected} accent="lime" />
-        <StateSummary state={comparison} accent="blue" />
+        {selected.map((state, index) => <StateSummary key={state.state} state={state} color={COMPARISON_COLORS[index]} />)}
+      </section>
+
+      <section className="state-profile-strip" aria-labelledby="state-profile-title">
+        <div>
+          <span className="eyebrow">Search-ready research pages</span>
+          <h2 id="state-profile-title">State grid profiles</h2>
+          <p>Open a sourced, shareable summary built for quick reading and deeper research.</p>
+        </div>
+        <nav aria-label="Published state grid profiles">
+          {STATE_PROFILES.map(([code, slug]) => (
+            <a key={code} href={`/states/${slug}/`}>
+              <span>{code}</span>
+              <strong>{STATE_NAMES[code]}</strong>
+              <ArrowUpRight size={15} />
+            </a>
+          ))}
+        </nav>
       </section>
 
       <section className="analysis-grid">
         <article className="analysis-card capacity-chart-card">
-          <CardTitle icon={<BarChart3 size={16} />} title="Largest state power systems" note="Final 2024 nameplate capacity" />
+          <CardTitle icon={<BarChart3 size={16} />} title="Capacity comparison" note="Final 2024 nameplate capacity" />
           <div className="analysis-chart">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topCapacity} margin={{ top: 18, right: 14, left: 8, bottom: 5 }}>
+              <BarChart data={selected} margin={{ top: 18, right: 14, left: 8, bottom: 5 }}>
                 <CartesianGrid stroke="rgba(255,255,255,0.07)" vertical={false} />
                 <XAxis dataKey="state" stroke="#7f8ba3" axisLine={false} tickLine={false} />
                 <YAxis stroke="#7f8ba3" axisLine={false} tickLine={false} width={52} tickFormatter={(value) => `${Math.round(value / 1000)}k`} />
-                <Tooltip contentStyle={tooltipStyle} formatter={(value) => [`${Number(value).toLocaleString()} MW`, "Operating capacity"]} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(value, name) => [`${Number(value).toLocaleString()} MW`, name === "operatingCapacityMw" ? "Operating" : "Proposed"]} />
+                <Legend formatter={(value) => value === "operatingCapacityMw" ? "Operating" : "Proposed"} />
                 <Bar dataKey="operatingCapacityMw" fill="#7d9fff" radius={[5, 5, 0, 0]} />
+                <Bar dataKey="proposedCapacityMw" fill="#dfff3f" radius={[5, 5, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </article>
 
         <article className="analysis-card fuel-card">
-          <CardTitle icon={<Zap size={16} />} title={`${selected.stateName} fuel mix`} note="Nameplate capacity" />
+          <CardTitle icon={<Zap size={16} />} title="Fuel mix comparison" note="Capacity by resource" />
           <div className="analysis-chart">
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={fuelData(selected)} dataKey="value" nameKey="name" innerRadius="48%" outerRadius="76%" paddingAngle={1.5}>
-                  {fuelData(selected).map((entry) => <Cell key={entry.key} fill={FUEL_COLORS[entry.key]} />)}
-                </Pie>
-                <Tooltip contentStyle={tooltipStyle} formatter={(value) => [`${Number(value).toLocaleString()} MW`, "Capacity"]} />
-                <Legend formatter={(value) => formatLabel(value)} />
-              </PieChart>
+              <BarChart data={fuelComparisonData(selected)} layout="vertical" margin={{ top: 12, right: 10, left: 18, bottom: 5 }}>
+                <CartesianGrid stroke="rgba(255,255,255,0.07)" horizontal={false} />
+                <XAxis type="number" stroke="#7f8ba3" axisLine={false} tickLine={false} tickFormatter={(value) => `${Math.round(value / 1000)}k`} />
+                <YAxis type="category" dataKey="fuel" width={72} stroke="#7f8ba3" axisLine={false} tickLine={false} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(value, stateCode) => [`${Number(value).toLocaleString()} MW`, STATE_NAMES[stateCode] ?? stateCode]} />
+                <Legend formatter={(stateCode) => STATE_NAMES[stateCode] ?? stateCode} />
+                {selected.map((state, index) => <Bar key={state.state} dataKey={state.state} fill={COMPARISON_COLORS[index]} radius={[0, 4, 4, 0]} />)}
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </article>
@@ -152,9 +205,9 @@ export default function AnalysisView({ dataCenters }) {
   );
 }
 
-function StateSummary({ state, accent }) {
+function StateSummary({ state, color }) {
   return (
-    <article className={`state-summary ${accent}`}>
+    <article className="state-summary" style={{ "--state-accent": color }}>
       <div><span>{state.state}</span><h2>{state.stateName}</h2></div>
       <Metric label="Operating capacity" value={`${Math.round(state.operatingCapacityMw).toLocaleString()} MW`} />
       <Metric label="Power plants" value={state.plantCount.toLocaleString()} />
@@ -172,15 +225,22 @@ function CardTitle({ icon, title, note }) {
   return <div className="card-title"><span>{icon}{title}</span><small>{note}</small></div>;
 }
 
-function stateOption(state) {
-  return <option key={state.state} value={state.state}>{state.stateName} ({state.state})</option>;
+function stateOption(state, selectedStates, currentState) {
+  return <option key={state.state} value={state.state} disabled={state.state !== currentState && selectedStates.includes(state.state)}>{state.stateName} ({state.state})</option>;
 }
 
-function fuelData(state) {
-  return Object.entries(state.capacityByFuelMw)
-    .map(([key, value]) => ({ key, name: key, value }))
-    .filter((entry) => entry.value > 0)
-    .sort((a, b) => b.value - a.value);
+function normalizeInitialStates(initialStates) {
+  const unique = [...new Set(initialStates.filter((state) => STATE_NAMES[state]))].slice(0, 4);
+  if (unique.length === 0) return ["VA", "TX"];
+  if (unique.length === 1) return [unique[0], unique[0] === "TX" ? "VA" : "TX"];
+  return unique;
+}
+
+function fuelComparisonData(states) {
+  return Object.keys(FUEL_COLORS).map((fuel) => ({
+    fuel: formatLabel(fuel),
+    ...Object.fromEntries(states.map((state) => [state.state, state.capacityByFuelMw[fuel] ?? 0]))
+  })).filter((entry) => states.some((state) => entry[state.state] > 0));
 }
 
 function formatLabel(value) {

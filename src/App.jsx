@@ -55,7 +55,15 @@ const STATIC_SOURCES = {
 };
 
 export default function App() {
-  const [activeView, setActiveView] = useState("explore");
+  const initialParams = new URLSearchParams(window.location.search);
+  const initialView = initialParams.get("view");
+  const initialStates = (initialParams.get("states") ?? initialParams.get("state") ?? "")
+    .split(",")
+    .map((state) => state.trim().toUpperCase())
+    .filter(Boolean);
+  const [activeView, setActiveView] = useState(
+    ["explore", "facilities", "signals", "analysis", "learn"].includes(initialView) ? initialView : "explore"
+  );
   const [tourOpen, setTourOpen] = useState(false);
   const [plantPayload, setPlantPayload] = useState(null);
   const [dataCenterPayload, setDataCenterPayload] = useState(null);
@@ -285,7 +293,7 @@ export default function App() {
 
       {activeView === "analysis" && (
         <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading regional analysis...</div></main>}>
-          <AnalysisView dataCenters={dataCenters} />
+          <AnalysisView dataCenters={dataCenters} initialStates={initialStates} />
         </Suspense>
       )}
 

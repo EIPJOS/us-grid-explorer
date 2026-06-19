@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { Database, Map, Radio, Search, Zap } from "lucide-react";
+import { BarChart3, Database, Map, Radio, Search, Zap } from "lucide-react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
 import SearchPanel from "./components/SearchPanel.jsx";
@@ -7,6 +7,7 @@ import SelectionPanel from "./components/SelectionPanel.jsx";
 import FacilitiesView from "./components/FacilitiesView.jsx";
 
 const GridSignalsView = lazy(() => import("./components/GridSignalsView.jsx"));
+const AnalysisView = lazy(() => import("./components/AnalysisView.jsx"));
 
 const INITIAL_FUEL_VISIBILITY = {
   oil_gas: true,
@@ -174,11 +175,12 @@ export default function App() {
           <button className={activeView === "explore" ? "active" : ""} onClick={() => setActiveView("explore")}><Map size={16} />Explore</button>
           <button className={activeView === "facilities" ? "active" : ""} onClick={() => setActiveView("facilities")}><Database size={16} />Facilities</button>
           <button className={activeView === "signals" ? "active" : ""} onClick={() => setActiveView("signals")}><Radio size={16} />Grid signals</button>
+          <button className={activeView === "analysis" ? "active" : ""} onClick={() => setActiveView("analysis")}><BarChart3 size={16} />Analysis</button>
         </nav>
 
         <div className="release-badge">
           <i></i>
-          {activeView === "signals" ? "EIA-930 hourly data" : "EIA-860 2025 early release"}
+          {activeView === "signals" ? "EIA-930 hourly data" : activeView === "analysis" ? "EIA-860 2024 final" : "EIA-860 2025 early release"}
         </div>
       </header>
 
@@ -250,6 +252,12 @@ export default function App() {
       {activeView === "signals" && (
         <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading grid signals...</div></main>}>
           <GridSignalsView />
+        </Suspense>
+      )}
+
+      {activeView === "analysis" && (
+        <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading regional analysis...</div></main>}>
+          <AnalysisView dataCenters={dataCenters} />
         </Suspense>
       )}
     </div>

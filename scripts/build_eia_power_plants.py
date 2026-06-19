@@ -25,11 +25,21 @@ def normalize_header(value: Any) -> str:
 def rows_as_dicts(path: Path, sheet_name: str):
     workbook = load_workbook(path, read_only=True, data_only=True)
     sheet = workbook[sheet_name]
-    headers = [normalize_header(value) for value in next(
-        sheet.iter_rows(min_row=3, max_row=3, values_only=True)
-    )]
+    header_row = None
+    headers = None
+    for row_number, values in enumerate(
+        sheet.iter_rows(min_row=1, max_row=6, values_only=True), start=1
+    ):
+        normalized = [normalize_header(value) for value in values]
+        if "Utility ID" in normalized and "Plant Code" in normalized:
+            header_row = row_number
+            headers = normalized
+            break
 
-    for values in sheet.iter_rows(min_row=4, values_only=True):
+    if header_row is None or headers is None:
+        raise ValueError(f"Could not locate headers in {path.name} / {sheet_name}")
+
+    for values in sheet.iter_rows(min_row=header_row + 1, values_only=True):
         yield dict(zip(headers, values))
 
 

@@ -66,3 +66,13 @@ The source primarily represents transmission-associated substations at 69 kV and
 - Request behavior: explicit user submission only
 
 Geocoding results are used for map navigation and include the service's match score and address type. Results may be approximate and do not change the underlying infrastructure datasets.
+
+## State Analysis
+
+- Publisher: U.S. Energy Information Administration
+- Dataset: Form EIA-860 2024 Final Release
+- Source: https://www.eia.gov/electricity/data/eia860/
+- Checked: 2026-06-18
+- Coverage: 51 state and territory summaries
+
+State operating capacity, proposed capacity, plant counts, generator counts, and fuel mix use the finalized 2024 generator release. This is intentionally separate from the preliminary 2025 marker layer. Data-center state counts include only OpenStreetMap features with a usable state tag and therefore represent mapped coverage, not complete market totals.

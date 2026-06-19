@@ -214,6 +214,40 @@ button { color: inherit; }
 .spinning { animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+.analysis-heading { align-items: center; }
+.analysis-selectors { display: flex; align-items: flex-end; gap: 10px; }
+.analysis-selectors label { display: grid; gap: 6px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+.analysis-selectors select { min-width: 190px; height: 40px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel-solid); color: var(--text); padding: 0 10px; }
+.analysis-selectors > span { padding-bottom: 12px; color: #68758d; font-size: 11px; text-transform: uppercase; }
+
+.comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 1440px; margin: 0 auto 10px; }
+.state-summary { display: grid; grid-template-columns: minmax(180px, 1.3fr) repeat(4, minmax(120px, 1fr)); align-items: stretch; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-solid); overflow: hidden; }
+.state-summary.lime { border-top: 2px solid var(--lime); }
+.state-summary.blue { border-top: 2px solid var(--blue); }
+.state-summary > div { padding: 14px; }
+.state-summary > div:first-child { border-right: 1px solid var(--line); }
+.state-summary > div:first-child span { color: var(--lime); font-size: 11px; font-weight: 800; }
+.state-summary.blue > div:first-child span { color: var(--blue); }
+.state-summary h2 { margin: 3px 0 0; font-size: 20px; }
+.analysis-metric { display: grid; align-content: center; gap: 5px; border-right: 1px solid var(--line); }
+.analysis-metric:last-child { border-right: 0; }
+.analysis-metric small { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; }
+.analysis-metric strong { font-size: 16px; }
+
+.analysis-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr) minmax(280px, 0.7fr); gap: 10px; max-width: 1440px; margin: auto; }
+.analysis-card { min-height: 380px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-solid); padding: 15px; }
+.analysis-chart { height: 325px; margin-top: 8px; }
+.ranking-card ol { display: grid; gap: 0; margin: 12px 0 0; padding: 0; list-style: none; }
+.ranking-card li { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 8px; border-top: 1px solid var(--line); padding: 9px 2px; }
+.ranking-card li > b { display: grid; width: 23px; height: 23px; place-items: center; border-radius: 6px; background: rgba(223,255,63,0.1); color: var(--lime); font-size: 10px; }
+.ranking-card li span { display: grid; color: #dfe6f3; font-size: 12px; }
+.ranking-card li small { color: var(--muted); font-size: 9px; }
+.ranking-card li strong { font-size: 16px; }
+.analysis-method { display: flex; align-items: flex-start; gap: 9px; max-width: 1440px; margin: 10px auto 0; border: 1px solid var(--line); border-radius: 8px; background: rgba(125,159,255,0.06); padding: 11px 13px; color: #aab5c9; }
+.analysis-method svg { flex: 0 0 auto; color: var(--blue); }
+.analysis-method p { margin: 0; font-size: 11px; line-height: 1.5; }
+.analysis-method strong { color: #dce4f2; }
+
 @media (max-width: 1050px) {
   .topbar { grid-template-columns: 1fr auto; }
   .topbar nav { display: none; }
@@ -223,6 +257,9 @@ button { color: inherit; }
   .view-metric { flex: 1; }
   .directory-toolbar { grid-template-columns: 1fr 1fr; }
   .region-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .comparison-grid { grid-template-columns: 1fr; }
+  .analysis-grid { grid-template-columns: 1fr 1fr; }
+  .ranking-card { grid-column: 1 / -1; }
 }
 
 @media (max-width: 760px) {
@@ -240,4 +277,11 @@ button { color: inherit; }
   .directory-toolbar select { height: 38px; }
   .region-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .signal-status { justify-items: start; }
+  .analysis-selectors { width: 100%; align-items: stretch; flex-direction: column; }
+  .analysis-selectors > span { display: none; }
+  .analysis-selectors label, .analysis-selectors select { width: 100%; }
+  .state-summary { grid-template-columns: 1fr 1fr; }
+  .state-summary > div:first-child { grid-column: 1 / -1; border-right: 0; border-bottom: 1px solid var(--line); }
+  .analysis-grid { grid-template-columns: 1fr; }
+  .ranking-card { grid-column: auto; }
 }

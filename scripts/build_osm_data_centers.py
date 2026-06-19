@@ -11,6 +11,21 @@ from typing import Any
 
 SOURCE_PAGE = "https://www.openstreetmap.org/"
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+STATE_CODES = {
+    "alabama": "AL", "alaska": "AK", "arizona": "AZ", "arkansas": "AR",
+    "california": "CA", "colorado": "CO", "connecticut": "CT", "delaware": "DE",
+    "district of columbia": "DC", "florida": "FL", "georgia": "GA", "hawaii": "HI",
+    "idaho": "ID", "illinois": "IL", "indiana": "IN", "iowa": "IA", "kansas": "KS",
+    "kentucky": "KY", "louisiana": "LA", "maine": "ME", "maryland": "MD",
+    "massachusetts": "MA", "michigan": "MI", "minnesota": "MN", "mississippi": "MS",
+    "missouri": "MO", "montana": "MT", "nebraska": "NE", "nevada": "NV",
+    "new hampshire": "NH", "new jersey": "NJ", "new mexico": "NM", "new york": "NY",
+    "north carolina": "NC", "north dakota": "ND", "ohio": "OH", "oklahoma": "OK",
+    "oregon": "OR", "pennsylvania": "PA", "rhode island": "RI",
+    "south carolina": "SC", "south dakota": "SD", "tennessee": "TN", "texas": "TX",
+    "utah": "UT", "vermont": "VT", "virginia": "VA", "washington": "WA",
+    "west virginia": "WV", "wisconsin": "WI", "wyoming": "WY", "puerto rico": "PR",
+}
 
 
 def clean(value: Any) -> str:
@@ -49,6 +64,13 @@ def status(tags: dict[str, Any]) -> str:
     return "existing"
 
 
+def state_code(value: Any) -> str:
+    state = clean(value)
+    if len(state) == 2:
+        return state.upper()
+    return STATE_CODES.get(state.lower(), state)
+
+
 def build_features(raw: dict[str, Any]):
     features = []
     for element in raw.get("elements", []):
@@ -80,7 +102,7 @@ def build_features(raw: dict[str, Any]):
                 "owner": clean(tags.get("owner")),
                 "address": address(tags),
                 "city": clean(tags.get("addr:city")),
-                "state": clean(tags.get("addr:state")),
+                "state": state_code(tags.get("addr:state")),
                 "postcode": clean(tags.get("addr:postcode")),
                 "website": clean(tags.get("website")),
                 "status": status(tags),

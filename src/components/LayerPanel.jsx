@@ -21,8 +21,10 @@ export default function LayerPanel({
   fuelVisibility,
   showPowerPlants,
   showDataCenters,
+  showTransmission,
   onTogglePowerPlants,
   onToggleDataCenters,
+  onToggleTransmission,
   onToggleFuel,
   loading,
   loadError
@@ -66,7 +68,22 @@ export default function LayerPanel({
         onChange={onToggleDataCenters}
       />
 
-      <div className="locked-layer"><span>Transmission lines</span><small>Next layer</small></div>
+      <LayerToggle
+        icon={<Zap size={16} />}
+        label="Transmission lines"
+        count="52,244"
+        checked={showTransmission}
+        onChange={onToggleTransmission}
+      />
+      {showTransmission && (
+        <div className="voltage-legend">
+          <span><i className="v500"></i>500+ kV</span>
+          <span><i className="v345"></i>345-499 kV</span>
+          <span><i className="v230"></i>230-344 kV</span>
+          <span><i className="vlow"></i>Below 230 kV</span>
+          <small>Lower-voltage lines appear as you zoom in.</small>
+        </div>
+      )}
       <div className="locked-layer"><span>Substations</span><small>Next layer</small></div>
 
       {loadError && <p className="panel-error">Could not load power plants: {loadError}</p>}

@@ -15,6 +15,7 @@ export const FUEL_COLORS = {
 };
 
 const CONUS_BOUNDS = L.latLngBounds([24.3, -125.2], [49.8, -66.5]);
+const TRANSMISSION_SERVICE = "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Electric_Power_Transmission_Lines/FeatureServer/0/query";
 
 export default function ExploreMap({
   plants,
@@ -22,6 +23,7 @@ export default function ExploreMap({
   fuelVisibility,
   showPowerPlants,
   showDataCenters,
+  showTransmission,
   focusRequest,
   onSelect
 }) {
@@ -29,6 +31,7 @@ export default function ExploreMap({
   const mapRef = useRef(null);
   const plantLayerRef = useRef(null);
   const dataCenterLayerRef = useRef(null);
+  const transmissionLayerRef = useRef(null);
   const canvasRendererRef = useRef(null);
 
   useEffect(() => {
@@ -48,8 +51,11 @@ export default function ExploreMap({
 
     L.control.zoom({ position: "bottomright" }).addTo(map);
     map.fitBounds(CONUS_BOUNDS, { padding: [18, 18] });
+    map.createPane("transmissionPane");
+    map.getPane("transmissionPane").style.zIndex = "330";
     mapRef.current = map;
     canvasRendererRef.current = L.canvas({ padding: 0.45 });
+    transmissionLayerRef.current = L.geoJSON(null, { pane: "transmissionPane" }).addTo(map);
     plantLayerRef.current = L.layerGroup().addTo(map);
     dataCenterLayerRef.current = L.layerGroup().addTo(map);
 
@@ -58,6 +64,73 @@ export default function ExploreMap({
       mapRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    const layer = transmissionLayerRef.current;
+    if (!map || !layer) return;
+
+    let controller = null;
+    let timer = null;
+
+    async function loadVisibleLines() {
+      controller?.abort();
+      controller = new AbortController();
+
+      if (!showTransmission) {
+        layer.clearLayers();
+        return;
+      }
+
+      const bounds = map.getBounds();
+      const zoom = map.getZoom();
+      const minimumVoltage = zoom <= 4 ? 345 : zoom <= 6 ? 230 : zoom <= 8 ? 100 : 0;
+      const where = minimumVoltage ? `VOLTAGE >= ${minimumVoltage}` : "1=1";
+      const params = new URLSearchParams({
+        where,
+        geometry: [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()].join(","),
+        geometryType: "esriGeometryEnvelope",
+        inSR: "4326",
+        spatialRel: "esriSpatialRelIntersects",
+        outSR: "4326",
+        outFields: "OBJECTID_1,ID,TYPE,STATUS,OWNER,VOLTAGE,VOLT_CLASS,INFERRED,SOURCE,SOURCEDATE,SUB_1,SUB_2",
+        returnGeometry: "true",
+        resultRecordCount: "2000",
+        f: "geojson"
+      });
+
+      try {
+        const response = await fetch(`${TRANSMISSION_SERVICE}?${params}`, { signal: controller.signal });
+        if (!response.ok) throw new Error(`Transmission service returned ${response.status}`);
+        const geojson = await response.json();
+        layer.clearLayers();
+        layer.addData(geojson);
+        layer.setStyle((feature) => transmissionStyle(feature, zoom));
+        layer.eachLayer((featureLayer) => {
+          const feature = featureLayer.feature;
+          if (!feature) return;
+          featureLayer.bindTooltip(transmissionTooltip(feature.properties), { sticky: true, opacity: 0.96 });
+          featureLayer.on("click", () => onSelect(normalizeTransmissionFeature(feature)));
+        });
+      } catch (error) {
+        if (error.name !== "AbortError") console.warn(error.message);
+      }
+    }
+
+    function scheduleLoad() {
+      clearTimeout(timer);
+      timer = setTimeout(loadVisibleLines, 180);
+    }
+
+    map.on("moveend zoomend", scheduleLoad);
+    scheduleLoad();
+
+    return () => {
+      clearTimeout(timer);
+      controller?.abort();
+      map.off("moveend zoomend", scheduleLoad);
+    };
+  }, [showTransmission, onSelect]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -135,4 +208,46 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function transmissionStyle(feature, zoom) {
+  const voltage = Number(feature?.properties?.VOLTAGE) || 0;
+  return {
+    pane: "transmissionPane",
+    color: voltage >= 500 ? "#ff6b66" : voltage >= 345 ? "#8ba8ff" : voltage >= 230 ? "#6288ea" : "#4168bd",
+    weight: voltage >= 500 ? 2.4 : voltage >= 345 ? 1.9 : voltage >= 230 ? 1.5 : 1.1,
+    opacity: zoom <= 5 ? 0.68 : 0.8
+  };
+}
+
+function transmissionTooltip(properties) {
+  const voltage = Number(properties.VOLTAGE) || 0;
+  const owner = escapeHtml(properties.OWNER || "Owner not reported");
+  return `<strong>${voltage ? `${voltage.toLocaleString()} kV` : "Voltage not reported"}</strong><br>${owner}`;
+}
+
+function normalizeTransmissionFeature(feature) {
+  const properties = feature.properties ?? {};
+  const voltage = Number(properties.VOLTAGE) || 0;
+  return {
+    type: "transmission_line",
+    feature: {
+      id: `transmission-${properties.OBJECTID_1 ?? properties.ID}`,
+      type: "transmission_line",
+      name: voltage ? `${voltage.toLocaleString()} kV transmission line` : "Transmission line",
+      geometry: feature.geometry,
+      properties: {
+        owner: properties.OWNER || "",
+        status: properties.STATUS || "",
+        voltage,
+        voltageClass: properties.VOLT_CLASS || "",
+        inferred: properties.INFERRED || "",
+        sourceName: properties.SOURCE || "",
+        sourceDate: properties.SOURCEDATE || "",
+        substationFrom: properties.SUB_1 || "",
+        substationTo: properties.SUB_2 || ""
+      },
+      sourceRef: "national-transmission-lines"
+    }
+  };
 }

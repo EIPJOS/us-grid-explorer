@@ -35,3 +35,13 @@ OpenStreetMap is community-maintained and incomplete. Missing facilities do not 
 - Operators currently displayed: PJM, ERCOT, MISO, CAISO, NYISO, ISO-NE, and SPP
 
 Demand values are preliminary hourly operating data reported by balancing authorities. The interface shows the source period and labels the unit as MWh during the reported hour. API failures produce a visible error state rather than cached or fabricated live values.
+
+## Transmission Lines
+
+- Dataset: Electric Power Transmission Lines
+- Source: https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Electric_Power_Transmission_Lines/FeatureServer/0
+- Checked: 2026-06-18
+- Coverage: 52,244 national line segments
+- Delivery: viewport queries through the public ArcGIS FeatureServer
+
+The map requests only lines intersecting the visible map area. At national zoom it displays 345 kV and higher; 230 kV and lower-voltage lines appear progressively as the user zooms in. The public service limits each request to 2,000 records, so dense local views may be incomplete. Ownership, voltage, status, and endpoints may be missing or inferred in the source data.

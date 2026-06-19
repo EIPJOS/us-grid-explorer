@@ -21,6 +21,18 @@ const INITIAL_FUEL_VISIBILITY = {
   other: false
 };
 
+const STATIC_SOURCES = {
+  "national-transmission-lines": {
+    publisher: "ArcGIS public infrastructure service",
+    dataset: "Electric Power Transmission Lines",
+    url: "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Electric_Power_Transmission_Lines/FeatureServer/0",
+    checkedAt: "2026-06-18",
+    confidence: "reported",
+    cadence: "periodic",
+    note: "National line segments are queried by visible map area. Voltage and ownership fields may be missing or inferred."
+  }
+};
+
 export default function App() {
   const [activeView, setActiveView] = useState("explore");
   const [plantPayload, setPlantPayload] = useState(null);
@@ -30,6 +42,7 @@ export default function App() {
   const [focusRequest, setFocusRequest] = useState(null);
   const [showDataCenters, setShowDataCenters] = useState(true);
   const [showPowerPlants, setShowPowerPlants] = useState(true);
+  const [showTransmission, setShowTransmission] = useState(true);
   const [fuelVisibility, setFuelVisibility] = useState(INITIAL_FUEL_VISIBILITY);
 
   useEffect(() => {
@@ -87,6 +100,7 @@ export default function App() {
   }, [plants, dataCenters]);
 
   const sourceRegistry = useMemo(() => ({
+    ...STATIC_SOURCES,
     ...(plantPayload?.meta?.sources ?? {}),
     ...(dataCenterPayload?.meta?.sources ?? {})
   }), [plantPayload, dataCenterPayload]);
@@ -138,6 +152,7 @@ export default function App() {
             fuelVisibility={fuelVisibility}
             showPowerPlants={showPowerPlants}
             showDataCenters={showDataCenters}
+            showTransmission={showTransmission}
             focusRequest={focusRequest}
             onSelect={setSelectedFeature}
           />
@@ -156,8 +171,10 @@ export default function App() {
             fuelVisibility={fuelVisibility}
             showPowerPlants={showPowerPlants}
             showDataCenters={showDataCenters}
+            showTransmission={showTransmission}
             onTogglePowerPlants={() => setShowPowerPlants((value) => !value)}
             onToggleDataCenters={() => setShowDataCenters((value) => !value)}
+            onToggleTransmission={() => setShowTransmission((value) => !value)}
             onToggleFuel={toggleFuel}
             loading={(!plantPayload || !dataCenterPayload) && !loadError}
             loadError={loadError}

@@ -13,15 +13,16 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
   }
 
   const isPlant = selection.type === "power_plant";
+  const isTransmission = selection.type === "transmission_line";
   const feature = selection.feature;
   const source = sourceRegistry[feature.sourceRef] ?? null;
 
   return (
     <aside className="selection-panel floating-panel">
       <button className="close-button" onClick={onClose} aria-label="Close details"><X size={17} /></button>
-      <span className="eyebrow">{isPlant ? "Power plant" : "Data center cluster"}</span>
+      <span className="eyebrow">{isPlant ? "Power plant" : isTransmission ? "Transmission line" : "Data center"}</span>
       <div className="detail-heading">
-        <span>{isPlant ? <Zap size={20} /> : <Server size={20} />}</span>
+        <span>{isPlant || isTransmission ? <Zap size={20} /> : <Server size={20} />}</span>
         <h2>{feature.name}</h2>
       </div>
 
@@ -34,6 +35,15 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
           <Detail label="Utility" value={feature.properties.utilityName || "Not reported"} />
           <Detail label="Balancing authority" value={feature.properties.balancingAuthorityName || "Not reported"} />
           <Detail label="EIA plant code" value={feature.properties.plantCode} />
+        </dl>
+      ) : isTransmission ? (
+        <dl>
+          <Detail label="Voltage" value={feature.properties.voltage ? `${feature.properties.voltage.toLocaleString()} kV` : "Not reported"} />
+          <Detail label="Voltage class" value={feature.properties.voltageClass || "Not reported"} />
+          <Detail label="Owner" value={feature.properties.owner || "Not reported"} />
+          <Detail label="Status" value={feature.properties.status || "Not reported"} />
+          <Detail label="From" value={feature.properties.substationFrom || "Not reported"} />
+          <Detail label="To" value={feature.properties.substationTo || "Not reported"} />
         </dl>
       ) : (
         <dl>

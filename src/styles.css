@@ -84,6 +84,15 @@ button { color: inherit; }
 .fuel-grid button.active i { opacity: 1; box-shadow: 0 0 10px currentColor; }
 .fuel-grid button small { color: #7f8aa1; }
 
+.voltage-legend { display: grid; gap: 7px; padding: 0 0 12px 24px; color: #9ba7bd; font-size: 11px; }
+.voltage-legend span { display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 7px; }
+.voltage-legend i { display: block; height: 2px; border-radius: 99px; }
+.voltage-legend .v500 { background: #ff6b66; }
+.voltage-legend .v345 { background: #8ba8ff; }
+.voltage-legend .v230 { background: #6288ea; }
+.voltage-legend .vlow { background: #4168bd; }
+.voltage-legend small { color: #6f7a90; line-height: 1.35; }
+
 .locked-layer { display: flex; justify-content: space-between; padding: 10px 0; color: #667188; font-size: 12px; }
 .locked-layer small { border-radius: 999px; background: rgba(125,159,255,0.1); padding: 2px 6px; color: #7d9fff; }
 .panel-error { border-left: 2px solid #ff6257; padding-left: 10px; color: #ffaaa4; font-size: 12px; line-height: 1.4; }

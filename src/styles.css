@@ -227,6 +227,7 @@ button { color: inherit; }
 .state-profile-strip { display: grid; grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr); gap: 16px; max-width: 1440px; margin: 0 auto 10px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(110deg, rgba(223,255,63,.07), rgba(125,159,255,.035)); padding: 16px; }
 .state-profile-strip h2 { margin: 4px 0; font-size: 19px; }
 .state-profile-strip p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.state-directory-cta { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; color: var(--lime); font-size: 11px; text-decoration: none; }
 .state-profile-strip nav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 7px; }
 .state-profile-strip a { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; min-width: 0; border: 1px solid var(--line); border-radius: 7px; background: rgba(8,11,18,.68); padding: 10px; color: var(--text); text-decoration: none; }
 .state-profile-strip a:hover { border-color: rgba(223,255,63,.55); background: rgba(223,255,63,.06); }

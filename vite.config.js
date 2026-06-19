@@ -8,7 +8,9 @@ export default defineConfig({
 function statePageRoutes() {
   const rewrite = (request, _response, next) => {
     const [pathname, query] = request.url.split("?");
-    if (/^\/states\/[a-z-]+\/?$/.test(pathname)) {
+    if (/^\/states\/?$/.test(pathname)) {
+      request.url = `/states/index.html${query ? `?${query}` : ""}`;
+    } else if (/^\/states\/[a-z-]+\/?$/.test(pathname)) {
       request.url = `${pathname.replace(/\/$/, "")}/index.html${query ? `?${query}` : ""}`;
     }
     next();

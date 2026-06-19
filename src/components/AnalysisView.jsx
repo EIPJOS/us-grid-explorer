@@ -145,6 +145,7 @@ export default function AnalysisView({ dataCenters, initialStates }) {
           <span className="eyebrow">Search-ready research pages</span>
           <h2 id="state-profile-title">State grid profiles</h2>
           <p>Open a sourced, shareable summary built for quick reading and deeper research.</p>
+          <a className="state-directory-cta" href="/states/">Browse all profiles <ArrowUpRight size={14} /></a>
         </div>
         <nav aria-label="Published state grid profiles">
           {STATE_PROFILES.map(([code, slug]) => (

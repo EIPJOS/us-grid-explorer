@@ -16,7 +16,7 @@ html, body, #root { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 button, input { font: inherit; }
 button { color: inherit; }
 
-.app-shell { width: 100%; height: 100%; background: var(--bg); color: var(--text); }
+.app-shell { display: grid; width: 100%; height: 100%; grid-template-rows: 66px minmax(0, 1fr) 34px; background: var(--bg); color: var(--text); }
 
 .topbar {
   position: relative;
@@ -43,8 +43,11 @@ button { color: inherit; }
 
 .release-badge { justify-self: end; display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 8px 11px; color: #c7d0e3; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
 .release-badge i { width: 7px; height: 7px; border-radius: 999px; background: #ff9e4f; box-shadow: 0 0 0 5px rgba(255, 158, 79, 0.12); }
+.topbar-meta { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.trust-link { display: inline-flex; align-items: center; gap: 5px; color: #aeb9ce; font-size: 10px; text-decoration: none; text-transform: uppercase; letter-spacing: .05em; }
+.trust-link:hover { color: var(--lime); }
 
-.explore-shell { position: relative; height: calc(100% - 66px); }
+.explore-shell { position: relative; height: 100%; min-height: 0; }
 .map-root { position: absolute; inset: 0; background: #090d14; }
 .leaflet-container { font-family: inherit; }
 .leaflet-control-attribution { background: rgba(8, 11, 18, 0.84) !important; color: #8f99af !important; }
@@ -79,6 +82,7 @@ button { color: inherit; }
 .layer-toggle b { font-size: 13px; }
 .layer-toggle small { color: var(--muted); }
 .layer-toggle input { accent-color: var(--lime); }
+.layer-note { margin: -5px 0 11px 24px; color: #6f7a90; font-size: 9px; line-height: 1.35; }
 
 .fuel-grid { display: grid; gap: 5px; padding: 2px 0 12px 24px; }
 .fuel-grid button { display: grid; grid-template-columns: 9px 1fr auto; align-items: center; gap: 8px; border: 1px solid transparent; border-radius: 999px; background: transparent; padding: 5px 8px; color: #707b92; text-align: left; cursor: pointer; }
@@ -117,6 +121,14 @@ button { color: inherit; }
 .source-card { margin-top: 14px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,0.035); padding: 12px; }
 .source-card span { color: var(--muted); font-size: 10px; text-transform: uppercase; }
 .source-card strong { display: block; margin-top: 4px; font-size: 13px; }
+.source-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+.source-badges b { border: 1px solid var(--line); border-radius: 999px; padding: 3px 6px; font-size: 8px; font-weight: 750; text-transform: uppercase; letter-spacing: .04em; }
+.source-badges .preliminary { border-color: rgba(255,158,79,.3); background: rgba(255,158,79,.08); color: #ffb77a; }
+.source-badges .community_reported { border-color: rgba(189,128,255,.3); background: rgba(189,128,255,.08); color: #d0a8ff; }
+.source-badges .reported { border-color: rgba(125,159,255,.3); background: rgba(125,159,255,.08); color: #9db5ff; }
+.source-badges .estimated { color: #aeb8ca; }
+.source-badges .cadence-badge { color: #b8c3d7; }
+.source-card > small { display: block; margin-top: 7px; color: #77849b; font-size: 9px; }
 .source-card p { color: #9da8bc; font-size: 12px; line-height: 1.45; }
 .source-card a { display: inline-flex; align-items: center; gap: 5px; color: var(--lime); font-size: 12px; text-decoration: none; }
 .empty-selection { text-align: center; padding: 30px 22px; }
@@ -127,11 +139,15 @@ button { color: inherit; }
 .coverage-note strong { color: var(--lime); text-transform: uppercase; letter-spacing: 0.06em; }
 
 .view-shell {
-  height: calc(100% - 66px);
+  height: 100%;
   overflow: auto;
   background: #090c13;
   padding: 28px;
 }
+.app-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); background: #080b12; padding: 0 18px; color: #68758c; font-size: 9px; text-transform: uppercase; letter-spacing: .04em; }
+.app-footer nav { display: flex; gap: 14px; }
+.app-footer a { color: #7f8aa0; text-decoration: none; }
+.app-footer a:hover { color: var(--lime); }
 .page-loading { display: grid; height: 100%; place-items: center; color: var(--muted); }
 
 .view-heading {
@@ -337,7 +353,7 @@ button { color: inherit; }
 .tour-card footer .tour-skip { border: 0; color: var(--muted); }
 .tour-card footer .tour-next { border-color: var(--lime); background: var(--lime); color: #111607; font-weight: 750; }
 
-.grid-guide { position: fixed; right: 18px; bottom: 18px; z-index: 1900; }
+.grid-guide { position: fixed; right: 18px; bottom: 46px; z-index: 1900; }
 .guide-launch { display: flex; align-items: center; gap: 9px; border: 1px solid rgba(223,255,63,0.35); border-radius: 999px; background: #111723; padding: 7px 13px 7px 7px; color: #edf3ff; box-shadow: 0 18px 55px rgba(0,0,0,0.45); cursor: pointer; }
 .guide-launch > span { display: grid; width: 31px; height: 31px; place-items: center; border-radius: 99px; background: var(--lime); color: #111607; }
 .guide-launch b { font-size: 12px; }
@@ -395,14 +411,15 @@ button { color: inherit; }
 }
 
 @media (max-width: 760px) {
+  .app-shell { grid-template-rows: 58px minmax(0, 1fr) 30px; }
   .topbar { height: 58px; padding: 0 10px; }
   .release-badge { display: none; }
-  .explore-shell { height: calc(100% - 58px); }
+  .trust-link { display: none; }
   .search-panel { top: 10px; left: 10px; right: 10px; }
   .layer-panel { top: 70px; left: 10px; width: 230px; max-height: calc(100% - 90px); }
   .selection-panel { top: auto; right: 10px; bottom: 10px; left: 10px; width: auto; max-height: 48%; }
   .coverage-note { display: none; }
-  .view-shell { height: calc(100% - 58px); padding: 18px 10px; }
+  .view-shell { padding: 18px 10px; }
   .view-heading h1 { font-size: 31px; }
   .view-metrics { display: grid; grid-template-columns: 1fr; }
   .directory-toolbar, .signal-main-grid { grid-template-columns: 1fr; }
@@ -424,7 +441,11 @@ button { color: inherit; }
   .lesson-content h2 { font-size: 26px; }
   .lesson-content ul, .concept-pair { grid-template-columns: 1fr; }
   .system-flow, .substation-concept { flex-wrap: wrap; }
-  .grid-guide { right: 8px; bottom: 8px; left: 8px; }
+  .app-footer { padding: 0 10px; }
+  .app-footer > span { display: none; }
+  .app-footer nav { width: 100%; justify-content: space-between; gap: 5px; }
+  .app-footer a { font-size: 8px; }
+  .grid-guide { right: 8px; bottom: 38px; left: 8px; }
   .guide-launch { margin-left: auto; }
   .guide-panel { width: 100%; height: min(640px, calc(100vh - 74px)); }
 }

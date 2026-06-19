@@ -70,6 +70,7 @@ export default function LayerPanel({
         checked={showDataCenters}
         onChange={onToggleDataCenters}
       />
+      {showDataCenters && <p className="layer-note">Community-mapped locations; coverage is incomplete.</p>}
 
       <LayerToggle
         icon={<Zap size={16} />}

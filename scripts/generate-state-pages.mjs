@@ -1,11 +1,11 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { renderAnalyticsScript, renderSiteFooter, renderSiteHeader, siteUrl, trustRoutes } from "./site-shell.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(root, "public");
 const outputDir = path.join(publicDir, "states");
-const siteUrl = "https://us-grid-explorer.vercel.app";
 
 const profiles = {
   VA: { name: "Virginia", slug: "virginia", context: "Virginia connects a large natural-gas fleet with nuclear, hydro, and rapidly expanded solar capacity. Its mapped data-center footprint makes the relationship between electricity supply and concentrated digital demand especially visible." },
@@ -114,12 +114,10 @@ function renderPage({ code, profile, state, plants, dataCenterCount }) {
     creator: { "@type": "Organization", name: "US Grid Explorer" },
     isBasedOn: "https://www.eia.gov/electricity/data/eia860/"
   })}</script>
+${renderAnalyticsScript()}
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="/"><span>US</span><strong>US Grid Explorer<small>Infrastructure intelligence</small></strong></a>
-    <nav><a href="/">Explore map</a><a href="/states/">State profiles</a><a href="/?view=analysis&amp;state=${code}">Compare states</a><a href="#methodology">Sources</a></nav>
-  </header>
+  ${renderSiteHeader("states")}
   <main>
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/states/">States</a><span>/</span><b>${profile.name}</b></nav>
     <section class="hero">
@@ -127,6 +125,7 @@ function renderPage({ code, profile, state, plants, dataCenterCount }) {
         <p class="eyebrow">${code} &middot; State grid profile</p>
         <h1>${profile.name} power grid</h1>
         <p class="lede">${profile.context}</p>
+        <div class="data-status"><span class="final">Final 2024 state totals</span><span class="preliminary">Preliminary 2025 facilities</span><span class="community">Community-reported data centers</span></div>
         <div class="hero-actions"><a class="primary" href="/?view=analysis&amp;state=${code}">Compare ${profile.name}</a><a href="/">Open national map</a></div>
       </div>
       <aside><span>Largest capacity source</span><strong>${dominant.label}</strong><b>${dominantShare}%</b><small>of operating nameplate capacity</small></aside>
@@ -136,7 +135,7 @@ function renderPage({ code, profile, state, plants, dataCenterCount }) {
       ${metric("Operating capacity", formatMw(state.operatingCapacityMw), "Final EIA-860 2024")}
       ${metric("Power plants", state.plantCount.toLocaleString(), `${state.operatingGenerators.toLocaleString()} operating generators`)}
       ${metric("Proposed capacity", formatMw(state.proposedCapacityMw), `${proposedShare}% of current capacity`)}
-      ${metric("Data centers mapped", dataCenterCount.toLocaleString(), "Community-reported coverage")}
+      ${metric("Community-mapped locations", dataCenterCount.toLocaleString(), "Incomplete OpenStreetMap coverage")}
     </section>
 
     <section class="content-grid">
@@ -173,7 +172,7 @@ function renderPage({ code, profile, state, plants, dataCenterCount }) {
       <div><a href="https://www.eia.gov/electricity/data/eia860/">EIA-860 source</a><a href="https://www.openstreetmap.org/">OpenStreetMap</a></div>
     </section>
   </main>
-  <footer><span>US Grid Explorer</span><span>Data checked June 18, 2026</span><a href="/">Interactive map</a></footer>
+  ${renderSiteFooter("State data checked June 18, 2026")}
 </body>
 </html>`;
 }
@@ -208,7 +207,7 @@ function renderDirectory(states) {
           <div><dt>Capacity</dt><dd>${formatMw(state.operatingCapacityMw)}</dd></div>
           <div><dt>Plants</dt><dd>${state.plantCount.toLocaleString()}</dd></div>
           <div><dt>Proposed</dt><dd>${formatMw(state.proposedCapacityMw)}</dd></div>
-          <div><dt>Data centers</dt><dd>${dataCenterCount.toLocaleString()}</dd></div>
+          <div><dt>Community locations</dt><dd>${dataCenterCount.toLocaleString()}</dd></div>
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
@@ -229,22 +228,20 @@ function renderDirectory(states) {
   <meta property="og:description" content="${description}">
   <meta property="og:url" content="${siteUrl}/states/">
   <link rel="stylesheet" href="/state-pages.css">
+${renderAnalyticsScript()}
 </head>
 <body class="directory-page">
-  <header class="site-header">
-    <a class="brand" href="/"><span>US</span><strong>US Grid Explorer<small>Infrastructure intelligence</small></strong></a>
-    <nav><a href="/">Explore map</a><a href="/states/">State profiles</a><a href="/?view=analysis">Compare states</a></nav>
-  </header>
+  ${renderSiteHeader("states")}
   <main>
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><b>State profiles</b></nav>
     <section class="directory-hero">
-      <div><p class="eyebrow">State intelligence directory</p><h1>Find your state's power grid</h1><p>Search sourced profiles, compare infrastructure signals, and move from a statewide summary to the facilities behind the numbers.</p></div>
+      <div><p class="eyebrow">State intelligence directory</p><h1>Find your state's power grid</h1><p>Search sourced profiles, compare infrastructure signals, and move from a statewide summary to the facilities behind the numbers.</p><div class="data-status"><span class="final">Final state totals</span><span class="preliminary">Preliminary facilities</span><span class="community">Community-reported locations</span></div></div>
       <aside><strong>${states.length}</strong><span>published state profiles</span></aside>
     </section>
     <section class="directory-metrics">
       ${metric("Profiled capacity", formatMw(totalCapacity), "Final EIA-860 2024")}
       ${metric("Power plants", totalPlants.toLocaleString(), "Across published profiles")}
-      ${metric("Data centers mapped", totalDataCenters.toLocaleString(), "Community-reported coverage")}
+      ${metric("Community-mapped locations", totalDataCenters.toLocaleString(), "Incomplete OpenStreetMap coverage")}
     </section>
     <section class="directory-toolbar" aria-label="State directory controls">
       <label><span>Search states</span><input id="state-search" type="search" placeholder="State name or abbreviation" autocomplete="off"></label>
@@ -255,7 +252,7 @@ function renderDirectory(states) {
     <div id="compare-dock" class="compare-dock" hidden><div><strong id="compare-count">0 states selected</strong><span id="compare-message">Select 2 to 4 states</span></div><button id="clear-comparison" type="button">Clear</button><button id="open-comparison" type="button" disabled>Compare states</button></div>
     <section class="method directory-method"><div><p class="eyebrow">Coverage</p><h2>Built for useful comparisons</h2></div><p>Profiles combine finalized EIA-860 2024 state totals, preliminary 2025 facility records, and community-reported OpenStreetMap data-center locations. Published coverage is expanding in reviewed groups so every page contains meaningful state-specific context.</p><a href="https://www.eia.gov/electricity/data/eia860/">Review EIA methodology</a></section>
   </main>
-  <footer><span>US Grid Explorer</span><span>${states.length} state profiles</span><a href="/">Interactive map</a></footer>
+  ${renderSiteFooter(`${states.length} published state profiles`)}
   <script>${directoryScript()}</script>
 </body>
 </html>`;
@@ -312,7 +309,7 @@ function directoryScript() {
 }
 
 function renderSitemap() {
-  const urls = [siteUrl, `${siteUrl}/states/`, ...Object.values(profiles).map((profile) => `${siteUrl}/states/${profile.slug}/`)];
+  const urls = [siteUrl, `${siteUrl}/states/`, ...Object.values(profiles).map((profile) => `${siteUrl}/states/${profile.slug}/`), ...trustRoutes.map((route) => `${siteUrl}/${route}/`)];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${url}</loc><changefreq>monthly</changefreq></url>`).join("\n")}\n</urlset>\n`;
 }
 

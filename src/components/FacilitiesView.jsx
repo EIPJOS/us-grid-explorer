@@ -66,7 +66,7 @@ export default function FacilitiesView({ plants, dataCenters, loading, loadError
         </div>
         <div className="view-metrics">
           <Metric icon={<Zap size={17} />} label="Power plants" value={plants.length.toLocaleString()} />
-          <Metric icon={<Server size={17} />} label="Data centers" value={dataCenters.length.toLocaleString()} />
+          <Metric icon={<Server size={17} />} label="Community locations" value={dataCenters.length.toLocaleString()} />
           <Metric icon={<MapPin size={17} />} label="Visible results" value={filtered.length.toLocaleString()} />
         </div>
       </section>

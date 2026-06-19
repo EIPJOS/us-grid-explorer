@@ -13,11 +13,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/state-pages.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Nevada electric power infrastructure profile","description":"Explore Nevada's 18,204 MW of operating power capacity, 128 plants, fuel mix, largest facilities, and mapped data centers.","url":"https://us-grid-explorer.vercel.app/states/nevada/","spatialCoverage":{"@type":"Place","name":"Nevada"},"temporalCoverage":"2024","creator":{"@type":"Organization","name":"US Grid Explorer"},"isBasedOn":"https://www.eia.gov/electricity/data/eia860/"}</script>
+
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="/"><span>US</span><strong>US Grid Explorer<small>Infrastructure intelligence</small></strong></a>
-    <nav><a href="/">Explore map</a><a href="/states/">State profiles</a><a href="/?view=analysis&amp;state=NV">Compare states</a><a href="#methodology">Sources</a></nav>
+    <nav aria-label="Primary navigation"><a href="/">Explore map</a><a class="active" href="/states/">State profiles</a><a href="/?view=analysis">Compare states</a><a href="/methodology/">Trust center</a></nav>
   </header>
   <main>
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/states/">States</a><span>/</span><b>Nevada</b></nav>
@@ -26,6 +27,7 @@
         <p class="eyebrow">NV &middot; State grid profile</p>
         <h1>Nevada power grid</h1>
         <p class="lede">Nevada combines natural gas with a large and growing solar fleet, plus storage, hydro, and geothermal resources. Its proposed pipeline is sizeable compared with today's operating capacity.</p>
+        <div class="data-status"><span class="final">Final 2024 state totals</span><span class="preliminary">Preliminary 2025 facilities</span><span class="community">Community-reported data centers</span></div>
         <div class="hero-actions"><a class="primary" href="/?view=analysis&amp;state=NV">Compare Nevada</a><a href="/">Open national map</a></div>
       </div>
       <aside><span>Largest capacity source</span><strong>Oil & gas</strong><b>48.5%</b><small>of operating nameplate capacity</small></aside>
@@ -35,7 +37,7 @@
       <article><span>Operating capacity</span><strong>18,204 MW</strong><small>Final EIA-860 2024</small></article>
       <article><span>Power plants</span><strong>128</strong><small>295 operating generators</small></article>
       <article><span>Proposed capacity</span><strong>6,067 MW</strong><small>33.3% of current capacity</small></article>
-      <article><span>Data centers mapped</span><strong>14</strong><small>Community-reported coverage</small></article>
+      <article><span>Community-mapped locations</span><strong>14</strong><small>Incomplete OpenStreetMap coverage</small></article>
     </section>
 
     <section class="content-grid">
@@ -72,6 +74,16 @@
       <div><a href="https://www.eia.gov/electricity/data/eia860/">EIA-860 source</a><a href="https://www.openstreetmap.org/">OpenStreetMap</a></div>
     </section>
   </main>
-  <footer><span>US Grid Explorer</span><span>Data checked June 18, 2026</span><a href="/">Interactive map</a></footer>
+  <footer class="site-footer">
+    <div><strong>US Grid Explorer</strong><span>State data checked June 18, 2026</span></div>
+    <nav aria-label="Trust and policy links">
+      <a href="/about/">About</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/sources/">Sources</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/corrections/">Corrections</a>
+    </nav>
+  </footer>
 </body>
 </html>

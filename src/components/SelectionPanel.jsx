@@ -1,4 +1,5 @@
 import { ExternalLink, MapPin, Server, X, Zap } from "lucide-react";
+import { trackEvent } from "../lib/analytics.js";
 
 export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
   if (!selection) {
@@ -79,8 +80,13 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
       <div className="source-card">
         <span>Source & confidence</span>
         <strong>{source?.dataset ?? "Regional seed record"}</strong>
+        <div className="source-badges">
+          <b className={`confidence-badge ${confidenceKey(feature, source)}`}>{confidenceLabel(feature, source)}</b>
+          {source?.cadence && <b className="cadence-badge">{formatLabel(source.cadence)}</b>}
+        </div>
+        {source?.checkedAt && <small>Source checked {formatDate(source.checkedAt)}</small>}
         <p>{source?.note ?? "Coordinates and capacity are approximate until parcel-level verification is complete."}</p>
-        <a href={source?.url ?? feature.sourceUrl} target="_blank" rel="noreferrer">
+        <a href={source?.url ?? feature.sourceUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent("Source Opened", { source_ref: feature.sourceRef ?? "embedded", feature_type: selection.type })}>
           Open source <ExternalLink size={14} />
         </a>
       </div>
@@ -99,4 +105,18 @@ function formatLabel(value) {
 function dataCenterLocation(feature) {
   const { address, city, state } = feature.properties;
   return address || [city, state].filter(Boolean).join(", ") || "Location only";
+}
+
+function confidenceKey(feature, source) {
+  if (feature.properties?.releaseStatus === "preliminary") return "preliminary";
+  return source?.confidence ?? "estimated";
+}
+
+function confidenceLabel(feature, source) {
+  return formatLabel(confidenceKey(feature, source));
+}
+
+function formatDate(value) {
+  const date = new Date(`${value}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }

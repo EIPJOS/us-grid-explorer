@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { LoaderCircle, MapPin, Search, Server, Zap } from "lucide-react";
+import { queryLengthBucket, trackEvent } from "../lib/analytics.js";
 
 export default function SearchPanel({
   icon,
@@ -25,13 +26,17 @@ export default function SearchPanel({
   async function submitPlaceSearch() {
     const value = query.trim();
     if (value.length < 2 || placeLoading) return;
+    trackEvent("Place Search Submitted", { query_length: queryLengthBucket(value) });
     setPlaceLoading(true);
     setPlaceError("");
     try {
-      setPlaceResults(await onSearchPlace(value));
+      const nextResults = await onSearchPlace(value);
+      setPlaceResults(nextResults);
+      trackEvent("Place Search Completed", { result_count: nextResults.length, outcome: nextResults.length ? "results" : "empty" });
     } catch (error) {
       setPlaceResults([]);
       setPlaceError(error.message);
+      trackEvent("Place Search Completed", { result_count: 0, outcome: "error" });
     } finally {
       setPlaceLoading(false);
     }

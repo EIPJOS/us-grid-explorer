@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Methodology | US Grid Explorer</title>
+  <meta name="description" content="Definitions, transformations, confidence labels, and known limits for every major US Grid Explorer view.">
+  <link rel="canonical" href="https://us-grid-explorer.vercel.app/methodology/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Data Methodology">
+  <meta property="og:description" content="Definitions, transformations, confidence labels, and known limits for every major US Grid Explorer view.">
+  <meta property="og:url" content="https://us-grid-explorer.vercel.app/methodology/">
+  <link rel="stylesheet" href="/state-pages.css">
+
+</head>
+<body class="trust-page">
+  <header class="site-header">
+    <a class="brand" href="/"><span>US</span><strong>US Grid Explorer<small>Infrastructure intelligence</small></strong></a>
+    <nav aria-label="Primary navigation"><a href="/">Explore map</a><a href="/states/">State profiles</a><a href="/?view=analysis">Compare states</a><a class="active" href="/methodology/">Trust center</a></nav>
+  </header>
+  <main class="trust-main">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/methodology/">Trust center</a><span>/</span><b>Data Methodology</b></nav>
+    <header class="trust-hero"><p class="eyebrow">How the numbers are built</p><h1>Data Methodology</h1><p>Definitions, transformations, confidence labels, and known limits for every major US Grid Explorer view.</p><span>Updated June 19, 2026</span></header>
+    <div class="trust-layout"><aside><strong>Trust center</strong><nav><a href="/about/">About</a><a class="active" href="/methodology/">Methodology</a><a href="/sources/">Sources</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/corrections/">Corrections & contact</a></nav><p>Questions about a record?</p><a href="/corrections/">Report a correction</a></aside><article class="trust-content"><section><h2>Three measurements that must not be confused</h2><div class="definition-grid"><article><strong>Nameplate capacity</strong><p>The maximum rated output of generating equipment under specified conditions. Capacity does not describe how much electricity a plant actually produced.</p></article><article><strong>Electricity generation</strong><p>Energy produced over time, usually measured in megawatt-hours. Generation changes with dispatch, weather, fuel, maintenance, and market conditions.</p></article><article><strong>Electricity demand</strong><p>The rate at which customers consume electricity at a moment or during an interval. Regional demand is not the same as statewide capacity.</p></article></div></section>
+    <section><h2>Confidence vocabulary</h2><dl class="trust-definitions"><div><dt>Final</dt><dd>Published as a finalized release by the source agency and used for aggregate state statistics.</dd></div><div><dt>Preliminary</dt><dd>An official early release that may be revised and is not used here for finalized state totals.</dd></div><div><dt>Reported</dt><dd>Published by an identified source, but fields may be incomplete, dated, or inferred.</dd></div><div><dt>Community-reported</dt><dd>Maintained by public contributors. Useful for discovery, but absence does not mean a facility does not exist.</dd></div><div><dt>Estimated</dt><dd>Derived or approximated rather than directly reported. Estimation should be explained near the value.</dd></div></dl></section>
+    <section><h2>State profiles</h2><p>State operating capacity, proposed capacity, generator counts, and fuel mix use finalized EIA-860 2024 generator data. Fuel categories combine related EIA technologies into reader-friendly groups. Totals may differ slightly because displayed values are rounded.</p><p>Largest-plant tables use EIA-860 2025 Early Release records for facility discovery. Those preliminary records are kept separate from finalized statewide aggregation.</p></section>
+    <section><h2>Map layers</h2><p>Power-plant markers use preliminary 2025 facility records. Transmission lines and substations are requested by the visible map extent; lower-voltage features appear as users zoom in. Visible-area counts are recalculated from point locations inside the current map bounds.</p><p>Data centers use OpenStreetMap community records. Counts describe mapped locations only and must not be presented as complete market inventories.</p></section>
+    <section><h2>Live grid signals</h2><p>Regional demand uses EIA-930 hourly operating data. Recent values can be preliminary, delayed, missing, or revised. A timestamp describes the observation or source refresh, not a guarantee of real-time grid conditions.</p></section>
+    <section><h2>Quality process</h2><ol><li>Keep raw-source identity and source URLs in generated records.</li><li>Validate coordinates and required fields before publishing.</li><li>Separate finalized aggregation from preliminary facility discovery.</li><li>Regenerate static profiles after reviewed source updates.</li><li>Publish known limitations and accept documented corrections.</li></ol></section></article></div>
+  </main>
+  <footer class="site-footer">
+    <div><strong>US Grid Explorer</strong><span>Trust center updated June 19, 2026</span></div>
+    <nav aria-label="Trust and policy links">
+      <a href="/about/">About</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/sources/">Sources</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/corrections/">Corrections</a>
+    </nav>
+  </footer>
+</body>
+</html>

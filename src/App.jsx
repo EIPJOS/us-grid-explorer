@@ -1,11 +1,13 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { BarChart3, BookOpen, Database, Map, Radio, Search, Zap } from "lucide-react";
+import { BarChart3, BookOpen, Database, Map, Radio, Search, ShieldCheck, Zap } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
 import SearchPanel from "./components/SearchPanel.jsx";
 import SelectionPanel from "./components/SelectionPanel.jsx";
 import FacilitiesView from "./components/FacilitiesView.jsx";
 import GridGuide from "./components/GridGuide.jsx";
+import { analyticsEnabled, trackEvent } from "./lib/analytics.js";
 
 const GridSignalsView = lazy(() => import("./components/GridSignalsView.jsx"));
 const AnalysisView = lazy(() => import("./components/AnalysisView.jsx"));
@@ -135,6 +137,7 @@ export default function App() {
   }), [plantPayload, dataCenterPayload]);
 
   function selectFromSearch(item) {
+    trackEvent("Facility Search Selected", { feature_type: item.type });
     setSelectedFeature({ type: item.type, feature: item.feature });
     setFocusRequest({ coordinates: item.coordinates, id: item.id, nonce: Date.now() });
   }
@@ -154,6 +157,7 @@ export default function App() {
       },
       sourceRef: "arcgis-world-geocoder"
     };
+    trackEvent("Place Selected", { result_type: place.attributes.Addr_type || "unknown" });
     setSelectedFeature({ type: "place", feature });
     setFocusRequest({ coordinates: feature.geometry.coordinates, id: feature.id, nonce: Date.now() });
   }
@@ -162,24 +166,52 @@ export default function App() {
     const coordinates = selection.feature.geometry.coordinates;
     setSelectedFeature(selection);
     setFocusRequest({ coordinates, id: selection.feature.id, nonce: Date.now() });
-    setActiveView("explore");
+    changeView("explore");
   }
 
   function toggleFuel(category) {
     if (!hasChosenFuel.current) {
       hasChosenFuel.current = true;
+      trackEvent("Fuel Filter Changed", { fuel: category, enabled: true, mode: "isolate" });
       setFuelVisibility(Object.fromEntries(
         Object.keys(INITIAL_FUEL_VISIBILITY).map((fuel) => [fuel, fuel === category])
       ));
       return;
     }
-    setFuelVisibility((current) => ({ ...current, [category]: !current[category] }));
+    setFuelVisibility((current) => {
+      const enabled = !current[category];
+      trackEvent("Fuel Filter Changed", { fuel: category, enabled, mode: "toggle" });
+      return { ...current, [category]: enabled };
+    });
+  }
+
+  function changeView(view) {
+    trackEvent("View Changed", { view });
+    setActiveView(view);
+  }
+
+  function selectMapFeature(selection) {
+    trackEvent("Map Feature Selected", { feature_type: selection.type });
+    setSelectedFeature(selection);
+  }
+
+  function toggleLayer(layer, setter) {
+    setter((current) => {
+      const enabled = !current;
+      trackEvent("Layer Toggled", { layer, enabled });
+      return enabled;
+    });
+  }
+
+  function startTour() {
+    trackEvent("Map Tour Started");
+    setTourOpen(true);
   }
 
   function applyGuideAction(action) {
     if (!action || action.type === "none") return;
     if (action.type === "select_view" && ["explore", "facilities", "signals", "analysis", "learn"].includes(action.target)) {
-      setActiveView(action.target);
+      changeView(action.target);
       return;
     }
     if (action.type === "show_layer") {
@@ -187,7 +219,7 @@ export default function App() {
       if (action.target === "data_centers") setShowDataCenters(true);
       if (action.target === "transmission") setShowTransmission(true);
       if (action.target === "substations") setShowSubstations(true);
-      setActiveView("explore");
+      changeView("explore");
     }
   }
 
@@ -203,16 +235,19 @@ export default function App() {
         </a>
 
         <nav aria-label="Primary navigation">
-          <button className={activeView === "explore" ? "active" : ""} onClick={() => setActiveView("explore")}><Map size={16} />Explore</button>
-          <button className={activeView === "facilities" ? "active" : ""} onClick={() => setActiveView("facilities")}><Database size={16} />Facilities</button>
-          <button className={activeView === "signals" ? "active" : ""} onClick={() => setActiveView("signals")}><Radio size={16} />Grid signals</button>
-          <button className={activeView === "analysis" ? "active" : ""} onClick={() => setActiveView("analysis")}><BarChart3 size={16} />Analysis</button>
-          <button className={activeView === "learn" ? "active" : ""} onClick={() => setActiveView("learn")}><BookOpen size={16} />Learn</button>
+          <button className={activeView === "explore" ? "active" : ""} onClick={() => changeView("explore")}><Map size={16} />Explore</button>
+          <button className={activeView === "facilities" ? "active" : ""} onClick={() => changeView("facilities")}><Database size={16} />Facilities</button>
+          <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
+          <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
+          <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
         </nav>
 
-        <div className="release-badge">
-          <i></i>
-          {activeView === "signals" ? "EIA-930 hourly data" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
+        <div className="topbar-meta">
+          <a className="trust-link" href="/methodology/"><ShieldCheck size={14} />Trust center</a>
+          <div className="release-badge">
+            <i></i>
+            {activeView === "signals" ? "EIA-930 hourly data" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
+          </div>
         </div>
       </header>
 
@@ -227,7 +262,7 @@ export default function App() {
             showTransmission={showTransmission}
             showSubstations={showSubstations}
             focusRequest={focusRequest}
-            onSelect={setSelectedFeature}
+            onSelect={selectMapFeature}
             onViewportChange={setViewportBounds}
           />
 
@@ -249,11 +284,11 @@ export default function App() {
             showDataCenters={showDataCenters}
             showTransmission={showTransmission}
             showSubstations={showSubstations}
-            onTogglePowerPlants={() => setShowPowerPlants((value) => !value)}
-            onToggleDataCenters={() => setShowDataCenters((value) => !value)}
-            onToggleTransmission={() => setShowTransmission((value) => !value)}
-            onToggleSubstations={() => setShowSubstations((value) => !value)}
-            onStartTour={() => setTourOpen(true)}
+            onTogglePowerPlants={() => toggleLayer("power_plants", setShowPowerPlants)}
+            onToggleDataCenters={() => toggleLayer("data_centers", setShowDataCenters)}
+            onToggleTransmission={() => toggleLayer("transmission", setShowTransmission)}
+            onToggleSubstations={() => toggleLayer("substations", setShowSubstations)}
+            onStartTour={startTour}
             onToggleFuel={toggleFuel}
             loading={(!plantPayload || !dataCenterPayload) && !loadError}
             loadError={loadError}
@@ -303,6 +338,8 @@ export default function App() {
         </Suspense>
       )}
 
+      <AppFooter />
+
       <GridGuide
         activeView={activeView}
         selectedFeature={selectedFeature?.feature ?? null}
@@ -315,7 +352,24 @@ export default function App() {
         }}
         onApplyAction={applyGuideAction}
       />
+      {analyticsEnabled && <Analytics />}
     </div>
+  );
+}
+
+function AppFooter() {
+  return (
+    <footer className="app-footer">
+      <span>US Grid Explorer</span>
+      <nav aria-label="Trust and policy links">
+        <a href="/about/">About</a>
+        <a href="/methodology/">Methodology</a>
+        <a href="/sources/">Sources</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/corrections/">Corrections</a>
+      </nav>
+    </footer>
   );
 }
 

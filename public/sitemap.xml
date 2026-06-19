@@ -17,4 +17,10 @@
   <url><loc>https://us-grid-explorer.vercel.app/states/oregon/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://us-grid-explorer.vercel.app/states/nevada/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://us-grid-explorer.vercel.app/states/new-jersey/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/about/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/methodology/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/sources/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/privacy/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/terms/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://us-grid-explorer.vercel.app/corrections/</loc><changefreq>monthly</changefreq></url>
 </urlset>

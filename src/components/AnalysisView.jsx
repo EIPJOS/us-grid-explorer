@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis
 } from "recharts";
+import { trackEvent } from "../lib/analytics.js";
 
 const FUEL_COLORS = {
   oil_gas: "#ff6257",
@@ -70,6 +71,7 @@ export default function AnalysisView({ dataCenters, initialStates }) {
     params.set("states", selectedStates.join(","));
     params.delete("state");
     window.history.replaceState(null, "", `${window.location.pathname}?${params}`);
+    trackEvent("State Comparison Updated", { state_count: selectedStates.length, state_codes: selectedStates.join(",") });
   }, [selectedStates]);
 
   const dataCenterCounts = useMemo(() => {
@@ -212,7 +214,7 @@ function StateSummary({ state, color }) {
       <div><span>{state.state}</span><h2>{state.stateName}</h2></div>
       <Metric label="Operating capacity" value={`${Math.round(state.operatingCapacityMw).toLocaleString()} MW`} />
       <Metric label="Power plants" value={state.plantCount.toLocaleString()} />
-      <Metric label="Data centers mapped" value={state.dataCenterCount.toLocaleString()} />
+      <Metric label="Community-mapped locations" value={state.dataCenterCount.toLocaleString()} />
       <Metric label="Proposed capacity" value={`${Math.round(state.proposedCapacityMw).toLocaleString()} MW`} />
     </article>
   );

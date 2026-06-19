@@ -12,9 +12,9 @@ const REGIONS = {
   SWPP: "Southwest Power Pool"
 };
 
-export default function GridSignalsView() {
+export default function GridSignalsView({ initialRegion }) {
   const [rows, setRows] = useState([]);
-  const [selectedRegion, setSelectedRegion] = useState("PJM");
+  const [selectedRegion, setSelectedRegion] = useState(REGIONS[initialRegion] ? initialRegion : "PJM");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

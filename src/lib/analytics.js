@@ -14,7 +14,11 @@ const EVENT_PROPERTIES = Object.freeze({
   "Fuel Filter Changed": ["fuel", "enabled", "mode"],
   "State Comparison Updated": ["state_count", "state_codes"],
   "Map Tour Started": [],
-  "Source Opened": ["source_ref", "feature_type"]
+  "Source Opened": ["source_ref", "feature_type"],
+  "Area Report Generated": ["result_type", "state", "has_zip"],
+  "Area Radius Changed": ["radius_miles"],
+  "Area Report Shared": ["state"],
+  "Area Opened On Map": ["state"]
 });
 
 export function trackEvent(name, properties = {}) {

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { BarChart3, BookOpen, Database, Map, Radio, Search, ShieldCheck, Zap } from "lucide-react";
+import { BarChart3, BookOpen, Database, Map, MapPinned, Radio, Search, ShieldCheck, Zap } from "lucide-react";
 import { Analytics } from "@vercel/analytics/react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
@@ -12,6 +12,7 @@ import { analyticsEnabled, trackEvent } from "./lib/analytics.js";
 const GridSignalsView = lazy(() => import("./components/GridSignalsView.jsx"));
 const AnalysisView = lazy(() => import("./components/AnalysisView.jsx"));
 const LearnView = lazy(() => import("./components/LearnView.jsx"));
+const AreaReportView = lazy(() => import("./components/AreaReportView.jsx"));
 
 const INITIAL_FUEL_VISIBILITY = {
   oil_gas: true,
@@ -59,12 +60,14 @@ const STATIC_SOURCES = {
 export default function App() {
   const initialParams = new URLSearchParams(window.location.search);
   const initialView = initialParams.get("view");
+  const initialArea = parseInitialArea(initialParams);
+  const initialRegion = initialParams.get("region")?.toUpperCase();
   const initialStates = (initialParams.get("states") ?? initialParams.get("state") ?? "")
     .split(",")
     .map((state) => state.trim().toUpperCase())
     .filter(Boolean);
   const [activeView, setActiveView] = useState(
-    ["explore", "facilities", "signals", "analysis", "learn"].includes(initialView) ? initialView : "explore"
+    ["explore", "area", "facilities", "signals", "analysis", "learn"].includes(initialView) ? initialView : "explore"
   );
   const [tourOpen, setTourOpen] = useState(false);
   const [plantPayload, setPlantPayload] = useState(null);
@@ -169,6 +172,26 @@ export default function App() {
     changeView("explore");
   }
 
+  function openAreaOnMap(area) {
+    const feature = {
+      id: `area-${area.longitude}-${area.latitude}`,
+      type: "place",
+      name: area.label,
+      geometry: { type: "Point", coordinates: [area.longitude, area.latitude] },
+      properties: {
+        addressType: area.type,
+        city: area.city,
+        state: area.state,
+        postalCode: area.postalCode,
+        score: area.score
+      },
+      sourceRef: "arcgis-world-geocoder"
+    };
+    setSelectedFeature({ type: "place", feature });
+    setFocusRequest({ coordinates: feature.geometry.coordinates, id: feature.id, nonce: Date.now() });
+    changeView("explore");
+  }
+
   function toggleFuel(category) {
     if (!hasChosenFuel.current) {
       hasChosenFuel.current = true;
@@ -236,6 +259,7 @@ export default function App() {
 
         <nav aria-label="Primary navigation">
           <button className={activeView === "explore" ? "active" : ""} onClick={() => changeView("explore")}><Map size={16} />Explore</button>
+          <button className={activeView === "area" ? "active" : ""} onClick={() => changeView("area")}><MapPinned size={16} />My area</button>
           <button className={activeView === "facilities" ? "active" : ""} onClick={() => changeView("facilities")}><Database size={16} />Facilities</button>
           <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
           <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
@@ -246,7 +270,7 @@ export default function App() {
           <a className="trust-link" href="/methodology/"><ShieldCheck size={14} />Trust center</a>
           <div className="release-badge">
             <i></i>
-            {activeView === "signals" ? "EIA-930 hourly data" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
+            {activeView === "signals" ? "EIA-930 hourly data" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "area" ? "Local infrastructure report" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
           </div>
         </div>
       </header>
@@ -320,9 +344,23 @@ export default function App() {
         />
       )}
 
+      {activeView === "area" && (
+        <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading local report...</div></main>}>
+          <AreaReportView
+            plants={plants}
+            dataCenters={dataCenters}
+            loading={(!plantPayload || !dataCenterPayload) && !loadError}
+            loadError={loadError}
+            initialArea={initialArea}
+            onSearchPlace={searchPlaces}
+            onOpenMap={openAreaOnMap}
+          />
+        </Suspense>
+      )}
+
       {activeView === "signals" && (
         <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading grid signals...</div></main>}>
-          <GridSignalsView />
+          <GridSignalsView initialRegion={initialRegion} />
         </Suspense>
       )}
 
@@ -438,7 +476,7 @@ async function searchPlaces(query) {
   url.searchParams.set("f", "json");
   url.searchParams.set("countryCode", "USA");
   url.searchParams.set("maxLocations", "6");
-  url.searchParams.set("outFields", "Match_addr,Addr_type,City,RegionAbbr,Postal");
+  url.searchParams.set("outFields", "Match_addr,Addr_type,City,RegionAbbr,Postal,County");
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Place search returned ${response.status}`);
   const payload = await response.json();
@@ -449,4 +487,20 @@ async function searchPlaces(query) {
     seen.add(key);
     return true;
   });
+}
+
+function parseInitialArea(params) {
+  const latitude = Number(params.get("lat"));
+  const longitude = Number(params.get("lng"));
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || latitude < 15 || latitude > 75 || longitude < -180 || longitude > -60) return null;
+  return {
+    label: String(params.get("label") || "Shared U.S. area").slice(0, 80),
+    city: "",
+    state: String(params.get("state") || "").slice(0, 2).toUpperCase(),
+    postalCode: String(params.get("zip") || "").slice(0, 10),
+    type: String(params.get("type") || "shared_area").slice(0, 30),
+    score: 0,
+    latitude,
+    longitude
+  };
 }

@@ -9,6 +9,7 @@ export function renderAnalyticsScript() {
 export function renderSiteHeader(active = "") {
   const links = [
     ["explore", "/", "Explore map"],
+    ["area", "/?view=area", "My area"],
     ["states", "/states/", "State profiles"],
     ["compare", "/?view=analysis", "Compare states"],
     ["trust", "/methodology/", "Trust center"]

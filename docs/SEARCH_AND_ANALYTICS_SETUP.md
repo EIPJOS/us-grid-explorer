@@ -39,5 +39,9 @@ Do not commit a private DNS-provider credential or account access token. The Sea
 - `State Comparison Updated`
 - `Map Tour Started`
 - `Source Opened`
+- `Area Report Generated`
+- `Area Radius Changed`
+- `Area Report Shared`
+- `Area Opened On Map`
 
 Event properties are allowlisted and sanitized in `src/lib/analytics.js`.

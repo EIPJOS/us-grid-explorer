@@ -1,4 +1,4 @@
-export const siteUrl = "https://us-grid-explorer.vercel.app";
+export const siteUrl = "https://usgridexplorer.com";
 export const trustRoutes = ["about", "methodology", "sources", "privacy", "terms", "corrections"];
 export const analyticsEnabled = process.env.VITE_ANALYTICS_ENABLED === "true";
 

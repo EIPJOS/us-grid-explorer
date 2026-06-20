@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>US State Power Grid Profiles | US Grid Explorer</title>
-  <meta name="description" content="Search and compare 15 sourced US state power-grid profiles by operating capacity, fuel mix, proposed generation, and mapped data centers.">
+  <meta name="description" content="Search and compare 51 sourced US state power-grid profiles by operating capacity, fuel mix, proposed generation, and mapped data centers.">
   <link rel="canonical" href="https://us-grid-explorer.vercel.app/states/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="US State Power Grid Profiles">
-  <meta property="og:description" content="Search and compare 15 sourced US state power-grid profiles by operating capacity, fuel mix, proposed generation, and mapped data centers.">
+  <meta property="og:description" content="Search and compare 51 sourced US state power-grid profiles by operating capacity, fuel mix, proposed generation, and mapped data centers.">
   <meta property="og:url" content="https://us-grid-explorer.vercel.app/states/">
   <link rel="stylesheet" href="/state-pages.css">
 
@@ -21,73 +21,47 @@
   <main>
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><b>State profiles</b></nav>
     <section class="directory-hero">
-      <div><p class="eyebrow">State intelligence directory</p><h1>Find your state's power grid</h1><p>Search sourced profiles, compare infrastructure signals, and move from a statewide summary to the facilities behind the numbers.</p><div class="data-status"><span class="final">Final state totals</span><span class="preliminary">Preliminary facilities</span><span class="community">Community-reported locations</span></div></div>
-      <aside><strong>15</strong><span>published state profiles</span></aside>
+      <div><p class="eyebrow">Nationwide state intelligence</p><h1>Find your state's power grid</h1><p>Search all 50 states and Washington, D.C., compare infrastructure signals, and move from official statewide totals to the facilities behind the numbers.</p><div class="data-status"><span class="final">Nationwide final totals</span><span class="preliminary">Preliminary facilities</span><span class="community">Community-reported locations</span></div></div>
+      <aside><strong>51</strong><span>published state profiles</span></aside>
     </section>
     <section class="directory-metrics">
-      <article><span>Profiled capacity</span><strong>775,742 MW</strong><small>Final EIA-860 2024</small></article>
-      <article><span>Power plants</span><strong>8,605</strong><small>Across published profiles</small></article>
-      <article><span>Community-mapped locations</span><strong>611</strong><small>Incomplete OpenStreetMap coverage</small></article>
+      <article><span>Profiled capacity</span><strong>1,324,741 MW</strong><small>Final EIA-860 2024</small></article>
+      <article><span>Power plants</span><strong>15,082</strong><small>Across published profiles</small></article>
+      <article><span>Community-mapped locations</span><strong>749</strong><small>Incomplete OpenStreetMap coverage</small></article>
     </section>
     <section class="directory-toolbar" aria-label="State directory controls">
       <label><span>Search states</span><input id="state-search" type="search" placeholder="State name or abbreviation" autocomplete="off"></label>
       <label><span>Sort profiles</span><select id="state-sort"><option value="name">State name</option><option value="capacity">Operating capacity</option><option value="proposed">Proposed capacity</option><option value="centers">Mapped data centers</option><option value="renewable">Renewable share</option></select></label>
-      <p id="directory-count">Showing 15 profiles</p>
+      <p id="directory-count">Showing 51 profiles</p>
     </section>
-    <section id="state-grid" class="directory-grid"><article class="directory-card" data-name="virginia va" data-capacity="30798.1" data-proposed="7713.8" data-centers="154" data-renewable="30.7">
-      <div class="directory-card-top"><span>VA</span><label><input type="checkbox" value="VA"> Compare</label></div>
-      <a href="/states/virginia/">
-        <h2>Virginia</h2>
-        <p><i style="background:#ff6257"></i>Oil & gas leads at 52.2%</p>
+    <section id="state-grid" class="directory-grid"><article class="directory-card" data-name="alabama al" data-capacity="32810.4" data-proposed="1590.8" data-centers="4" data-renewable="14.2">
+      <div class="directory-card-top"><span>AL <b>Official totals</b></span><label><input type="checkbox" value="AL"> Compare</label></div>
+      <a href="/states/alabama/">
+        <h2>Alabama</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 53.5%</p>
         <dl>
-          <div><dt>Capacity</dt><dd>30,798 MW</dd></div>
-          <div><dt>Plants</dt><dd>296</dd></div>
-          <div><dt>Proposed</dt><dd>7,714 MW</dd></div>
-          <div><dt>Community locations</dt><dd>154</dd></div>
+          <div><dt>Capacity</dt><dd>32,810 MW</dd></div>
+          <div><dt>Plants</dt><dd>92</dd></div>
+          <div><dt>Proposed</dt><dd>1,591 MW</dd></div>
+          <div><dt>Community locations</dt><dd>4</dd></div>
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
-    </article><article class="directory-card" data-name="texas tx" data-capacity="179581.2" data-proposed="88938.7" data-centers="52" data-renewable="36.7">
-      <div class="directory-card-top"><span>TX</span><label><input type="checkbox" value="TX"> Compare</label></div>
-      <a href="/states/texas/">
-        <h2>Texas</h2>
-        <p><i style="background:#ff6257"></i>Oil & gas leads at 46.2%</p>
+    </article><article class="directory-card" data-name="alaska ak" data-capacity="3107.4" data-proposed="32.3" data-centers="0" data-renewable="18">
+      <div class="directory-card-top"><span>AK <b>Official totals</b></span><label><input type="checkbox" value="AK"> Compare</label></div>
+      <a href="/states/alaska/">
+        <h2>Alaska</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 71.6%</p>
         <dl>
-          <div><dt>Capacity</dt><dd>179,581 MW</dd></div>
-          <div><dt>Plants</dt><dd>1,264</dd></div>
-          <div><dt>Proposed</dt><dd>88,939 MW</dd></div>
-          <div><dt>Community locations</dt><dd>52</dd></div>
-        </dl>
-        <strong>Open grid profile &rarr;</strong>
-      </a>
-    </article><article class="directory-card" data-name="california ca" data-capacity="101974.8" data-proposed="21042.4" data-centers="72" data-renewable="45.8">
-      <div class="directory-card-top"><span>CA</span><label><input type="checkbox" value="CA"> Compare</label></div>
-      <a href="/states/california/">
-        <h2>California</h2>
-        <p><i style="background:#ff6257"></i>Oil & gas leads at 40.2%</p>
-        <dl>
-          <div><dt>Capacity</dt><dd>101,975 MW</dd></div>
-          <div><dt>Plants</dt><dd>1,990</dd></div>
-          <div><dt>Proposed</dt><dd>21,042 MW</dd></div>
-          <div><dt>Community locations</dt><dd>72</dd></div>
-        </dl>
-        <strong>Open grid profile &rarr;</strong>
-      </a>
-    </article><article class="directory-card" data-name="pennsylvania pa" data-capacity="52838.4" data-proposed="7074.2" data-centers="8" data-renewable="10.1">
-      <div class="directory-card-top"><span>PA</span><label><input type="checkbox" value="PA"> Compare</label></div>
-      <a href="/states/pennsylvania/">
-        <h2>Pennsylvania</h2>
-        <p><i style="background:#ff6257"></i>Oil & gas leads at 58.2%</p>
-        <dl>
-          <div><dt>Capacity</dt><dd>52,838 MW</dd></div>
-          <div><dt>Plants</dt><dd>297</dd></div>
-          <div><dt>Proposed</dt><dd>7,074 MW</dd></div>
-          <div><dt>Community locations</dt><dd>8</dd></div>
+          <div><dt>Capacity</dt><dd>3,107 MW</dd></div>
+          <div><dt>Plants</dt><dd>154</dd></div>
+          <div><dt>Proposed</dt><dd>32 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
     </article><article class="directory-card" data-name="arizona az" data-capacity="36344.9" data-proposed="17521.4" data-centers="41" data-renewable="26.2">
-      <div class="directory-card-top"><span>AZ</span><label><input type="checkbox" value="AZ"> Compare</label></div>
+      <div class="directory-card-top"><span>AZ <b>Official totals</b></span><label><input type="checkbox" value="AZ"> Compare</label></div>
       <a href="/states/arizona/">
         <h2>Arizona</h2>
         <p><i style="background:#ff6257"></i>Oil & gas leads at 47.5%</p>
@@ -99,21 +73,73 @@
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
-    </article><article class="directory-card" data-name="new york ny" data-capacity="44066.7" data-proposed="8550.3" data-centers="29" data-renewable="27.1">
-      <div class="directory-card-top"><span>NY</span><label><input type="checkbox" value="NY"> Compare</label></div>
-      <a href="/states/new-york/">
-        <h2>New York</h2>
-        <p><i style="background:#ff6257"></i>Oil & gas leads at 64.7%</p>
+    </article><article class="directory-card" data-name="arkansas ar" data-capacity="17922.3" data-proposed="1928.6" data-centers="1" data-renewable="19.1">
+      <div class="directory-card-top"><span>AR <b>Official totals</b></span><label><input type="checkbox" value="AR"> Compare</label></div>
+      <a href="/states/arkansas/">
+        <h2>Arkansas</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 39.8%</p>
         <dl>
-          <div><dt>Capacity</dt><dd>44,067 MW</dd></div>
-          <div><dt>Plants</dt><dd>1,180</dd></div>
-          <div><dt>Proposed</dt><dd>8,550 MW</dd></div>
-          <div><dt>Community locations</dt><dd>29</dd></div>
+          <div><dt>Capacity</dt><dd>17,922 MW</dd></div>
+          <div><dt>Plants</dt><dd>134</dd></div>
+          <div><dt>Proposed</dt><dd>1,929 MW</dd></div>
+          <div><dt>Community locations</dt><dd>1</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="california ca" data-capacity="101974.8" data-proposed="21042.4" data-centers="72" data-renewable="45.8">
+      <div class="directory-card-top"><span>CA <b>Official totals</b></span><label><input type="checkbox" value="CA"> Compare</label></div>
+      <a href="/states/california/">
+        <h2>California</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 40.2%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>101,975 MW</dd></div>
+          <div><dt>Plants</dt><dd>1,990</dd></div>
+          <div><dt>Proposed</dt><dd>21,042 MW</dd></div>
+          <div><dt>Community locations</dt><dd>72</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="colorado co" data-capacity="21646.7" data-proposed="5402.1" data-centers="16" data-renewable="41.4">
+      <div class="directory-card-top"><span>CO <b>Official totals</b></span><label><input type="checkbox" value="CO"> Compare</label></div>
+      <a href="/states/colorado/">
+        <h2>Colorado</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 37.5%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>21,647 MW</dd></div>
+          <div><dt>Plants</dt><dd>330</dd></div>
+          <div><dt>Proposed</dt><dd>5,402 MW</dd></div>
+          <div><dt>Community locations</dt><dd>16</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="connecticut ct" data-capacity="10827.9" data-proposed="799.2" data-centers="4" data-renewable="5.9">
+      <div class="directory-card-top"><span>CT <b>Official totals</b></span><label><input type="checkbox" value="CT"> Compare</label></div>
+      <a href="/states/connecticut/">
+        <h2>Connecticut</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 73.2%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>10,828 MW</dd></div>
+          <div><dt>Plants</dt><dd>190</dd></div>
+          <div><dt>Proposed</dt><dd>799 MW</dd></div>
+          <div><dt>Community locations</dt><dd>4</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="delaware de" data-capacity="3448.7" data-proposed="185.5" data-centers="0" data-renewable="3.3">
+      <div class="directory-card-top"><span>DE <b>Official totals</b></span><label><input type="checkbox" value="DE"> Compare</label></div>
+      <a href="/states/delaware/">
+        <h2>Delaware</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 83.8%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>3,449 MW</dd></div>
+          <div><dt>Plants</dt><dd>41</dd></div>
+          <div><dt>Proposed</dt><dd>186 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
     </article><article class="directory-card" data-name="florida fl" data-capacity="77937.3" data-proposed="4373.6" data-centers="10" data-renewable="15.6">
-      <div class="directory-card-top"><span>FL</span><label><input type="checkbox" value="FL"> Compare</label></div>
+      <div class="directory-card-top"><span>FL <b>Official totals</b></span><label><input type="checkbox" value="FL"> Compare</label></div>
       <a href="/states/florida/">
         <h2>Florida</h2>
         <p><i style="background:#ff6257"></i>Oil & gas leads at 73.6%</p>
@@ -125,34 +151,8 @@
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
-    </article><article class="directory-card" data-name="illinois il" data-capacity="50525.6" data-proposed="7190.2" data-centers="37" data-renewable="21.7">
-      <div class="directory-card-top"><span>IL</span><label><input type="checkbox" value="IL"> Compare</label></div>
-      <a href="/states/illinois/">
-        <h2>Illinois</h2>
-        <p><i style="background:#ff6257"></i>Oil & gas leads at 38.7%</p>
-        <dl>
-          <div><dt>Capacity</dt><dd>50,526 MW</dd></div>
-          <div><dt>Plants</dt><dd>532</dd></div>
-          <div><dt>Proposed</dt><dd>7,190 MW</dd></div>
-          <div><dt>Community locations</dt><dd>37</dd></div>
-        </dl>
-        <strong>Open grid profile &rarr;</strong>
-      </a>
-    </article><article class="directory-card" data-name="ohio oh" data-capacity="33145.1" data-proposed="5444.5" data-centers="12" data-renewable="13.8">
-      <div class="directory-card-top"><span>OH</span><label><input type="checkbox" value="OH"> Compare</label></div>
-      <a href="/states/ohio/">
-        <h2>Ohio</h2>
-        <p><i style="background:#ff6257"></i>Oil & gas leads at 57.9%</p>
-        <dl>
-          <div><dt>Capacity</dt><dd>33,145 MW</dd></div>
-          <div><dt>Plants</dt><dd>234</dd></div>
-          <div><dt>Proposed</dt><dd>5,445 MW</dd></div>
-          <div><dt>Community locations</dt><dd>12</dd></div>
-        </dl>
-        <strong>Open grid profile &rarr;</strong>
-      </a>
     </article><article class="directory-card" data-name="georgia ga" data-capacity="42546.3" data-proposed="8219.9" data-centers="19" data-renewable="22.8">
-      <div class="directory-card-top"><span>GA</span><label><input type="checkbox" value="GA"> Compare</label></div>
+      <div class="directory-card-top"><span>GA <b>Official totals</b></span><label><input type="checkbox" value="GA"> Compare</label></div>
       <a href="/states/georgia/">
         <h2>Georgia</h2>
         <p><i style="background:#ff6257"></i>Oil & gas leads at 46.8%</p>
@@ -164,47 +164,229 @@
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
-    </article><article class="directory-card" data-name="north carolina nc" data-capacity="39630.5" data-proposed="1641.8" data-centers="10" data-renewable="24.2">
-      <div class="directory-card-top"><span>NC</span><label><input type="checkbox" value="NC"> Compare</label></div>
-      <a href="/states/north-carolina/">
-        <h2>North Carolina</h2>
-        <p><i style="background:#ff6257"></i>Oil & gas leads at 46.8%</p>
+    </article><article class="directory-card" data-name="hawaii hi" data-capacity="3598.5" data-proposed="419.8" data-centers="0" data-renewable="26.5">
+      <div class="directory-card-top"><span>HI <b>Official totals</b></span><label><input type="checkbox" value="HI"> Compare</label></div>
+      <a href="/states/hawaii/">
+        <h2>Hawaii</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 61.5%</p>
         <dl>
-          <div><dt>Capacity</dt><dd>39,631 MW</dd></div>
-          <div><dt>Plants</dt><dd>945</dd></div>
-          <div><dt>Proposed</dt><dd>1,642 MW</dd></div>
-          <div><dt>Community locations</dt><dd>10</dd></div>
+          <div><dt>Capacity</dt><dd>3,599 MW</dd></div>
+          <div><dt>Plants</dt><dd>80</dd></div>
+          <div><dt>Proposed</dt><dd>420 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
-    </article><article class="directory-card" data-name="washington wa" data-capacity="31660.6" data-proposed="4621" data-centers="22" data-renewable="81">
-      <div class="directory-card-top"><span>WA</span><label><input type="checkbox" value="WA"> Compare</label></div>
-      <a href="/states/washington/">
-        <h2>Washington</h2>
-        <p><i style="background:#4cc9f0"></i>Hydro leads at 68.6%</p>
+    </article><article class="directory-card" data-name="idaho id" data-capacity="5811.8" data-proposed="1320.5" data-centers="1" data-renewable="77.4">
+      <div class="directory-card-top"><span>ID <b>Official totals</b></span><label><input type="checkbox" value="ID"> Compare</label></div>
+      <a href="/states/idaho/">
+        <h2>Idaho</h2>
+        <p><i style="background:#4cc9f0"></i>Hydro leads at 46.4%</p>
         <dl>
-          <div><dt>Capacity</dt><dd>31,661 MW</dd></div>
-          <div><dt>Plants</dt><dd>155</dd></div>
-          <div><dt>Proposed</dt><dd>4,621 MW</dd></div>
-          <div><dt>Community locations</dt><dd>22</dd></div>
+          <div><dt>Capacity</dt><dd>5,812 MW</dd></div>
+          <div><dt>Plants</dt><dd>157</dd></div>
+          <div><dt>Proposed</dt><dd>1,321 MW</dd></div>
+          <div><dt>Community locations</dt><dd>1</dd></div>
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
-    </article><article class="directory-card" data-name="oregon or" data-capacity="18441.5" data-proposed="8731" data-centers="111" data-renewable="74.6">
-      <div class="directory-card-top"><span>OR</span><label><input type="checkbox" value="OR"> Compare</label></div>
-      <a href="/states/oregon/">
-        <h2>Oregon</h2>
-        <p><i style="background:#4cc9f0"></i>Hydro leads at 45.3%</p>
+    </article><article class="directory-card" data-name="illinois il" data-capacity="50525.6" data-proposed="7190.2" data-centers="37" data-renewable="21.7">
+      <div class="directory-card-top"><span>IL <b>Official totals</b></span><label><input type="checkbox" value="IL"> Compare</label></div>
+      <a href="/states/illinois/">
+        <h2>Illinois</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 38.7%</p>
         <dl>
-          <div><dt>Capacity</dt><dd>18,442 MW</dd></div>
-          <div><dt>Plants</dt><dd>309</dd></div>
-          <div><dt>Proposed</dt><dd>8,731 MW</dd></div>
-          <div><dt>Community locations</dt><dd>111</dd></div>
+          <div><dt>Capacity</dt><dd>50,526 MW</dd></div>
+          <div><dt>Plants</dt><dd>532</dd></div>
+          <div><dt>Proposed</dt><dd>7,190 MW</dd></div>
+          <div><dt>Community locations</dt><dd>37</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="indiana in" data-capacity="30547.3" data-proposed="7337.2" data-centers="3" data-renewable="20.6">
+      <div class="directory-card-top"><span>IN <b>Official totals</b></span><label><input type="checkbox" value="IN"> Compare</label></div>
+      <a href="/states/indiana/">
+        <h2>Indiana</h2>
+        <p><i style="background:#8d99ae"></i>Coal leads at 46.5%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>30,547 MW</dd></div>
+          <div><dt>Plants</dt><dd>247</dd></div>
+          <div><dt>Proposed</dt><dd>7,337 MW</dd></div>
+          <div><dt>Community locations</dt><dd>3</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="iowa ia" data-capacity="24421.4" data-proposed="633" data-centers="9" data-renewable="56.9">
+      <div class="directory-card-top"><span>IA <b>Official totals</b></span><label><input type="checkbox" value="IA"> Compare</label></div>
+      <a href="/states/iowa/">
+        <h2>Iowa</h2>
+        <p><i style="background:#86a8ff"></i>Wind leads at 53.3%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>24,421 MW</dd></div>
+          <div><dt>Plants</dt><dd>306</dd></div>
+          <div><dt>Proposed</dt><dd>633 MW</dd></div>
+          <div><dt>Community locations</dt><dd>9</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="kansas ks" data-capacity="20555.5" data-proposed="3326.5" data-centers="7" data-renewable="44.7">
+      <div class="directory-card-top"><span>KS <b>Official totals</b></span><label><input type="checkbox" value="KS"> Compare</label></div>
+      <a href="/states/kansas/">
+        <h2>Kansas</h2>
+        <p><i style="background:#86a8ff"></i>Wind leads at 44.3%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>20,556 MW</dd></div>
+          <div><dt>Plants</dt><dd>197</dd></div>
+          <div><dt>Proposed</dt><dd>3,327 MW</dd></div>
+          <div><dt>Community locations</dt><dd>7</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="kentucky ky" data-capacity="21628.7" data-proposed="3522.8" data-centers="3" data-renewable="7.6">
+      <div class="directory-card-top"><span>KY <b>Official totals</b></span><label><input type="checkbox" value="KY"> Compare</label></div>
+      <a href="/states/kentucky/">
+        <h2>Kentucky</h2>
+        <p><i style="background:#8d99ae"></i>Coal leads at 47.4%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>21,629 MW</dd></div>
+          <div><dt>Plants</dt><dd>79</dd></div>
+          <div><dt>Proposed</dt><dd>3,523 MW</dd></div>
+          <div><dt>Community locations</dt><dd>3</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="louisiana la" data-capacity="28225.1" data-proposed="3602.4" data-centers="0" data-renewable="6.2">
+      <div class="directory-card-top"><span>LA <b>Official totals</b></span><label><input type="checkbox" value="LA"> Compare</label></div>
+      <a href="/states/louisiana/">
+        <h2>Louisiana</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 72.3%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>28,225 MW</dd></div>
+          <div><dt>Plants</dt><dd>111</dd></div>
+          <div><dt>Proposed</dt><dd>3,602 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="maine me" data-capacity="5840.9" data-proposed="955.6" data-centers="2" data-renewable="53.6">
+      <div class="directory-card-top"><span>ME <b>Official totals</b></span><label><input type="checkbox" value="ME"> Compare</label></div>
+      <a href="/states/maine/">
+        <h2>Maine</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 45%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>5,841 MW</dd></div>
+          <div><dt>Plants</dt><dd>256</dd></div>
+          <div><dt>Proposed</dt><dd>956 MW</dd></div>
+          <div><dt>Community locations</dt><dd>2</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="maryland md" data-capacity="12898.8" data-proposed="655.7" data-centers="7" data-renewable="12.2">
+      <div class="directory-card-top"><span>MD <b>Official totals</b></span><label><input type="checkbox" value="MD"> Compare</label></div>
+      <a href="/states/maryland/">
+        <h2>Maryland</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 62.7%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>12,899 MW</dd></div>
+          <div><dt>Plants</dt><dd>232</dd></div>
+          <div><dt>Proposed</dt><dd>656 MW</dd></div>
+          <div><dt>Community locations</dt><dd>7</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="massachusetts ma" data-capacity="12757.7" data-proposed="1071.6" data-centers="2" data-renewable="31.3">
+      <div class="directory-card-top"><span>MA <b>Official totals</b></span><label><input type="checkbox" value="MA"> Compare</label></div>
+      <a href="/states/massachusetts/">
+        <h2>Massachusetts</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 66.3%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>12,758 MW</dd></div>
+          <div><dt>Plants</dt><dd>682</dd></div>
+          <div><dt>Proposed</dt><dd>1,072 MW</dd></div>
+          <div><dt>Community locations</dt><dd>2</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="michigan mi" data-capacity="33798.9" data-proposed="4866.4" data-centers="6" data-renewable="23.1">
+      <div class="directory-card-top"><span>MI <b>Official totals</b></span><label><input type="checkbox" value="MI"> Compare</label></div>
+      <a href="/states/michigan/">
+        <h2>Michigan</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 44.6%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>33,799 MW</dd></div>
+          <div><dt>Plants</dt><dd>303</dd></div>
+          <div><dt>Proposed</dt><dd>4,866 MW</dd></div>
+          <div><dt>Community locations</dt><dd>6</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="minnesota mn" data-capacity="19765.6" data-proposed="1260.2" data-centers="8" data-renewable="36.6">
+      <div class="directory-card-top"><span>MN <b>Official totals</b></span><label><input type="checkbox" value="MN"> Compare</label></div>
+      <a href="/states/minnesota/">
+        <h2>Minnesota</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 36.7%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>19,766 MW</dd></div>
+          <div><dt>Plants</dt><dd>807</dd></div>
+          <div><dt>Proposed</dt><dd>1,260 MW</dd></div>
+          <div><dt>Community locations</dt><dd>8</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="mississippi ms" data-capacity="17541.6" data-proposed="2720.1" data-centers="0" data-renewable="9.8">
+      <div class="directory-card-top"><span>MS <b>Official totals</b></span><label><input type="checkbox" value="MS"> Compare</label></div>
+      <a href="/states/mississippi/">
+        <h2>Mississippi</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 72.5%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>17,542 MW</dd></div>
+          <div><dt>Plants</dt><dd>80</dd></div>
+          <div><dt>Proposed</dt><dd>2,720 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="missouri mo" data-capacity="22260.2" data-proposed="4097.5" data-centers="8" data-renewable="18.2">
+      <div class="directory-card-top"><span>MO <b>Official totals</b></span><label><input type="checkbox" value="MO"> Compare</label></div>
+      <a href="/states/missouri/">
+        <h2>Missouri</h2>
+        <p><i style="background:#8d99ae"></i>Coal leads at 40.6%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>22,260 MW</dd></div>
+          <div><dt>Plants</dt><dd>144</dd></div>
+          <div><dt>Proposed</dt><dd>4,098 MW</dd></div>
+          <div><dt>Community locations</dt><dd>8</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="montana mt" data-capacity="7403.5" data-proposed="1820.5" data-centers="0" data-renewable="64.4">
+      <div class="directory-card-top"><span>MT <b>Official totals</b></span><label><input type="checkbox" value="MT"> Compare</label></div>
+      <a href="/states/montana/">
+        <h2>Montana</h2>
+        <p><i style="background:#4cc9f0"></i>Hydro leads at 36.2%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>7,404 MW</dd></div>
+          <div><dt>Plants</dt><dd>77</dd></div>
+          <div><dt>Proposed</dt><dd>1,821 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="nebraska ne" data-capacity="11435.9" data-proposed="2376.9" data-centers="6" data-renewable="35">
+      <div class="directory-card-top"><span>NE <b>Official totals</b></span><label><input type="checkbox" value="NE"> Compare</label></div>
+      <a href="/states/nebraska/">
+        <h2>Nebraska</h2>
+        <p><i style="background:#8d99ae"></i>Coal leads at 34.7%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>11,436 MW</dd></div>
+          <div><dt>Plants</dt><dd>137</dd></div>
+          <div><dt>Proposed</dt><dd>2,377 MW</dd></div>
+          <div><dt>Community locations</dt><dd>6</dd></div>
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
     </article><article class="directory-card" data-name="nevada nv" data-capacity="18204.2" data-proposed="6067.1" data-centers="14" data-renewable="40.8">
-      <div class="directory-card-top"><span>NV</span><label><input type="checkbox" value="NV"> Compare</label></div>
+      <div class="directory-card-top"><span>NV <b>Official totals</b></span><label><input type="checkbox" value="NV"> Compare</label></div>
       <a href="/states/nevada/">
         <h2>Nevada</h2>
         <p><i style="background:#ff6257"></i>Oil & gas leads at 48.5%</p>
@@ -216,8 +398,21 @@
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
+    </article><article class="directory-card" data-name="new hampshire nh" data-capacity="4730.3" data-proposed="0" data-centers="2" data-renewable="21">
+      <div class="directory-card-top"><span>NH <b>Official totals</b></span><label><input type="checkbox" value="NH"> Compare</label></div>
+      <a href="/states/new-hampshire/">
+        <h2>New Hampshire</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 40.6%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>4,730 MW</dd></div>
+          <div><dt>Plants</dt><dd>60</dd></div>
+          <div><dt>Proposed</dt><dd>0 MW</dd></div>
+          <div><dt>Community locations</dt><dd>2</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
     </article><article class="directory-card" data-name="new jersey nj" data-capacity="18047.2" data-proposed="39.4" data-centers="20" data-renewable="10.4">
-      <div class="directory-card-top"><span>NJ</span><label><input type="checkbox" value="NJ"> Compare</label></div>
+      <div class="directory-card-top"><span>NJ <b>Official totals</b></span><label><input type="checkbox" value="NJ"> Compare</label></div>
       <a href="/states/new-jersey/">
         <h2>New Jersey</h2>
         <p><i style="background:#ff6257"></i>Oil & gas leads at 68.7%</p>
@@ -229,12 +424,285 @@
         </dl>
         <strong>Open grid profile &rarr;</strong>
       </a>
+    </article><article class="directory-card" data-name="new mexico nm" data-capacity="12932.3" data-proposed="7832.4" data-centers="14" data-renewable="53.1">
+      <div class="directory-card-top"><span>NM <b>Official totals</b></span><label><input type="checkbox" value="NM"> Compare</label></div>
+      <a href="/states/new-mexico/">
+        <h2>New Mexico</h2>
+        <p><i style="background:#86a8ff"></i>Wind leads at 34.2%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>12,932 MW</dd></div>
+          <div><dt>Plants</dt><dd>168</dd></div>
+          <div><dt>Proposed</dt><dd>7,832 MW</dd></div>
+          <div><dt>Community locations</dt><dd>14</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="new york ny" data-capacity="44066.7" data-proposed="8550.3" data-centers="29" data-renewable="27.1">
+      <div class="directory-card-top"><span>NY <b>Official totals</b></span><label><input type="checkbox" value="NY"> Compare</label></div>
+      <a href="/states/new-york/">
+        <h2>New York</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 64.7%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>44,067 MW</dd></div>
+          <div><dt>Plants</dt><dd>1,180</dd></div>
+          <div><dt>Proposed</dt><dd>8,550 MW</dd></div>
+          <div><dt>Community locations</dt><dd>29</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="north carolina nc" data-capacity="39630.5" data-proposed="1641.8" data-centers="10" data-renewable="24.2">
+      <div class="directory-card-top"><span>NC <b>Official totals</b></span><label><input type="checkbox" value="NC"> Compare</label></div>
+      <a href="/states/north-carolina/">
+        <h2>North Carolina</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 46.8%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>39,631 MW</dd></div>
+          <div><dt>Plants</dt><dd>945</dd></div>
+          <div><dt>Proposed</dt><dd>1,642 MW</dd></div>
+          <div><dt>Community locations</dt><dd>10</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="north dakota nd" data-capacity="10162.4" data-proposed="2867.3" data-centers="1" data-renewable="50.4">
+      <div class="directory-card-top"><span>ND <b>Official totals</b></span><label><input type="checkbox" value="ND"> Compare</label></div>
+      <a href="/states/north-dakota/">
+        <h2>North Dakota</h2>
+        <p><i style="background:#86a8ff"></i>Wind leads at 44.6%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>10,162 MW</dd></div>
+          <div><dt>Plants</dt><dd>64</dd></div>
+          <div><dt>Proposed</dt><dd>2,867 MW</dd></div>
+          <div><dt>Community locations</dt><dd>1</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="ohio oh" data-capacity="33145.1" data-proposed="5444.5" data-centers="12" data-renewable="13.8">
+      <div class="directory-card-top"><span>OH <b>Official totals</b></span><label><input type="checkbox" value="OH"> Compare</label></div>
+      <a href="/states/ohio/">
+        <h2>Ohio</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 57.9%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>33,145 MW</dd></div>
+          <div><dt>Plants</dt><dd>234</dd></div>
+          <div><dt>Proposed</dt><dd>5,445 MW</dd></div>
+          <div><dt>Community locations</dt><dd>12</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="oklahoma ok" data-capacity="34436.8" data-proposed="3589.9" data-centers="4" data-renewable="40.9">
+      <div class="directory-card-top"><span>OK <b>Official totals</b></span><label><input type="checkbox" value="OK"> Compare</label></div>
+      <a href="/states/oklahoma/">
+        <h2>Oklahoma</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 48.7%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>34,437 MW</dd></div>
+          <div><dt>Plants</dt><dd>154</dd></div>
+          <div><dt>Proposed</dt><dd>3,590 MW</dd></div>
+          <div><dt>Community locations</dt><dd>4</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="oregon or" data-capacity="18441.5" data-proposed="8731" data-centers="111" data-renewable="74.6">
+      <div class="directory-card-top"><span>OR <b>Official totals</b></span><label><input type="checkbox" value="OR"> Compare</label></div>
+      <a href="/states/oregon/">
+        <h2>Oregon</h2>
+        <p><i style="background:#4cc9f0"></i>Hydro leads at 45.3%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>18,442 MW</dd></div>
+          <div><dt>Plants</dt><dd>309</dd></div>
+          <div><dt>Proposed</dt><dd>8,731 MW</dd></div>
+          <div><dt>Community locations</dt><dd>111</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="pennsylvania pa" data-capacity="52838.4" data-proposed="7074.2" data-centers="8" data-renewable="10.1">
+      <div class="directory-card-top"><span>PA <b>Official totals</b></span><label><input type="checkbox" value="PA"> Compare</label></div>
+      <a href="/states/pennsylvania/">
+        <h2>Pennsylvania</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 58.2%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>52,838 MW</dd></div>
+          <div><dt>Plants</dt><dd>297</dd></div>
+          <div><dt>Proposed</dt><dd>7,074 MW</dd></div>
+          <div><dt>Community locations</dt><dd>8</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="rhode island ri" data-capacity="2505.8" data-proposed="731.3" data-centers="0" data-renewable="21.7">
+      <div class="directory-card-top"><span>RI <b>Official totals</b></span><label><input type="checkbox" value="RI"> Compare</label></div>
+      <a href="/states/rhode-island/">
+        <h2>Rhode Island</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 78.1%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>2,506 MW</dd></div>
+          <div><dt>Plants</dt><dd>108</dd></div>
+          <div><dt>Proposed</dt><dd>731 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="south carolina sc" data-capacity="26838.2" data-proposed="2422.2" data-centers="1" data-renewable="24.4">
+      <div class="directory-card-top"><span>SC <b>Official totals</b></span><label><input type="checkbox" value="SC"> Compare</label></div>
+      <a href="/states/south-carolina/">
+        <h2>South Carolina</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 30.4%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>26,838 MW</dd></div>
+          <div><dt>Plants</dt><dd>238</dd></div>
+          <div><dt>Proposed</dt><dd>2,422 MW</dd></div>
+          <div><dt>Community locations</dt><dd>1</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="south dakota sd" data-capacity="7661.4" data-proposed="136.5" data-centers="1" data-renewable="69.4">
+      <div class="directory-card-top"><span>SD <b>Official totals</b></span><label><input type="checkbox" value="SD"> Compare</label></div>
+      <a href="/states/south-dakota/">
+        <h2>South Dakota</h2>
+        <p><i style="background:#86a8ff"></i>Wind leads at 45.1%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>7,661 MW</dd></div>
+          <div><dt>Plants</dt><dd>54</dd></div>
+          <div><dt>Proposed</dt><dd>137 MW</dd></div>
+          <div><dt>Community locations</dt><dd>1</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="tennessee tn" data-capacity="23357" data-proposed="5294.5" data-centers="7" data-renewable="21">
+      <div class="directory-card-top"><span>TN <b>Official totals</b></span><label><input type="checkbox" value="TN"> Compare</label></div>
+      <a href="/states/tennessee/">
+        <h2>Tennessee</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 33.4%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>23,357 MW</dd></div>
+          <div><dt>Plants</dt><dd>117</dd></div>
+          <div><dt>Proposed</dt><dd>5,295 MW</dd></div>
+          <div><dt>Community locations</dt><dd>7</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="texas tx" data-capacity="179581.2" data-proposed="88938.7" data-centers="52" data-renewable="36.7">
+      <div class="directory-card-top"><span>TX <b>Official totals</b></span><label><input type="checkbox" value="TX"> Compare</label></div>
+      <a href="/states/texas/">
+        <h2>Texas</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 46.2%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>179,581 MW</dd></div>
+          <div><dt>Plants</dt><dd>1,264</dd></div>
+          <div><dt>Proposed</dt><dd>88,939 MW</dd></div>
+          <div><dt>Community locations</dt><dd>52</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="utah ut" data-capacity="10686.4" data-proposed="5615.7" data-centers="11" data-renewable="27.6">
+      <div class="directory-card-top"><span>UT <b>Official totals</b></span><label><input type="checkbox" value="UT"> Compare</label></div>
+      <a href="/states/utah/">
+        <h2>Utah</h2>
+        <p><i style="background:#8d99ae"></i>Coal leads at 43.8%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>10,686 MW</dd></div>
+          <div><dt>Plants</dt><dd>140</dd></div>
+          <div><dt>Proposed</dt><dd>5,616 MW</dd></div>
+          <div><dt>Community locations</dt><dd>11</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="vermont vt" data-capacity="912.3" data-proposed="72" data-centers="0" data-renewable="79.4">
+      <div class="directory-card-top"><span>VT <b>Official totals</b></span><label><input type="checkbox" value="VT"> Compare</label></div>
+      <a href="/states/vermont/">
+        <h2>Vermont</h2>
+        <p><i style="background:#4cc9f0"></i>Hydro leads at 35.9%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>912 MW</dd></div>
+          <div><dt>Plants</dt><dd>121</dd></div>
+          <div><dt>Proposed</dt><dd>72 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="virginia va" data-capacity="30798.1" data-proposed="7713.8" data-centers="154" data-renewable="30.7">
+      <div class="directory-card-top"><span>VA <b>Official totals</b></span><label><input type="checkbox" value="VA"> Compare</label></div>
+      <a href="/states/virginia/">
+        <h2>Virginia</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 52.2%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>30,798 MW</dd></div>
+          <div><dt>Plants</dt><dd>296</dd></div>
+          <div><dt>Proposed</dt><dd>7,714 MW</dd></div>
+          <div><dt>Community locations</dt><dd>154</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="washington wa" data-capacity="31660.6" data-proposed="4621" data-centers="22" data-renewable="81">
+      <div class="directory-card-top"><span>WA <b>Official totals</b></span><label><input type="checkbox" value="WA"> Compare</label></div>
+      <a href="/states/washington/">
+        <h2>Washington</h2>
+        <p><i style="background:#4cc9f0"></i>Hydro leads at 68.6%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>31,661 MW</dd></div>
+          <div><dt>Plants</dt><dd>155</dd></div>
+          <div><dt>Proposed</dt><dd>4,621 MW</dd></div>
+          <div><dt>Community locations</dt><dd>22</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="west virginia wv" data-capacity="15878.6" data-proposed="845.6" data-centers="2" data-renewable="8.6">
+      <div class="directory-card-top"><span>WV <b>Official totals</b></span><label><input type="checkbox" value="WV"> Compare</label></div>
+      <a href="/states/west-virginia/">
+        <h2>West Virginia</h2>
+        <p><i style="background:#8d99ae"></i>Coal leads at 82.3%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>15,879 MW</dd></div>
+          <div><dt>Plants</dt><dd>49</dd></div>
+          <div><dt>Proposed</dt><dd>846 MW</dd></div>
+          <div><dt>Community locations</dt><dd>2</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="wisconsin wi" data-capacity="18820.5" data-proposed="2709.7" data-centers="6" data-renewable="20.2">
+      <div class="directory-card-top"><span>WI <b>Official totals</b></span><label><input type="checkbox" value="WI"> Compare</label></div>
+      <a href="/states/wisconsin/">
+        <h2>Wisconsin</h2>
+        <p><i style="background:#ff6257"></i>Oil & gas leads at 46.3%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>18,821 MW</dd></div>
+          <div><dt>Plants</dt><dd>266</dd></div>
+          <div><dt>Proposed</dt><dd>2,710 MW</dd></div>
+          <div><dt>Community locations</dt><dd>6</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="wyoming wy" data-capacity="11755.1" data-proposed="8211.7" data-centers="2" data-renewable="36.3">
+      <div class="directory-card-top"><span>WY <b>Official totals</b></span><label><input type="checkbox" value="WY"> Compare</label></div>
+      <a href="/states/wyoming/">
+        <h2>Wyoming</h2>
+        <p><i style="background:#8d99ae"></i>Coal leads at 47%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>11,755 MW</dd></div>
+          <div><dt>Plants</dt><dd>81</dd></div>
+          <div><dt>Proposed</dt><dd>8,212 MW</dd></div>
+          <div><dt>Community locations</dt><dd>2</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
+    </article><article class="directory-card" data-name="washington, d.c. dc" data-capacity="66.2" data-proposed="7" data-centers="0" data-renewable="65.4">
+      <div class="directory-card-top"><span>DC <b>Official totals</b></span><label><input type="checkbox" value="DC"> Compare</label></div>
+      <a href="/states/washington-dc/">
+        <h2>Washington, D.C.</h2>
+        <p><i style="background:#ffbe3d"></i>Solar leads at 44.1%</p>
+        <dl>
+          <div><dt>Capacity</dt><dd>66 MW</dd></div>
+          <div><dt>Plants</dt><dd>21</dd></div>
+          <div><dt>Proposed</dt><dd>7 MW</dd></div>
+          <div><dt>Community locations</dt><dd>0</dd></div>
+        </dl>
+        <strong>Open grid profile &rarr;</strong>
+      </a>
     </article></section>
     <div id="compare-dock" class="compare-dock" hidden><div><strong id="compare-count">0 states selected</strong><span id="compare-message">Select 2 to 4 states</span></div><button id="clear-comparison" type="button">Clear</button><button id="open-comparison" type="button" disabled>Compare states</button></div>
-    <section class="method directory-method"><div><p class="eyebrow">Coverage</p><h2>Built for useful comparisons</h2></div><p>Profiles combine finalized EIA-860 2024 state totals, preliminary 2025 facility records, and community-reported OpenStreetMap data-center locations. Published coverage is expanding in reviewed groups so every page contains meaningful state-specific context.</p><a href="https://www.eia.gov/electricity/data/eia860/">Review EIA methodology</a></section>
+    <section class="method directory-method"><div><p class="eyebrow">Coverage</p><h2>Nationwide with quality gates</h2></div><p>Every published profile must contain finalized EIA-860 2024 state totals and matching nationwide facility records. Preliminary facilities and incomplete community-reported data centers are labeled separately so their limitations remain visible.</p><a href="/methodology/">Review methodology</a></section>
   </main>
   <footer class="site-footer">
-    <div><strong>US Grid Explorer</strong><span>15 published state profiles</span></div>
+    <div><strong>US Grid Explorer</strong><span>51 published state profiles</span></div>
     <nav aria-label="Trust and policy links">
       <a href="/about/">About</a>
       <a href="/methodology/">Methodology</a>

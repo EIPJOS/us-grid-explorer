@@ -7,7 +7,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(root, "public");
 const outputDir = path.join(publicDir, "states");
 
-const profiles = {
+const curatedProfiles = {
   VA: { name: "Virginia", slug: "virginia", context: "Virginia connects a large natural-gas fleet with nuclear, hydro, and rapidly expanded solar capacity. Its mapped data-center footprint makes the relationship between electricity supply and concentrated digital demand especially visible." },
   TX: { name: "Texas", slug: "texas", context: "Texas operates the country's largest state power system by nameplate capacity in this dataset. Natural gas remains its largest resource while wind, solar, and storage make the state one of the most varied generation portfolios to explore." },
   CA: { name: "California", slug: "california", context: "California combines a large natural-gas fleet with substantial solar, hydro, storage, wind, and geothermal capacity. The result is a diverse system where resource mix and flexibility matter as much as the total capacity number." },
@@ -24,6 +24,25 @@ const profiles = {
   NV: { name: "Nevada", slug: "nevada", context: "Nevada combines natural gas with a large and growing solar fleet, plus storage, hydro, and geothermal resources. Its proposed pipeline is sizeable compared with today's operating capacity." },
   NJ: { name: "New Jersey", slug: "new-jersey", context: "New Jersey's operating portfolio is dominated by natural gas, with nuclear providing most of the remaining large-scale capacity. Solar is widely distributed across a relatively large number of mapped facilities." }
 };
+
+const stateNames = {
+  AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+  CO: "Colorado", CT: "Connecticut", DE: "Delaware", FL: "Florida", GA: "Georgia",
+  HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa",
+  KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland",
+  MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri",
+  MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+  NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio",
+  OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
+  SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont",
+  VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
+  DC: "Washington, D.C."
+};
+
+const profiles = Object.fromEntries(Object.entries(stateNames).map(([code, name]) => [
+  code,
+  curatedProfiles[code] ?? { name, slug: slugify(name) }
+]));
 
 const fuelLabels = {
   oil_gas: "Oil & gas", coal: "Coal", nuclear: "Nuclear", wind: "Wind",
@@ -49,6 +68,7 @@ await mkdir(outputDir, { recursive: true });
 const directoryStates = Object.entries(profiles).map(([code, profile]) => {
   const state = analysisPayload.states.find((entry) => entry.state === code);
   if (!state) throw new Error(`Missing state analysis for ${code}`);
+  validateStateProfile(code, state);
   const dataCenterCount = centerPayload.features.filter((center) => center.properties.state === code).length;
   return { code, profile, state, dataCenterCount };
 });
@@ -88,6 +108,8 @@ function renderPage({ code, profile, state, plants, dataCenterCount }) {
   const canonical = `${siteUrl}/states/${profile.slug}/`;
   const title = `${profile.name} Power Grid: Plants, Capacity & Fuel Mix`;
   const description = `Explore ${profile.name}'s ${formatMw(state.operatingCapacityMw)} of operating power capacity, ${state.plantCount.toLocaleString()} plants, fuel mix, largest facilities, and mapped data centers.`;
+  const context = profile.context ?? generatedContext(profile.name, state, fuels);
+  const relatedProfiles = relatedStates(code);
 
   return `<!doctype html>
 <html lang="en">
@@ -124,7 +146,7 @@ ${renderAnalyticsScript()}
       <div>
         <p class="eyebrow">${code} &middot; State grid profile</p>
         <h1>${profile.name} power grid</h1>
-        <p class="lede">${profile.context}</p>
+        <p class="lede">${context}</p>
         <div class="data-status"><span class="final">Final 2024 state totals</span><span class="preliminary">Preliminary 2025 facilities</span><span class="community">Community-reported data centers</span></div>
         <div class="hero-actions"><a class="primary" href="/?view=analysis&amp;state=${code}">Compare ${profile.name}</a><a href="/">Open national map</a></div>
       </div>
@@ -136,6 +158,13 @@ ${renderAnalyticsScript()}
       ${metric("Power plants", state.plantCount.toLocaleString(), `${state.operatingGenerators.toLocaleString()} operating generators`)}
       ${metric("Proposed capacity", formatMw(state.proposedCapacityMw), `${proposedShare}% of current capacity`)}
       ${metric("Community-mapped locations", dataCenterCount.toLocaleString(), "Incomplete OpenStreetMap coverage")}
+    </section>
+
+    <section class="quality-gates" aria-label="Profile coverage quality">
+      <div><p class="eyebrow">Coverage quality</p><h2>What is complete here?</h2></div>
+      ${qualityGate("State totals", "Pass", "Final 2024 EIA-860 generator records cover the state.", "pass")}
+      ${qualityGate("Facility list", "Pass", "2025 Early Release records are nationwide but preliminary.", "pass")}
+      ${qualityGate("Data centers", "Limited", "Community mapping is useful for discovery, not a complete inventory.", "limited")}
     </section>
 
     <section class="content-grid">
@@ -162,8 +191,8 @@ ${renderAnalyticsScript()}
     </section>
 
     <section class="profile-links">
-      <div><p class="eyebrow">Keep exploring</p><h2>Compare another state</h2></div>
-      ${Object.entries(profiles).filter(([otherCode]) => otherCode !== code).map(([otherCode, other]) => `<a href="/states/${other.slug}/"><span>${otherCode}</span><strong>${other.name}</strong><b>View profile &rarr;</b></a>`).join("")}
+      <div><p class="eyebrow">Keep exploring</p><h2>Compare another state</h2><a class="all-states-link" href="/states/">Browse all ${Object.keys(profiles).length} profiles &rarr;</a></div>
+      ${relatedProfiles.map(([otherCode, other]) => `<a href="/states/${other.slug}/"><span>${otherCode}</span><strong>${other.name}</strong><b>View profile &rarr;</b></a>`).join("")}
     </section>
 
     <section class="method" id="methodology">
@@ -199,7 +228,7 @@ function renderDirectory(states) {
     const [dominantFuel, dominantCapacity] = fuels[0];
     const cleanCapacity = renewableCapacity(state);
     return `<article class="directory-card" data-name="${profile.name.toLowerCase()} ${code.toLowerCase()}" data-capacity="${state.operatingCapacityMw}" data-proposed="${state.proposedCapacityMw}" data-centers="${dataCenterCount}" data-renewable="${percent(cleanCapacity, state.operatingCapacityMw)}">
-      <div class="directory-card-top"><span>${code}</span><label><input type="checkbox" value="${code}"> Compare</label></div>
+      <div class="directory-card-top"><span>${code} <b>Official totals</b></span><label><input type="checkbox" value="${code}"> Compare</label></div>
       <a href="/states/${profile.slug}/">
         <h2>${profile.name}</h2>
         <p><i style="background:${fuelColors[dominantFuel] ?? fuelColors.other}"></i>${fuelLabels[dominantFuel] ?? titleCase(dominantFuel)} leads at ${percent(dominantCapacity, state.operatingCapacityMw)}%</p>
@@ -235,7 +264,7 @@ ${renderAnalyticsScript()}
   <main>
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><b>State profiles</b></nav>
     <section class="directory-hero">
-      <div><p class="eyebrow">State intelligence directory</p><h1>Find your state's power grid</h1><p>Search sourced profiles, compare infrastructure signals, and move from a statewide summary to the facilities behind the numbers.</p><div class="data-status"><span class="final">Final state totals</span><span class="preliminary">Preliminary facilities</span><span class="community">Community-reported locations</span></div></div>
+      <div><p class="eyebrow">Nationwide state intelligence</p><h1>Find your state's power grid</h1><p>Search all 50 states and Washington, D.C., compare infrastructure signals, and move from official statewide totals to the facilities behind the numbers.</p><div class="data-status"><span class="final">Nationwide final totals</span><span class="preliminary">Preliminary facilities</span><span class="community">Community-reported locations</span></div></div>
       <aside><strong>${states.length}</strong><span>published state profiles</span></aside>
     </section>
     <section class="directory-metrics">
@@ -250,7 +279,7 @@ ${renderAnalyticsScript()}
     </section>
     <section id="state-grid" class="directory-grid">${cards}</section>
     <div id="compare-dock" class="compare-dock" hidden><div><strong id="compare-count">0 states selected</strong><span id="compare-message">Select 2 to 4 states</span></div><button id="clear-comparison" type="button">Clear</button><button id="open-comparison" type="button" disabled>Compare states</button></div>
-    <section class="method directory-method"><div><p class="eyebrow">Coverage</p><h2>Built for useful comparisons</h2></div><p>Profiles combine finalized EIA-860 2024 state totals, preliminary 2025 facility records, and community-reported OpenStreetMap data-center locations. Published coverage is expanding in reviewed groups so every page contains meaningful state-specific context.</p><a href="https://www.eia.gov/electricity/data/eia860/">Review EIA methodology</a></section>
+    <section class="method directory-method"><div><p class="eyebrow">Coverage</p><h2>Nationwide with quality gates</h2></div><p>Every published profile must contain finalized EIA-860 2024 state totals and matching nationwide facility records. Preliminary facilities and incomplete community-reported data centers are labeled separately so their limitations remain visible.</p><a href="/methodology/">Review methodology</a></section>
   </main>
   ${renderSiteFooter(`${states.length} published state profiles`)}
   <script>${directoryScript()}</script>
@@ -328,6 +357,37 @@ function sumCapacity(plants) {
 function renewableCapacity(state) {
   return ["solar", "wind", "hydro", "geothermal", "biomass"]
     .reduce((sum, fuel) => sum + (state.capacityByFuelMw[fuel] ?? 0), 0);
+}
+
+function generatedContext(name, state, fuels) {
+  const first = fuels[0];
+  const second = fuels[1];
+  const proposed = state.proposedCapacityMw > 0
+    ? ` The dataset also reports ${formatMw(state.proposedCapacityMw)} of proposed capacity.`
+    : " No proposed generators appear in this release.";
+  return `${name}'s operating portfolio is led by ${first.label}${second ? `, followed by ${second.label}` : ""}. Its ${state.plantCount.toLocaleString()} plants represent ${formatMw(state.operatingCapacityMw)} of nameplate capacity.${proposed}`;
+}
+
+function qualityGate(label, status, note, kind) {
+  return `<article><span class="quality-${kind}">${status}</span><strong>${label}</strong><small>${note}</small></article>`;
+}
+
+function validateStateProfile(code, state) {
+  const failures = [];
+  if (!Number.isFinite(state.operatingCapacityMw) || state.operatingCapacityMw <= 0) failures.push("operating capacity");
+  if (!Number.isInteger(state.plantCount) || state.plantCount <= 0) failures.push("plant count");
+  if (!state.capacityByFuelMw || Object.keys(state.capacityByFuelMw).length === 0) failures.push("fuel mix");
+  if (failures.length) throw new Error(`${code} failed profile quality gates: ${failures.join(", ")}`);
+}
+
+function relatedStates(code) {
+  const entries = Object.entries(profiles);
+  const index = entries.findIndex(([entryCode]) => entryCode === code);
+  return Array.from({ length: 4 }, (_, offset) => entries[(index + offset + 1) % entries.length]);
+}
+
+function slugify(value) {
+  return value.toLowerCase().replaceAll(",", "").replaceAll(".", "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 function titleCase(value) {

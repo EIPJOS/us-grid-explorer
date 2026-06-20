@@ -84,7 +84,10 @@ button { color: inherit; }
 .layer-toggle input { accent-color: var(--lime); }
 .layer-note { margin: -5px 0 11px 24px; color: #6f7a90; font-size: 9px; line-height: 1.35; }
 
-.fuel-grid { display: grid; gap: 5px; padding: 2px 0 12px 24px; }
+.fuel-controls { padding: 2px 0 12px 24px; }
+.fuel-coverage { display: flex; justify-content: space-between; gap: 8px; padding: 3px 8px 7px; color: #707b92; font-size: 8px; text-transform: uppercase; }
+.fuel-coverage strong { color: #aeb9cc; font-weight: 750; }
+.fuel-grid { display: grid; gap: 5px; }
 .fuel-grid button { display: grid; grid-template-columns: 9px 1fr auto; align-items: center; gap: 8px; border: 1px solid transparent; border-radius: 999px; background: transparent; padding: 5px 8px; color: #707b92; text-align: left; cursor: pointer; }
 .fuel-grid button.active { border-color: var(--line); background: rgba(255,255,255,0.05); color: #dbe3f2; }
 .fuel-grid button i { width: 8px; height: 8px; border-radius: 999px; opacity: 0.35; }

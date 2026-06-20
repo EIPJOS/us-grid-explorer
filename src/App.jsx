@@ -18,10 +18,10 @@ const INITIAL_FUEL_VISIBILITY = {
   oil_gas: true,
   coal: true,
   nuclear: true,
-  wind: true,
-  solar: true,
-  hydro: true,
-  storage: true,
+  wind: false,
+  solar: false,
+  hydro: false,
+  storage: false,
   biomass: false,
   geothermal: false,
   other: false
@@ -111,6 +111,13 @@ export default function App() {
     [plants, viewportBounds]
   );
   const visibleFuelCounts = useMemo(() => countPlantsByFuel(visiblePlants), [visiblePlants]);
+  const visibleSelectedPlantCount = useMemo(
+    () => Object.entries(visibleFuelCounts).reduce(
+      (total, [fuel, count]) => total + (fuelVisibility[fuel] ? count : 0),
+      0
+    ),
+    [visibleFuelCounts, fuelVisibility]
+  );
   const nationalFuelCounts = useMemo(() => countPlantsByFuel(plants), [plants]);
 
   const searchItems = useMemo(() => {
@@ -300,7 +307,7 @@ export default function App() {
           />
 
           <LayerPanel
-            plantCount={visiblePlants.length}
+            plantCount={visibleSelectedPlantCount}
             dataCenterCount={dataCenters.length}
             fuelCounts={visibleFuelCounts}
             fuelVisibility={fuelVisibility}

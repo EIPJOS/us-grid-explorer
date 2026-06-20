@@ -32,6 +32,9 @@ export default function LayerPanel({
   loading,
   loadError
 }) {
+  const visibleFuelCount = Object.values(fuelVisibility).filter(Boolean).length;
+  const totalFuelCount = Object.keys(FUEL_LABELS).length;
+
   return (
     <aside className="layer-panel floating-panel">
       <div className="panel-title">
@@ -48,18 +51,22 @@ export default function LayerPanel({
       />
 
       {showPowerPlants && (
-        <div className="fuel-grid">
-          {Object.entries(FUEL_LABELS).map(([category, label]) => (
-            <button
-              key={category}
-              className={fuelVisibility[category] ? "active" : ""}
-              onClick={() => onToggleFuel(category)}
-            >
-              <i style={{ background: FUEL_COLORS[category] }}></i>
-              <span>{label}</span>
-              <small>{fuelCounts[category]?.toLocaleString() ?? 0}</small>
-            </button>
-          ))}
+        <div className="fuel-controls">
+          <div className="fuel-coverage"><span>Fuel categories</span><strong>{visibleFuelCount} of {totalFuelCount} shown</strong></div>
+          <div className="fuel-grid">
+            {Object.entries(FUEL_LABELS).map(([category, label]) => (
+              <button
+                key={category}
+                className={fuelVisibility[category] ? "active" : ""}
+                aria-pressed={fuelVisibility[category]}
+                onClick={() => onToggleFuel(category)}
+              >
+                <i style={{ background: FUEL_COLORS[category] }}></i>
+                <span>{label}</span>
+                <small>{fuelCounts[category]?.toLocaleString() ?? 0}</small>
+              </button>
+            ))}
+          </div>
         </div>
       )}
 

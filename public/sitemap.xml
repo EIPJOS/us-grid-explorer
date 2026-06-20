@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://usgridexplorer.com</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/guides/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/guides/how-the-us-power-grid-works/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/guides/nuclear-power-by-state/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/guides/renewable-capacity-by-state/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/guides/data-centers-and-electricity-demand/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alabama/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alaska/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/arizona/</loc><changefreq>monthly</changefreq></url>

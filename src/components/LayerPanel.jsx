@@ -11,7 +11,7 @@ const FUEL_LABELS = {
   storage: "Storage",
   biomass: "Biomass",
   geothermal: "Geothermal",
-  other: "Other"
+  other: "Industrial & other"
 };
 
 export default function LayerPanel({
@@ -19,6 +19,8 @@ export default function LayerPanel({
   dataCenterCount,
   fuelCounts,
   fuelVisibility,
+  plantStatusVisibility,
+  plantStatusCounts,
   showPowerPlants,
   showDataCenters,
   showTransmission,
@@ -29,6 +31,7 @@ export default function LayerPanel({
   onToggleSubstations,
   onStartTour,
   onToggleFuel,
+  onTogglePlantStatus,
   loading,
   loadError
 }) {
@@ -52,6 +55,13 @@ export default function LayerPanel({
 
       {showPowerPlants && (
         <div className="fuel-controls">
+          <div className="plant-status-controls" aria-label="Power plant status">
+            {[["operating", "Operating"], ["proposed", "Proposed"]].map(([status, label]) => (
+              <button key={status} className={plantStatusVisibility[status] ? "active" : ""} aria-pressed={plantStatusVisibility[status]} onClick={() => onTogglePlantStatus(status)}>
+                <span>{label}</span><small>{plantStatusCounts[status]?.toLocaleString() ?? 0}</small>
+              </button>
+            ))}
+          </div>
           <div className="fuel-coverage"><span>Fuel categories</span><strong>{visibleFuelCount} of {totalFuelCount} shown</strong></div>
           <div className="fuel-grid">
             {Object.entries(FUEL_LABELS).map(([category, label]) => (

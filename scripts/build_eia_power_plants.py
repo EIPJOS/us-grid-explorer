@@ -92,6 +92,7 @@ def generator_aggregates(generator_path: Path):
             "operatingGenerators": 0,
             "proposedGenerators": 0,
             "capacityByFuelMw": defaultdict(float),
+            "proposedCapacityByFuelMw": defaultdict(float),
             "technologies": set(),
         }
     )
@@ -116,6 +117,7 @@ def generator_aggregates(generator_path: Path):
             else:
                 aggregate["proposedCapacityMw"] += capacity
                 aggregate["proposedGenerators"] += 1
+                aggregate["proposedCapacityByFuelMw"][category] += capacity
 
             if technology:
                 aggregate["technologies"].add(technology)
@@ -149,9 +151,20 @@ def build_features(plant_path: Path, generator_path: Path, checked_at: str):
             for category, capacity in aggregate["capacityByFuelMw"].items()
             if capacity > 0
         }
-        primary_fuel = max(capacity_by_fuel, key=capacity_by_fuel.get, default="other")
+        proposed_capacity_by_fuel = {
+            category: round_capacity(capacity)
+            for category, capacity in aggregate["proposedCapacityByFuelMw"].items()
+            if capacity > 0
+        }
+        primary_capacity_by_fuel = capacity_by_fuel or proposed_capacity_by_fuel
+        primary_fuel = max(primary_capacity_by_fuel, key=primary_capacity_by_fuel.get, default="other")
         operating_capacity = round_capacity(aggregate["operatingCapacityMw"])
         proposed_capacity = round_capacity(aggregate["proposedCapacityMw"])
+        project_status = (
+            "mixed" if operating_capacity > 0 and proposed_capacity > 0
+            else "operating" if operating_capacity > 0
+            else "proposed"
+        )
 
         features.append({
             "id": f"eia-plant-{plant_code}",
@@ -176,11 +189,13 @@ def build_features(plant_path: Path, generator_path: Path, checked_at: str):
                     plant.get("Balancing Authority Name")
                 ),
                 "primaryFuel": primary_fuel,
+                "projectStatus": project_status,
                 "operatingCapacityMw": operating_capacity,
                 "proposedCapacityMw": proposed_capacity,
                 "operatingGenerators": aggregate["operatingGenerators"],
                 "proposedGenerators": aggregate["proposedGenerators"],
                 "capacityByFuelMw": capacity_by_fuel,
+                "proposedCapacityByFuelMw": proposed_capacity_by_fuel,
                 "technologies": sorted(aggregate["technologies"]),
                 "releaseStatus": "preliminary",
             },

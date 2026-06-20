@@ -33,6 +33,7 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
         <dl>
           <Detail label="Location" value={`${feature.properties.city}, ${feature.properties.state}`} />
           <Detail label="Primary fuel" value={formatLabel(feature.properties.primaryFuel)} />
+          <Detail label="Project status" value={formatLabel(feature.properties.projectStatus || (feature.properties.operatingCapacityMw > 0 ? "operating" : "proposed"))} />
           <Detail label="Operating capacity" value={`${feature.properties.operatingCapacityMw.toLocaleString()} MW`} />
           <Detail label="Proposed capacity" value={`${feature.properties.proposedCapacityMw.toLocaleString()} MW`} />
           <Detail label="Utility" value={feature.properties.utilityName || "Not reported"} />
@@ -99,6 +100,7 @@ function Detail({ label, value }) {
 }
 
 function formatLabel(value) {
+  if (value === "other") return "Industrial & other";
   return String(value ?? "Other").replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 

@@ -247,6 +247,7 @@ function fuelComparisonData(states) {
 }
 
 function formatLabel(value) {
+  if (value === "other") return "Industrial & other";
   return String(value).replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 

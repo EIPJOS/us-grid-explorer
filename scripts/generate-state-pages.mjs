@@ -47,7 +47,7 @@ const profiles = Object.fromEntries(Object.entries(stateNames).map(([code, name]
 const fuelLabels = {
   oil_gas: "Oil & gas", coal: "Coal", nuclear: "Nuclear", wind: "Wind",
   solar: "Solar", hydro: "Hydro", storage: "Storage", biomass: "Biomass",
-  geothermal: "Geothermal", other: "Other"
+  geothermal: "Geothermal", other: "Industrial & other"
 };
 
 const fuelColors = {

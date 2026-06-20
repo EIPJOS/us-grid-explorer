@@ -27,6 +27,11 @@ const INITIAL_FUEL_VISIBILITY = {
   other: false
 };
 
+const INITIAL_PLANT_STATUS_VISIBILITY = {
+  operating: true,
+  proposed: false
+};
+
 const STATIC_SOURCES = {
   "national-transmission-lines": {
     publisher: "ArcGIS public infrastructure service",
@@ -81,6 +86,7 @@ export default function App() {
   const [showTransmission, setShowTransmission] = useState(false);
   const [showSubstations, setShowSubstations] = useState(false);
   const [fuelVisibility, setFuelVisibility] = useState(INITIAL_FUEL_VISIBILITY);
+  const [plantStatusVisibility, setPlantStatusVisibility] = useState(INITIAL_PLANT_STATUS_VISIBILITY);
   const hasChosenFuel = useRef(false);
 
   useEffect(() => {
@@ -110,7 +116,12 @@ export default function App() {
     () => viewportBounds ? plants.filter((plant) => isPointInBounds(plant, viewportBounds)) : plants,
     [plants, viewportBounds]
   );
-  const visibleFuelCounts = useMemo(() => countPlantsByFuel(visiblePlants), [visiblePlants]);
+  const visibleStatusPlants = useMemo(
+    () => visiblePlants.filter((plant) => isPlantVisibleByStatus(plant, plantStatusVisibility)),
+    [visiblePlants, plantStatusVisibility]
+  );
+  const visibleFuelCounts = useMemo(() => countPlantsByFuel(visibleStatusPlants), [visibleStatusPlants]);
+  const visiblePlantStatusCounts = useMemo(() => countPlantsByStatus(visiblePlants), [visiblePlants]);
   const visibleSelectedPlantCount = useMemo(
     () => Object.entries(visibleFuelCounts).reduce(
       (total, [fuel, count]) => total + (fuelVisibility[fuel] ? count : 0),
@@ -215,6 +226,16 @@ export default function App() {
     });
   }
 
+  function togglePlantStatus(status) {
+    setPlantStatusVisibility((current) => {
+      const enabledCount = Object.values(current).filter(Boolean).length;
+      if (current[status] && enabledCount === 1) return current;
+      const enabled = !current[status];
+      trackEvent("Plant Status Filter Changed", { status, enabled });
+      return { ...current, [status]: enabled };
+    });
+  }
+
   function changeView(view) {
     trackEvent("View Changed", { view });
     setActiveView(view);
@@ -288,6 +309,7 @@ export default function App() {
             plants={plants}
             dataCenters={dataCenters}
             fuelVisibility={fuelVisibility}
+            plantStatusVisibility={plantStatusVisibility}
             showPowerPlants={showPowerPlants}
             showDataCenters={showDataCenters}
             showTransmission={showTransmission}
@@ -311,6 +333,8 @@ export default function App() {
             dataCenterCount={dataCenters.length}
             fuelCounts={visibleFuelCounts}
             fuelVisibility={fuelVisibility}
+            plantStatusVisibility={plantStatusVisibility}
+            plantStatusCounts={visiblePlantStatusCounts}
             showPowerPlants={showPowerPlants}
             showDataCenters={showDataCenters}
             showTransmission={showTransmission}
@@ -321,6 +345,7 @@ export default function App() {
             onToggleSubstations={() => toggleLayer("substations", setShowSubstations)}
             onStartTour={startTour}
             onToggleFuel={toggleFuel}
+            onTogglePlantStatus={togglePlantStatus}
             loading={(!plantPayload || !dataCenterPayload) && !loadError}
             loadError={loadError}
           />
@@ -463,6 +488,19 @@ function countPlantsByFuel(plants) {
     counts[category] = (counts[category] ?? 0) + 1;
   });
   return counts;
+}
+
+function countPlantsByStatus(plants) {
+  return plants.reduce((counts, plant) => {
+    if (plant.properties.operatingCapacityMw > 0) counts.operating += 1;
+    if (plant.properties.proposedCapacityMw > 0) counts.proposed += 1;
+    return counts;
+  }, { operating: 0, proposed: 0 });
+}
+
+function isPlantVisibleByStatus(plant, visibility) {
+  return (visibility.operating && plant.properties.operatingCapacityMw > 0)
+    || (visibility.proposed && plant.properties.proposedCapacityMw > 0);
 }
 
 function isPointInBounds(feature, bounds) {

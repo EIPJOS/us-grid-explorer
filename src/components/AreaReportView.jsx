@@ -7,7 +7,7 @@ const TRANSMISSION_SERVICE = "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcG
 const FUEL_LABELS = {
   oil_gas: "Oil & gas", coal: "Coal", nuclear: "Nuclear", wind: "Wind",
   solar: "Solar", hydro: "Hydro", storage: "Storage", biomass: "Biomass",
-  geothermal: "Geothermal", other: "Other"
+  geothermal: "Geothermal", other: "Industrial & other"
 };
 const FUEL_COLORS = {
   oil_gas: "#ff6257", coal: "#8d99ae", nuclear: "#ffd84d", wind: "#86a8ff",

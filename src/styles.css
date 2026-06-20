@@ -85,6 +85,10 @@ button { color: inherit; }
 .layer-note { margin: -5px 0 11px 24px; color: #6f7a90; font-size: 9px; line-height: 1.35; }
 
 .fuel-controls { padding: 2px 0 12px 24px; }
+.plant-status-controls { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin:3px 0 7px; }
+.plant-status-controls button { display:flex; justify-content:space-between; gap:6px; border:1px solid var(--line); border-radius:6px; background:transparent; padding:6px 7px; color:#707b92; font-size:9px; cursor:pointer; }
+.plant-status-controls button.active { border-color:rgba(223,255,63,.38); background:rgba(223,255,63,.06); color:#e4eabb; }
+.plant-status-controls button small { color:inherit; }
 .fuel-coverage { display: flex; justify-content: space-between; gap: 8px; padding: 3px 8px 7px; color: #707b92; font-size: 8px; text-transform: uppercase; }
 .fuel-coverage strong { color: #aeb9cc; font-weight: 750; }
 .fuel-grid { display: grid; gap: 5px; }

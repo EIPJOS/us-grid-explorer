@@ -127,5 +127,6 @@ function Metric({ icon, label, value }) {
 }
 
 function formatLabel(value) {
+  if (value === "other") return "Industrial & other";
   return String(value ?? "").replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }

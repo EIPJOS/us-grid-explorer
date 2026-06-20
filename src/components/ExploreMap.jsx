@@ -22,6 +22,7 @@ export default function ExploreMap({
   plants,
   dataCenters,
   fuelVisibility,
+  plantStatusVisibility,
   showPowerPlants,
   showDataCenters,
   showTransmission,
@@ -240,27 +241,32 @@ export default function ExploreMap({
     plants.forEach((plant) => {
       const category = plant.properties.primaryFuel;
       if (!fuelVisibility[category]) return;
+      const showForStatus = (plantStatusVisibility.operating && plant.properties.operatingCapacityMw > 0)
+        || (plantStatusVisibility.proposed && plant.properties.proposedCapacityMw > 0);
+      if (!showForStatus) return;
 
       const [longitude, latitude] = plant.geometry.coordinates;
-      const capacity = plant.properties.operatingCapacityMw;
+      const isProposedOnly = plant.properties.operatingCapacityMw <= 0 && plant.properties.proposedCapacityMw > 0;
+      const capacity = isProposedOnly ? plant.properties.proposedCapacityMw : plant.properties.operatingCapacityMw;
       const radius = Math.max(3, Math.min(10, 3 + Math.log10(capacity + 1) * 1.7));
       const marker = L.circleMarker([latitude, longitude], {
         renderer,
         radius,
-        color: "rgba(255,255,255,0.7)",
+        color: isProposedOnly ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.7)",
         weight: 0.7,
+        dashArray: isProposedOnly ? "3 3" : null,
         fillColor: FUEL_COLORS[category] ?? FUEL_COLORS.other,
-        fillOpacity: 0.82
+        fillOpacity: isProposedOnly ? 0.56 : 0.82
       });
 
       marker.bindTooltip(
-        `<strong>${escapeHtml(plant.name)}</strong><br>${capacity.toLocaleString()} MW`,
+        `<strong>${escapeHtml(plant.name)}</strong><br>${isProposedOnly ? "Proposed" : "Operating"} &middot; ${capacity.toLocaleString()} MW`,
         { direction: "top", opacity: 0.96 }
       );
       marker.on("click", () => onSelect({ type: "power_plant", feature: plant }));
       marker.addTo(layer);
     });
-  }, [plants, fuelVisibility, showPowerPlants, onSelect]);
+  }, [plants, fuelVisibility, plantStatusVisibility, showPowerPlants, onSelect]);
 
   useEffect(() => {
     const layer = dataCenterLayerRef.current;

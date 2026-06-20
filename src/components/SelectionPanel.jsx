@@ -90,6 +90,7 @@ export default function SelectionPanel({ selection, sourceRegistry, onClose }) {
         <a href={source?.url ?? feature.sourceUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent("Source Opened", { source_ref: feature.sourceRef ?? "embedded", feature_type: selection.type })}>
           Open source <ExternalLink size={14} />
         </a>
+        {isPlant && <a href={`/plants/${feature.properties.plantCode}/`}>Open facility profile <ExternalLink size={14} /></a>}
       </div>
     </aside>
   );

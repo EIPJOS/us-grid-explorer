@@ -1,3 +1,10 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/plants/:id", "destination": "/api/plant?id=:id" },
+    { "source": "/plants/:id/", "destination": "/api/plant?id=:id" }
+  ],
+  "functions": {
+    "api/plant.js": { "includeFiles": "public/data/power-plants.json" }
+  }
 }

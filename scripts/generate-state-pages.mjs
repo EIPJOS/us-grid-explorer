@@ -216,7 +216,7 @@ function fuelBar(fuel, maxValue, total) {
 
 function plantRow(plant) {
   const properties = plant.properties;
-  return `<tr><td><strong>${escapeHtml(plant.name)}</strong><small>Plant ${properties.plantCode}</small></td><td><span class="fuel-pill"><i style="background:${fuelColors[properties.primaryFuel] ?? fuelColors.other}"></i>${fuelLabels[properties.primaryFuel] ?? titleCase(properties.primaryFuel)}</span></td><td>${escapeHtml(properties.city)}, ${escapeHtml(properties.state)}<small>${escapeHtml(properties.county)} County</small></td><td>${escapeHtml(properties.utilityName)}</td><td><strong>${formatMw(properties.operatingCapacityMw)}</strong></td></tr>`;
+  return `<tr><td><a class="plant-table-link" href="/plants/${properties.plantCode}/"><strong>${escapeHtml(plant.name)}</strong><small>Plant ${properties.plantCode}</small></a></td><td><span class="fuel-pill"><i style="background:${fuelColors[properties.primaryFuel] ?? fuelColors.other}"></i>${fuelLabels[properties.primaryFuel] ?? titleCase(properties.primaryFuel)}</span></td><td>${escapeHtml(properties.city)}, ${escapeHtml(properties.state)}<small>${escapeHtml(properties.county)} County</small></td><td>${escapeHtml(properties.utilityName)}</td><td><strong>${formatMw(properties.operatingCapacityMw)}</strong></td></tr>`;
 }
 
 function renderDirectory(states) {
@@ -338,7 +338,8 @@ function directoryScript() {
 }
 
 function renderSitemap() {
-  const urls = [siteUrl, `${siteUrl}/states/`, ...Object.values(profiles).map((profile) => `${siteUrl}/states/${profile.slug}/`), ...trustRoutes.map((route) => `${siteUrl}/${route}/`)];
+  const plantUrls = plantPayload.features.map((plant) => `${siteUrl}/plants/${plant.properties.plantCode}/`);
+  const urls = [siteUrl, `${siteUrl}/states/`, ...Object.values(profiles).map((profile) => `${siteUrl}/states/${profile.slug}/`), ...plantUrls, ...trustRoutes.map((route) => `${siteUrl}/${route}/`)];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${url}</loc><changefreq>monthly</changefreq></url>`).join("\n")}\n</urlset>\n`;
 }
 

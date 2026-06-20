@@ -67,6 +67,7 @@ export default function App() {
   const initialView = initialParams.get("view");
   const initialArea = parseInitialArea(initialParams);
   const initialRegion = initialParams.get("region")?.toUpperCase();
+  const initialPlantCode = Number(initialParams.get("plant"));
   const initialStates = (initialParams.get("states") ?? initialParams.get("state") ?? "")
     .split(",")
     .map((state) => state.trim().toUpperCase())
@@ -88,6 +89,7 @@ export default function App() {
   const [fuelVisibility, setFuelVisibility] = useState(INITIAL_FUEL_VISIBILITY);
   const [plantStatusVisibility, setPlantStatusVisibility] = useState(INITIAL_PLANT_STATUS_VISIBILITY);
   const hasChosenFuel = useRef(false);
+  const initialPlantFocused = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -156,6 +158,20 @@ export default function App() {
     ...(plantPayload?.meta?.sources ?? {}),
     ...(dataCenterPayload?.meta?.sources ?? {})
   }), [plantPayload, dataCenterPayload]);
+
+  useEffect(() => {
+    if (initialPlantFocused.current || !Number.isInteger(initialPlantCode) || !plants.length) return;
+    initialPlantFocused.current = true;
+    const plant = plants.find((candidate) => candidate.properties.plantCode === initialPlantCode);
+    if (!plant) return;
+    setShowPowerPlants(true);
+    setFuelVisibility((current) => ({ ...current, [plant.properties.primaryFuel]: true }));
+    if (plant.properties.proposedCapacityMw > 0) {
+      setPlantStatusVisibility((current) => ({ ...current, proposed: true }));
+    }
+    setSelectedFeature({ type: "power_plant", feature: plant });
+    setFocusRequest({ coordinates: plant.geometry.coordinates, id: plant.id, nonce: Date.now() });
+  }, [initialPlantCode, plants]);
 
   function selectFromSearch(item) {
     trackEvent("Facility Search Selected", { feature_type: item.type });

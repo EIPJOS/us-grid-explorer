@@ -99,7 +99,7 @@ export default function FacilitiesView({ plants, dataCenters, loading, loadError
               <tbody>
                 {visible.map((record) => (
                   <tr key={record.id}>
-                    <td><strong>{record.name}</strong><small>{formatLabel(record.category)}</small></td>
+                    <td>{record.type === "power_plant" ? <a className="facility-name-link" href={`/plants/${record.feature.properties.plantCode}/`}><strong>{record.name}</strong></a> : <strong>{record.name}</strong>}<small>{formatLabel(record.category)}</small></td>
                     <td><span className={`type-pill ${record.type}`}>{record.type === "power_plant" ? <Zap size={13} /> : <Server size={13} />}{formatLabel(record.type)}</span></td>
                     <td>{record.operator || "Not reported"}</td>
                     <td>{[record.city, record.state].filter(Boolean).join(", ") || "Location only"}</td>

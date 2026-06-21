@@ -1,4 +1,5 @@
 export const siteUrl = "https://usgridexplorer.com";
+export const contactEmail = "contact@usgridexplorer.com";
 export const trustRoutes = ["about", "methodology", "sources", "privacy", "terms", "corrections"];
 export const guideRoutes = ["how-the-us-power-grid-works", "nuclear-power-by-state", "renewable-capacity-by-state", "data-centers-and-electricity-demand"];
 export const analyticsEnabled = process.env.VITE_ANALYTICS_ENABLED === "true";
@@ -31,6 +32,7 @@ export function renderSiteFooter(detail = "Sourced public infrastructure data") 
       <a href="/sources/">Sources</a>
       <a href="/privacy/">Privacy</a>
       <a href="/terms/">Terms</a>
+      <a href="mailto:${contactEmail}">Contact</a>
       <a href="/corrections/">Corrections</a>
     </nav>
   </footer>`;

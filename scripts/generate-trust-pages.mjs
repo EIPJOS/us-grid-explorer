@@ -1,11 +1,11 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { analyticsEnabled, renderAnalyticsScript, renderSiteFooter, renderSiteHeader, siteUrl, trustRoutes } from "./site-shell.mjs";
+import { analyticsEnabled, contactEmail, renderAnalyticsScript, renderSiteFooter, renderSiteHeader, siteUrl, trustRoutes } from "./site-shell.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(root, "public");
-const updatedAt = "June 19, 2026";
+const updatedAt = "June 20, 2026";
 
 const pages = {
   about: {
@@ -15,7 +15,8 @@ const pages = {
     content: `<section><h2>Why this project exists</h2><p>Power plants, transmission networks, data centers, and regional demand are often published in separate systems. US Grid Explorer brings those public records into one visual research experience without hiding their different sources or limitations.</p><p>The project is designed for residents, students, educators, journalists, researchers, and professionals conducting preliminary infrastructure research.</p></section>
     <section><h2>What the project is not</h2><p>This is not a grid-operations system, outage authority, engineering model, investment service, or complete data-center inventory. Do not use it for emergency response, real-time dispatch, property decisions, or safety-critical work.</p></section>
     <section><h2>Product principles</h2><div class="trust-principles"><article><strong>Useful first</strong><p>Answer a real infrastructure question before adding spectacle.</p></article><article><strong>Sources visible</strong><p>Keep publishers, dates, and coverage warnings close to every claim.</p></article><article><strong>Uncertainty explicit</strong><p>Label preliminary, community-reported, and estimated information.</p></article><article><strong>Publicly understandable</strong><p>Explain technical grid concepts without pretending they are simple.</p></article></div></section>
-    <section><h2>Current development status</h2><p>The project is actively developed. National map layers, state profiles, and local infrastructure reports are available now; individual facility profiles are planned. The optional Grid Guide remains dependent on separately configured API access and is not required to use the site.</p></section>`
+    <section><h2>Current development status</h2><p>The project is actively developed. National map layers, state profiles, facility profiles, local infrastructure reports, and editorial guides are available now. The optional Grid Guide remains dependent on separately configured API access and is not required to use the site.</p></section>
+    <section><h2>Contact</h2><p>Questions about the project, partnerships, accessibility, or general feedback can be sent to <a href="mailto:${contactEmail}">${contactEmail}</a>. Use the corrections page when reporting a specific data issue so the supporting evidence can remain reviewable.</p></section>`
   },
   methodology: {
     title: "Data Methodology",
@@ -50,7 +51,7 @@ const pages = {
     <section><h2>Optional Grid Guide</h2><p>If the Grid Guide is configured and you submit a question, the question and limited current-page context are sent through a server endpoint to the configured AI provider. The feature is optional and is not necessary for map, profile, directory, or comparison use.</p></section>
     <section><h2>Analytics and advertising</h2><p>${analyticsEnabled ? "Vercel Web Analytics is enabled to measure page visits and product usage. Analytics events are designed to exclude search text, exact addresses, and selected facility names. The site does not currently display third-party advertising." : "The site does not currently run third-party advertising or an enabled audience-analytics product. Analytics code remains disabled until the production setting is explicitly activated."} This notice will be reviewed before advertising or another analytics provider is enabled, including applicable consent or opt-out controls.</p></section>
     <section><h2>External links</h2><p>Source and policy links can take you to third-party websites with their own privacy practices. Review those services before submitting information.</p></section>
-    <section><h2>Questions and requests</h2><p>Use the <a href="/corrections/">Corrections and contact page</a> to report a privacy concern. Do not include sensitive personal information in a public issue.</p></section>`
+    <section><h2>Email and contact requests</h2><p>If you email <a href="mailto:${contactEmail}">${contactEmail}</a>, the message, sender address, and any information you include are processed so the request can be reviewed and answered. Do not send credentials, private infrastructure information, or other sensitive personal data.</p><p>Use the <a href="/corrections/">Corrections and contact page</a> to report a privacy concern or public data issue.</p></section>`
   },
   terms: {
     title: "Terms of Use",
@@ -61,7 +62,7 @@ const pages = {
     <section><h2>Safety and infrastructure</h2><p>Do not use the site to enter restricted property, interfere with infrastructure, bypass security, or conduct unsafe activity. Map coordinates are not authorization for physical access.</p></section>
     <section><h2>Source rights and attribution</h2><p>Underlying records remain subject to their publishers' terms, licenses, attribution requirements, and public-domain status. US Grid Explorer's interface and transformed presentation do not remove those obligations.</p></section>
     <section><h2>Availability</h2><p>The site is provided without warranties of accuracy, availability, fitness, or uninterrupted operation to the extent permitted by applicable law. Verify consequential decisions with authoritative sources.</p></section>
-    <section><h2>Changes</h2><p>These terms may be revised as accounts, analytics, advertising, APIs, or additional data products are introduced. Material changes will be reflected by the updated date on this page.</p></section>`
+    <section><h2>Contact and changes</h2><p>Questions about these terms can be sent to <a href="mailto:${contactEmail}">${contactEmail}</a>. These terms may be revised as accounts, analytics, advertising, APIs, or additional data products are introduced. Material changes will be reflected by the updated date on this page.</p></section>`
   },
   corrections: {
     title: "Corrections and Contact",
@@ -70,6 +71,7 @@ const pages = {
     content: `<section><h2>Before submitting a correction</h2><p>Check the confidence label and source date. A preliminary or community-reported record may differ from a finalized agency publication. When possible, provide a public authoritative source supporting the correction.</p></section>
     <section><h2>What to include</h2><ul><li>The page URL or facility name</li><li>The field or statement that appears incorrect</li><li>The corrected value</li><li>A public source URL and publication date</li><li>Whether the issue involves privacy, accessibility, or data accuracy</li></ul></section>
     <section class="correction-action"><h2>Submit through GitHub</h2><p>Corrections are tracked publicly so the evidence and resulting change remain reviewable. Do not include private addresses, credentials, or sensitive personal information.</p><a class="primary-action" href="https://github.com/EIPJOS/us-grid-explorer/issues/new">Open a correction request</a></section>
+    <section><h2>Private contact</h2><p>For accessibility, privacy, partnership, or other matters that should not be filed publicly, email <a href="mailto:${contactEmail}">${contactEmail}</a>. Include the relevant page URL when possible.</p></section>
     <section><h2>Review process</h2><ol><li>Confirm the report refers to a current published page.</li><li>Compare the claim with the cited authoritative source.</li><li>Update the transformation or source record rather than only changing displayed text.</li><li>Regenerate affected pages and document the correction in version history.</li></ol></section>`
   }
 };

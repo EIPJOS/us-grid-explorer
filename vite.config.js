@@ -41,6 +41,10 @@ function staticPageRoutes() {
       request.url = `/guides/index.html${query ? `?${query}` : ""}`;
     } else if (/^\/guides\/[a-z-]+\/?$/.test(pathname)) {
       request.url = `${pathname.replace(/\/$/, "")}/index.html${query ? `?${query}` : ""}`;
+    } else if (/^\/rankings\/?$/.test(pathname)) {
+      request.url = `/rankings/index.html${query ? `?${query}` : ""}`;
+    } else if (/^\/rankings\/[a-z-]+\/?$/.test(pathname)) {
+      request.url = `${pathname.replace(/\/$/, "")}/index.html${query ? `?${query}` : ""}`;
     } else {
       const route = pathname.replaceAll("/", "");
       if (trustRoutes.has(route)) request.url = `/${route}/index.html${query ? `?${query}` : ""}`;

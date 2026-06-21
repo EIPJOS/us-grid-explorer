@@ -7,6 +7,12 @@
   <url><loc>https://usgridexplorer.com/guides/nuclear-power-by-state/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/guides/renewable-capacity-by-state/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/guides/data-centers-and-electricity-demand/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/rankings/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/rankings/operating-capacity/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/rankings/renewable-share/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/rankings/nuclear-capacity/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/rankings/proposed-capacity/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/rankings/storage-capacity/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alabama/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alaska/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/arizona/</loc><changefreq>monthly</changefreq></url>

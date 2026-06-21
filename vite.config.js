@@ -49,6 +49,10 @@ function staticPageRoutes() {
       request.url = `/directories/index.html${query ? `?${query}` : ""}`;
     } else if (/^\/directories\/[a-z-]+\/?$/.test(pathname)) {
       request.url = `${pathname.replace(/\/$/, "")}/index.html${query ? `?${query}` : ""}`;
+    } else if (/^\/regions\/?$/.test(pathname)) {
+      request.url = `/regions/index.html${query ? `?${query}` : ""}`;
+    } else if (/^\/regions\/[a-z-]+\/?$/.test(pathname)) {
+      request.url = `${pathname.replace(/\/$/, "")}/index.html${query ? `?${query}` : ""}`;
     } else {
       const route = pathname.replaceAll("/", "");
       if (trustRoutes.has(route)) request.url = `/${route}/index.html${query ? `?${query}` : ""}`;

@@ -20,6 +20,14 @@
   <url><loc>https://usgridexplorer.com/directories/solar/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/directories/wind/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/directories/energy-storage/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/regions/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/regions/pjm/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/regions/ercot/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/regions/caiso/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/regions/miso/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/regions/nyiso/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/regions/iso-ne/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/regions/spp/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alabama/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alaska/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/arizona/</loc><changefreq>monthly</changefreq></url>

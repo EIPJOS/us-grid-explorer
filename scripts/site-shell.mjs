@@ -4,6 +4,7 @@ export const trustRoutes = ["about", "methodology", "sources", "privacy", "terms
 export const guideRoutes = ["how-the-us-power-grid-works", "nuclear-power-by-state", "renewable-capacity-by-state", "data-centers-and-electricity-demand"];
 export const rankingRoutes = ["operating-capacity", "renewable-share", "nuclear-capacity", "proposed-capacity", "storage-capacity"];
 export const fuelDirectoryRoutes = ["nuclear", "coal", "oil-and-gas", "solar", "wind", "energy-storage"];
+export const regionRoutes = ["pjm", "ercot", "caiso", "miso", "nyiso", "iso-ne", "spp"];
 export const analyticsEnabled = process.env.VITE_ANALYTICS_ENABLED === "true";
 
 export function renderAnalyticsScript() {
@@ -17,6 +18,7 @@ export function renderSiteHeader(active = "") {
     ["states", "/states/", "State profiles"],
     ["rankings", "/rankings/", "Rankings"],
     ["directories", "/directories/", "Directories"],
+    ["regions", "/regions/", "Grid regions"],
     ["compare", "/?view=analysis", "Compare states"],
     ["guides", "/guides/", "Guides"],
     ["trust", "/methodology/", "Trust center"]

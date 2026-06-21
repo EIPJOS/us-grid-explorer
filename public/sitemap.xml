@@ -13,6 +13,13 @@
   <url><loc>https://usgridexplorer.com/rankings/nuclear-capacity/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/rankings/proposed-capacity/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/rankings/storage-capacity/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/directories/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/directories/nuclear/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/directories/coal/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/directories/oil-and-gas/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/directories/solar/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/directories/wind/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/directories/energy-storage/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alabama/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alaska/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/arizona/</loc><changefreq>monthly</changefreq></url>

@@ -3,6 +3,7 @@ export const contactEmail = "contact@usgridexplorer.com";
 export const trustRoutes = ["about", "methodology", "sources", "privacy", "terms", "corrections"];
 export const guideRoutes = ["how-the-us-power-grid-works", "nuclear-power-by-state", "renewable-capacity-by-state", "data-centers-and-electricity-demand"];
 export const rankingRoutes = ["operating-capacity", "renewable-share", "nuclear-capacity", "proposed-capacity", "storage-capacity"];
+export const fuelDirectoryRoutes = ["nuclear", "coal", "oil-and-gas", "solar", "wind", "energy-storage"];
 export const analyticsEnabled = process.env.VITE_ANALYTICS_ENABLED === "true";
 
 export function renderAnalyticsScript() {
@@ -15,6 +16,7 @@ export function renderSiteHeader(active = "") {
     ["area", "/?view=area", "My area"],
     ["states", "/states/", "State profiles"],
     ["rankings", "/rankings/", "Rankings"],
+    ["directories", "/directories/", "Directories"],
     ["compare", "/?view=analysis", "Compare states"],
     ["guides", "/guides/", "Guides"],
     ["trust", "/methodology/", "Trust center"]

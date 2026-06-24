@@ -1,7 +1,7 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { fuelDirectoryRoutes, guideRoutes, rankingRoutes, regionRoutes, renderAnalyticsScript, renderSiteFooter, renderSiteHeader, siteUrl, trustRoutes } from "./site-shell.mjs";
+import { fuelDirectoryRoutes, glossaryRoutes, guideRoutes, rankingRoutes, regionRoutes, renderAnalyticsScript, renderSiteFooter, renderSiteHeader, siteUrl, trustRoutes } from "./site-shell.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(root, "public");
@@ -339,7 +339,7 @@ function directoryScript() {
 
 function renderSitemap() {
   const plantUrls = plantPayload.features.map((plant) => `${siteUrl}/plants/${plant.properties.plantCode}/`);
-  const urls = [siteUrl, `${siteUrl}/states/`, `${siteUrl}/guides/`, ...guideRoutes.map((route) => `${siteUrl}/guides/${route}/`), `${siteUrl}/rankings/`, ...rankingRoutes.map((route) => `${siteUrl}/rankings/${route}/`), `${siteUrl}/directories/`, ...fuelDirectoryRoutes.map((route) => `${siteUrl}/directories/${route}/`), `${siteUrl}/regions/`, ...regionRoutes.map((route) => `${siteUrl}/regions/${route}/`), ...Object.values(profiles).map((profile) => `${siteUrl}/states/${profile.slug}/`), ...plantUrls, ...trustRoutes.map((route) => `${siteUrl}/${route}/`)];
+  const urls = [siteUrl, `${siteUrl}/states/`, `${siteUrl}/guides/`, ...guideRoutes.map((route) => `${siteUrl}/guides/${route}/`), `${siteUrl}/rankings/`, ...rankingRoutes.map((route) => `${siteUrl}/rankings/${route}/`), `${siteUrl}/directories/`, ...fuelDirectoryRoutes.map((route) => `${siteUrl}/directories/${route}/`), `${siteUrl}/regions/`, ...regionRoutes.map((route) => `${siteUrl}/regions/${route}/`), `${siteUrl}/glossary/`, ...glossaryRoutes.map((route) => `${siteUrl}/glossary/${route}/`), ...Object.values(profiles).map((profile) => `${siteUrl}/states/${profile.slug}/`), ...plantUrls, ...trustRoutes.map((route) => `${siteUrl}/${route}/`)];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${url}</loc><changefreq>monthly</changefreq></url>`).join("\n")}\n</urlset>\n`;
 }
 

@@ -28,6 +28,27 @@
   <url><loc>https://usgridexplorer.com/regions/nyiso/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/regions/iso-ne/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/regions/spp/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/balancing-authority/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/capacity/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/capacity-factor/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/demand/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/distributed-generation/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/electricity-generation/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/energy-storage/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/generator/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/independent-system-operator/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/interconnection/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/megawatt/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/megawatt-hour/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/nameplate-capacity/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/power-grid/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/power-plant/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/renewable-energy/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/regional-transmission-organization/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/substation/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/transmission/</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/glossary/wholesale-electricity-market/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alabama/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/alaska/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/arizona/</loc><changefreq>monthly</changefreq></url>

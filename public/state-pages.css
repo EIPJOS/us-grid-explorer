@@ -371,15 +371,69 @@ td small { margin-top:3px; color:var(--muted); font-size:9px; }
 .region-sources > div:last-child { display:grid; gap:9px; }
 .region-sources a { color:var(--region); font-size:10px; font-weight:700; }
 .region-related { grid-template-columns:1.25fr repeat(3,1fr); margin-bottom:40px; }
+
+.glossary-main { width:min(100% - 40px,1060px); }
+.glossary-hero { border-bottom:1px solid var(--line); padding:52px 0 32px; }
+.glossary-hero h1,.term-hero h1 { max-width:880px; margin:8px 0 13px; font-size:clamp(42px,6vw,68px); line-height:1; }
+.glossary-hero > p:not(.eyebrow),.term-hero > p:not(.eyebrow) { max-width:760px; color:#b9c4d8; font-size:16px; line-height:1.65; }
+.glossary-tools { display:grid; grid-template-columns:minmax(260px,1fr) 240px auto; align-items:end; gap:9px; margin:24px 0 12px; }
+.glossary-tools label { display:grid; gap:6px; color:var(--muted); font-size:8px; font-weight:700; text-transform:uppercase; }
+.glossary-tools input,.glossary-tools select { width:100%; height:42px; border:1px solid var(--line); border-radius:7px; outline:0; background:var(--panel); padding:0 12px; color:var(--text); font:inherit; font-size:11px; }
+.glossary-tools input:focus,.glossary-tools select:focus { border-color:rgba(223,255,63,.55); }
+.glossary-tools p { margin:0; padding:0 3px 13px; color:var(--muted); font-size:10px; }
+.glossary-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.glossary-card { display:grid; gap:8px; min-height:225px; border:1px solid var(--line); border-radius:8px; background:var(--panel); padding:18px; color:inherit; text-decoration:none; }
+.glossary-card[hidden] { display:none; }
+.glossary-card:hover { border-color:rgba(223,255,63,.5); }
+.glossary-card span,.glossary-card b { color:var(--lime); font-size:8px; font-weight:800; text-transform:uppercase; }
+.glossary-card h2 { margin:7px 0 0; font-size:21px; line-height:1.15; }
+.glossary-card p { margin:0; color:var(--muted); font-size:11px; line-height:1.65; }
+.glossary-card b { align-self:end; margin-top:auto; }
+.glossary-empty { margin:20px 0; border:1px dashed var(--line); padding:35px; text-align:center; }
+.glossary-empty p { color:var(--muted); font-size:11px; }
+.glossary-method { display:grid; grid-template-columns:250px 1fr auto; gap:25px; align-items:start; margin:35px 0 45px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:25px 0; }
+.glossary-method h2 { margin:5px 0 0; font-size:23px; }
+.glossary-method > p { margin:0; color:#b9c4d8; font-size:12px; line-height:1.7; }
+.glossary-method > a { color:var(--lime); font-size:10px; font-weight:700; }
+.term-article { width:min(100%,820px); margin:0 auto 45px; }
+.term-hero { border-bottom:1px solid var(--line); padding:56px 0 32px; }
+.term-hero h1 { font-size:clamp(44px,7vw,72px); }
+.term-definition { display:grid; grid-template-columns:1.5fr 1fr; gap:25px; margin:25px 0 0; border:1px solid rgba(223,255,63,.24); border-radius:8px; background:var(--panel); padding:20px; }
+.term-definition > div { display:grid; gap:8px; }
+.term-definition span,.term-definition dt { color:var(--lime); font-size:8px; font-weight:800; text-transform:uppercase; }
+.term-definition strong { font-size:16px; line-height:1.55; }
+.term-definition dl { margin:0; border-left:1px solid var(--line); padding-left:20px; }
+.term-definition dl div { display:grid; gap:4px; border-bottom:1px solid var(--line); padding:7px 0; }
+.term-definition dd { margin:0; font-size:10px; }
+.term-article > section:not(.term-definition):not(.term-related):not(.term-source):not(.term-actions) { border-bottom:1px solid var(--line); padding:32px 0; }
+.term-article > section h2 { margin:5px 0 12px; font-size:27px; }
+.term-article > section > p:not(.eyebrow) { color:#b9c4d8; font-size:14px; line-height:1.75; }
+.term-article blockquote { margin:18px 0 0; border-left:2px solid var(--lime); background:var(--panel); padding:18px 20px; color:#e7edf7; font-size:16px; font-weight:650; line-height:1.6; }
+.term-source { display:grid; grid-template-columns:190px 1fr auto; gap:22px; align-items:start; border-bottom:1px solid var(--line); padding:30px 0; }
+.term-source h2 { margin:5px 0 0; font-size:22px; }
+.term-source > p { margin:0; color:var(--muted); font-size:11px; line-height:1.7; }
+.term-source > a { color:var(--lime); font-size:10px; font-weight:700; }
+.term-related { display:grid; grid-template-columns:1.15fr repeat(3,1fr); gap:8px; margin:28px 0; }
+.term-related > div { padding:14px 0; }
+.term-related h2 { margin:5px 0; font-size:22px; }
+.term-related > a { display:grid; gap:6px; border:1px solid var(--line); border-radius:8px; background:var(--panel); padding:14px; color:inherit; text-decoration:none; }
+.term-related > a:hover { border-color:rgba(223,255,63,.5); }
+.term-related span { color:var(--lime); font-size:8px; font-weight:800; text-transform:uppercase; }
+.term-related strong { font-size:13px; }
+.term-related p { margin:0; color:var(--muted); font-size:9px; line-height:1.55; }
+.term-actions { display:flex; flex-wrap:wrap; gap:8px; border-top:1px solid var(--line); padding-top:24px; }
+.term-actions a { border:1px solid rgba(223,255,63,.4); border-radius:5px; padding:10px 12px; color:var(--lime); font-size:10px; font-weight:700; text-decoration:none; }
 @media (max-width:850px) { .site-header nav a:not(:first-child){display:none}.hero,.plant-hero{grid-template-columns:1fr;padding:30px 0}.metrics{grid-template-columns:1fr 1fr}.quality-gates{grid-template-columns:1fr 1fr}.quality-gates>div{grid-column:1/-1}.content-grid,.plant-content-grid{grid-template-columns:1fr}.profile-links,.plant-related{grid-template-columns:1fr 1fr}.profile-links>div{grid-column:1/-1}.method{grid-template-columns:1fr;gap:8px}.hero h1,.plant-hero h1{font-size:48px}.lede{font-size:15px}.trust-layout{grid-template-columns:1fr;gap:28px}.trust-layout>aside{position:static}.trust-layout>aside nav{grid-template-columns:repeat(3,1fr);gap:0 12px}.site-footer{align-items:flex-start;flex-direction:column}.site-footer nav{justify-content:flex-start} }
 @media (max-width:850px) { .directory-grid{grid-template-columns:1fr 1fr}.directory-toolbar{grid-template-columns:1fr 1fr}.directory-toolbar p{grid-column:1/-1;padding:0}.directory-hero{align-items:flex-start;flex-direction:column}.directory-metrics{grid-template-columns:1fr}.compare-dock{bottom:8px} }
 @media (max-width:850px) { .guide-definition-grid{grid-template-columns:1fr}.guide-source{grid-template-columns:1fr}.guide-related{grid-template-columns:1fr 1fr}.guide-related>div{grid-column:1/-1} }
 @media (max-width:850px) { .ranking-explainer{grid-template-columns:1fr;gap:8px}.ranking-actions{grid-template-columns:1fr}.ranking-related{grid-template-columns:1fr 1fr}.ranking-related>div{grid-column:1/-1} }
 @media (max-width:850px) { .fuel-state-summary{grid-template-columns:repeat(3,1fr)}.fuel-state-summary>div{grid-column:1/-1}.fuel-controls{grid-template-columns:1fr 1fr}.fuel-related{grid-template-columns:1fr 1fr}.fuel-related>div{grid-column:1/-1} }
 @media (max-width:850px) { .region-profile-hero{grid-template-columns:1fr}.region-boundary-note,.region-explainer,.region-sources{grid-template-columns:1fr}.region-state-grid{grid-template-columns:repeat(3,1fr)}.region-related{grid-template-columns:1fr 1fr}.region-related>div{grid-column:1/-1} }
+@media (max-width:850px) { .glossary-grid{grid-template-columns:1fr 1fr}.glossary-tools{grid-template-columns:1fr 1fr}.glossary-tools p{grid-column:1/-1;padding:0}.glossary-method,.term-source{grid-template-columns:1fr}.term-related{grid-template-columns:1fr 1fr}.term-related>div{grid-column:1/-1} }
 @media (max-width:520px) { main{width:min(100% - 24px,1180px)}.site-header{padding:0 12px}.metrics,.quality-gates{grid-template-columns:1fr}.quality-gates>div{grid-column:auto}.profile-links{grid-template-columns:1fr}.hero-actions{display:grid}.fuel-row>div:first-child{grid-template-columns:8px 1fr 45px 80px}.section-heading{display:grid}.site-footer{width:calc(100% - 24px);display:grid;gap:8px}.trust-principles,.definition-grid{grid-template-columns:1fr}.trust-definitions div{grid-template-columns:1fr;gap:5px}.trust-layout>aside nav{grid-template-columns:1fr 1fr}.trust-hero h1{font-size:43px} }
 @media (max-width:520px) { .guide-main{width:calc(100% - 24px)}.guide-grid{grid-template-columns:1fr}.guide-hero h1{font-size:43px}.guide-steps li{grid-template-columns:1fr;gap:4px}.guide-ranking a{grid-template-columns:20px 105px 1fr 45px}.guide-related{grid-template-columns:1fr} }
 @media (max-width:520px) { .ranking-main{width:calc(100% - 24px)}.ranking-grid{grid-template-columns:1fr}.ranking-hero h1{font-size:42px}.ranking-chart> a{grid-template-columns:20px 105px 1fr 72px;gap:7px}.ranking-chart{padding:13px}.ranking-related{grid-template-columns:1fr} }
 @media (max-width:520px) { .fuel-main{width:calc(100% - 24px)}.fuel-directory-grid{grid-template-columns:1fr}.fuel-hero h1{font-size:42px}.fuel-directory-card dl{grid-template-columns:1fr 1fr}.fuel-state-summary{grid-template-columns:1fr 1fr}.fuel-controls{grid-template-columns:1fr}.fuel-related{grid-template-columns:1fr}.fuel-browser{padding:12px} }
 @media (max-width:520px) { .region-main{width:calc(100% - 24px)}.region-directory{grid-template-columns:1fr}.region-hero h1,.region-profile-hero h1{font-size:42px}.region-live{grid-template-columns:1fr;padding:14px}.region-live-heading{display:grid}.region-live-heading>div:last-child{text-align:left}.region-live-value{grid-column:1;grid-row:auto;border-left:0;border-top:1px solid var(--line);padding:15px 0 0}.region-live-note{grid-column:1}.region-state-grid{grid-template-columns:1fr 1fr}.region-related{grid-template-columns:1fr}.region-sources dl div{grid-template-columns:1fr}.region-sparkline{height:120px} }
+@media (max-width:520px) { .glossary-main{width:calc(100% - 24px)}.glossary-grid,.glossary-tools{grid-template-columns:1fr}.glossary-hero h1,.term-hero h1{font-size:42px}.term-definition{grid-template-columns:1fr}.term-definition dl{border-left:0;border-top:1px solid var(--line);padding:12px 0 0}.term-related{grid-template-columns:1fr} }
 @media (max-width:520px) { .directory-grid,.directory-toolbar{grid-template-columns:1fr}.compare-dock{grid-template-columns:1fr 1fr}.compare-dock>div{grid-column:1/-1}.directory-hero h1{font-size:45px} }

@@ -5,6 +5,7 @@ export const guideRoutes = ["how-the-us-power-grid-works", "nuclear-power-by-sta
 export const rankingRoutes = ["operating-capacity", "renewable-share", "nuclear-capacity", "proposed-capacity", "storage-capacity"];
 export const fuelDirectoryRoutes = ["nuclear", "coal", "oil-and-gas", "solar", "wind", "energy-storage"];
 export const regionRoutes = ["pjm", "ercot", "caiso", "miso", "nyiso", "iso-ne", "spp"];
+export const glossaryRoutes = ["balancing-authority", "capacity", "capacity-factor", "demand", "distributed-generation", "electricity-generation", "energy-storage", "generator", "independent-system-operator", "interconnection", "megawatt", "megawatt-hour", "nameplate-capacity", "power-grid", "power-plant", "renewable-energy", "regional-transmission-organization", "substation", "transmission", "wholesale-electricity-market"];
 export const analyticsEnabled = process.env.VITE_ANALYTICS_ENABLED === "true";
 
 export function renderAnalyticsScript() {
@@ -19,8 +20,8 @@ export function renderSiteHeader(active = "") {
     ["rankings", "/rankings/", "Rankings"],
     ["directories", "/directories/", "Directories"],
     ["regions", "/regions/", "Grid regions"],
-    ["compare", "/?view=analysis", "Compare states"],
     ["guides", "/guides/", "Guides"],
+    ["glossary", "/glossary/", "Glossary"],
     ["trust", "/methodology/", "Trust center"]
   ];
   return `<header class="site-header">

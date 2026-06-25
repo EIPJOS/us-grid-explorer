@@ -77,6 +77,11 @@ button { color: inherit; }
 .layer-panel { position: absolute; z-index: 650; top: 20px; left: 18px; width: 270px; padding: 14px; max-height: calc(100% - 40px); overflow: auto; }
 .panel-title { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; color: #dce4f5; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
 .panel-title span { display: flex; align-items: center; gap: 7px; }
+.panel-title-button { width: 100%; border: 0; background: transparent; padding: 0 0 12px; cursor: pointer; text-align: left; }
+.panel-title-button svg:last-child { transition: transform .16s ease; }
+.layer-panel.collapsed { overflow: hidden; }
+.layer-panel.collapsed .panel-title-button { padding-bottom: 0; }
+.layer-panel.collapsed .panel-title-button svg:last-child { transform: rotate(-90deg); }
 .layer-toggle { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding: 13px 0; cursor: pointer; }
 .layer-toggle > span { display: flex; align-items: center; gap: 8px; }
 .layer-toggle b { font-size: 13px; }

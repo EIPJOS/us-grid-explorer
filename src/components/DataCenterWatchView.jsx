@@ -105,11 +105,6 @@ export default function DataCenterWatchView() {
               : `Showing curated fallback records while live source is unavailable${liveFeed.message ? `: ${liveFeed.message}` : "."}`}
           </p>
         </div>
-        <aside>
-          <span>Highest-priority signal</span>
-          <strong>{watchItems[0]?.importanceScore ?? 0}</strong>
-          <small>{watchItems[0]?.title ?? "Waiting for live records"}</small>
-        </aside>
       </section>
 
       <div className="watch-tabs" role="tablist" aria-label="Data Center Watch sections">

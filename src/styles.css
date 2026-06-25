@@ -578,8 +578,32 @@ button { color: inherit; }
   .release-badge { display: none; }
   .trust-link { display: none; }
   .search-panel { top: 10px; left: 10px; right: 10px; }
-  .layer-panel { top: 70px; left: 10px; width: 230px; max-height: calc(100% - 90px); }
-  .selection-panel { top: auto; right: 10px; bottom: 10px; left: 10px; width: auto; max-height: 48%; }
+  .search-input { padding: 0 12px; }
+  .search-input input { height: 42px; font-size: 13px; }
+  .search-input kbd { display: none; }
+  .layer-panel {
+    top: 66px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+    max-height: min(255px, 38vh);
+    padding: 11px;
+  }
+  .panel-title { padding-bottom: 8px; font-size: 10px; }
+  .layer-toggle { padding: 9px 0; }
+  .fuel-controls { padding: 0 0 8px 20px; }
+  .plant-status-controls button { padding: 5px 6px; }
+  .fuel-grid { gap: 4px; }
+  .fuel-grid button { padding: 4px 8px; }
+  .tour-launch { display: none; }
+  .selection-panel { top: auto; right: 10px; bottom: 10px; left: 10px; width: auto; max-height: 42%; padding: 13px; }
+  .selection-panel.empty-selection { display: none; }
+  .detail-heading h2, .empty-selection h2 { font-size: 18px; }
+  .empty-icon { width: 40px; height: 40px; margin: 10px auto 8px; }
+  .empty-selection { padding: 18px 16px; }
+  .selection-panel dl { grid-template-columns: 1fr; }
+  .selection-panel dl div { padding: 8px 4px 8px 0; }
+  .source-card { margin-top: 10px; padding: 10px; }
   .coverage-note { display: none; }
   .view-shell { padding: 18px 10px; }
   .view-heading h1 { font-size: 31px; }

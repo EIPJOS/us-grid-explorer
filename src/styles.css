@@ -460,6 +460,7 @@ button { color: inherit; }
 .guide-action { display: flex; align-items: center; gap: 5px; margin-top: 8px; border: 1px solid rgba(223,255,63,0.28); border-radius: 6px; background: rgba(223,255,63,0.07); padding: 6px 8px; color: var(--lime); font-size: 10px; cursor: pointer; }
 .guide-followups { display: grid; gap: 4px; margin-top: 8px; }
 .guide-followups button { border: 0; border-left: 2px solid var(--blue); background: transparent; padding: 4px 7px; color: #aebddd; font-size: 10px; text-align: left; cursor: pointer; }
+.guide-followups button:hover { color: var(--lime); }
 .guide-message.loading { display: flex; gap: 4px; padding: 12px; }
 .guide-message.loading i { width: 6px; height: 6px; border-radius: 99px; background: var(--lime); animation: guidePulse 1s ease-in-out infinite; }
 .guide-message.loading i:nth-child(2) { animation-delay: 0.15s; }
@@ -467,11 +468,11 @@ button { color: inherit; }
 @keyframes guidePulse { 0%, 100% { opacity: 0.25; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
 .guide-suggestions { display: grid; gap: 5px; padding: 0 12px 10px; }
 .guide-suggestions button { border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,0.025); padding: 7px 9px; color: #b9c5da; font-size: 10px; text-align: left; cursor: pointer; }
-.guide-panel > form { display: grid; grid-template-columns: 1fr 36px; gap: 7px; border-top: 1px solid var(--line); padding: 10px; }
-.guide-panel textarea { resize: none; border: 1px solid var(--line); border-radius: 7px; outline: 0; background: #0b1019; padding: 8px 9px; color: var(--text); font: inherit; font-size: 11px; line-height: 1.4; }
-.guide-panel textarea:focus { border-color: rgba(223,255,63,0.45); }
-.guide-panel > form button { display: grid; place-items: center; border: 0; border-radius: 7px; background: var(--lime); color: #111607; cursor: pointer; }
-.guide-panel > form button:disabled { opacity: 0.35; cursor: default; }
+.guide-question-bank { display: grid; gap: 7px; border-top: 1px solid var(--line); padding: 10px 12px; }
+.guide-question-bank > span { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em; }
+.guide-question-bank > div { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.guide-question-bank button { border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,0.025); padding: 7px 9px; color: #b9c5da; font-size: 10px; text-align: left; cursor: pointer; }
+.guide-question-bank button:hover { border-color: rgba(223,255,63,0.32); color: var(--lime); }
 .guide-panel > footer { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 0 10px 8px; color: #68758c; font-size: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
 
 .data-watch-view { display: grid; align-content: start; gap: 14px; }
@@ -639,6 +640,7 @@ button { color: inherit; }
   .grid-guide { right: 8px; bottom: 38px; left: 8px; }
   .guide-launch { margin-left: auto; }
   .guide-panel { width: 100%; height: min(640px, calc(100vh - 74px)); }
+  .guide-question-bank > div { grid-template-columns: 1fr; }
   .area-view { padding-top: 16px; }
   .area-heading h1 { font-size: 31px; }
   .area-search { grid-template-columns: 18px 1fr; }

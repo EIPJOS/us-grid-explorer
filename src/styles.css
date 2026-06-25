@@ -473,6 +473,7 @@ button { color: inherit; }
 .watch-hero { display: grid; grid-template-columns: minmax(0, 1fr) 270px; align-items: end; gap: 22px; max-width: 1440px; width: 100%; margin: 0 auto; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(115deg, rgba(223,255,63,.075), rgba(125,159,255,.035) 46%, rgba(16,21,32,.96)); padding: 22px; }
 .watch-hero h1 { margin: 6px 0 9px; font-size: clamp(36px, 5vw, 58px); line-height: .96; }
 .watch-hero p { max-width: 760px; margin: 0; color: #b7c1d5; font-size: 15px; line-height: 1.55; }
+.watch-hero .watch-feed-note { margin-top: 10px; color: #8f9bb1; font-size: 11px; }
 .watch-hero aside { display: grid; gap: 6px; border-left: 2px solid var(--lime); padding-left: 16px; }
 .watch-hero aside span { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
 .watch-hero aside strong { color: var(--lime); font-size: 42px; line-height: 1; }

@@ -16,7 +16,6 @@ export default function DataCenterSourceLibrary({ sources }) {
             <tr>
               <th>Source</th>
               <th>Category</th>
-              <th>API</th>
               <th>Notes</th>
               <th>Suggested keywords</th>
             </tr>
@@ -26,7 +25,6 @@ export default function DataCenterSourceLibrary({ sources }) {
               <tr key={source.name}>
                 <td><a href={source.baseUrl} target="_blank" rel="noreferrer">{source.name}</a></td>
                 <td><span className={`source-type ${source.category}`}>{DATA_CENTER_SOURCE_CATEGORIES[source.category] ?? source.category}</span></td>
-                <td>{source.apiAvailable ? <b className="api-yes">API available</b> : <b className="api-no">Manual/RSS</b>}</td>
                 <td>{source.notes}</td>
                 <td>
                   <div className="source-keywords">

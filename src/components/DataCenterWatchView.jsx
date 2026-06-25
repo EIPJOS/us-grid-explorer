@@ -98,12 +98,10 @@ export default function DataCenterWatchView() {
           <p>Tracking how AI and data center growth affects the U.S. power grid, regulation, and infrastructure investment.</p>
           <div className="data-status">
             <span className={liveFeed.status === "live" ? "final" : "preliminary"}>{liveFeed.status === "live" ? "Live Federal Register feed" : "Fallback starter feed"}</span>
-            <span className="final">Sourced links only</span>
-            <span className="community">No full article scraping</span>
           </div>
           <p className="watch-feed-note">
             {liveFeed.status === "live"
-              ? `Live data from ${liveFeed.source}${liveFeed.fetchedAt ? `, refreshed ${formatDateTime(liveFeed.fetchedAt)}` : ""}.`
+              ? `Updated ${liveFeed.fetchedAt ? formatDate(liveFeed.fetchedAt) : "today"}.`
               : `Showing curated fallback records while live source is unavailable${liveFeed.message ? `: ${liveFeed.message}` : "."}`}
           </p>
         </div>
@@ -187,12 +185,10 @@ function sortItems(a, b, sortBy) {
   return new Date(b.publishedDate ?? b.createdAt) - new Date(a.publishedDate ?? a.createdAt);
 }
 
-function formatDateTime(value) {
+function formatDate(value) {
   return new Intl.DateTimeFormat("en", {
     month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit"
+    day: "numeric"
   }).format(new Date(value));
 }
 

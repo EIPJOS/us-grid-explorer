@@ -3,8 +3,8 @@
   "rewrites": [
     { "source": "/plants/:id", "destination": "/api/plant?id=:id" },
     { "source": "/plants/:id/", "destination": "/api/plant?id=:id" },
-    { "source": "/data-center-watch", "destination": "/index.html" },
-    { "source": "/data-center-watch/", "destination": "/index.html" }
+    { "source": "/data-center-watch", "destination": "/" },
+    { "source": "/data-center-watch/", "destination": "/" }
   ],
   "functions": {
     "api/plant.js": { "includeFiles": "public/data/power-plants.json" }

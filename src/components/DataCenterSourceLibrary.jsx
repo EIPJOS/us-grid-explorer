@@ -5,8 +5,7 @@ export default function DataCenterSourceLibrary({ sources }) {
     <section className="source-library">
       <div className="watch-section-heading">
         <div>
-          <p className="eyebrow">Source Library</p>
-          <h2>Feeds to connect next</h2>
+          <h2>Source Library</h2>
         </div>
         <span>{sources.length} sources tracked</span>
       </div>

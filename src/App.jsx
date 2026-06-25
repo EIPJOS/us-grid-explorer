@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { BarChart3, BookOpen, Database, Map, MapPinned, Radio, Search, ShieldCheck, Zap } from "lucide-react";
+import { BarChart3, BookOpen, Database, Map, MapPinned, Newspaper, Radio, Search, ShieldCheck, Zap } from "lucide-react";
 import { Analytics } from "@vercel/analytics/react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
@@ -13,6 +13,7 @@ const GridSignalsView = lazy(() => import("./components/GridSignalsView.jsx"));
 const AnalysisView = lazy(() => import("./components/AnalysisView.jsx"));
 const LearnView = lazy(() => import("./components/LearnView.jsx"));
 const AreaReportView = lazy(() => import("./components/AreaReportView.jsx"));
+const DataCenterWatchView = lazy(() => import("./components/DataCenterWatchView.jsx"));
 
 const INITIAL_FUEL_VISIBILITY = {
   oil_gas: true,
@@ -64,7 +65,9 @@ const STATIC_SOURCES = {
 
 export default function App() {
   const initialParams = new URLSearchParams(window.location.search);
-  const initialView = initialParams.get("view");
+  const initialView = window.location.pathname.replace(/^\/|\/$/g, "") === "data-center-watch"
+    ? "data_center_watch"
+    : initialParams.get("view");
   const initialArea = parseInitialArea(initialParams);
   const initialRegion = initialParams.get("region")?.toUpperCase();
   const initialPlantCode = Number(initialParams.get("plant"));
@@ -73,7 +76,7 @@ export default function App() {
     .map((state) => state.trim().toUpperCase())
     .filter(Boolean);
   const [activeView, setActiveView] = useState(
-    ["explore", "area", "facilities", "signals", "analysis", "learn"].includes(initialView) ? initialView : "explore"
+    ["explore", "area", "facilities", "signals", "analysis", "learn", "data_center_watch"].includes(initialView) ? initialView : "explore"
   );
   const [tourOpen, setTourOpen] = useState(false);
   const [plantPayload, setPlantPayload] = useState(null);
@@ -254,6 +257,11 @@ export default function App() {
 
   function changeView(view) {
     trackEvent("View Changed", { view });
+    if (view === "data_center_watch") {
+      window.history.pushState(null, "", "/data-center-watch/");
+    } else if (window.location.pathname === "/data-center-watch/" || window.location.pathname === "/data-center-watch") {
+      window.history.pushState(null, "", view === "explore" ? "/" : `/?view=${view}`);
+    }
     setActiveView(view);
   }
 
@@ -277,7 +285,7 @@ export default function App() {
 
   function applyGuideAction(action) {
     if (!action || action.type === "none") return;
-    if (action.type === "select_view" && ["explore", "facilities", "signals", "analysis", "learn"].includes(action.target)) {
+    if (action.type === "select_view" && ["explore", "facilities", "signals", "analysis", "learn", "data_center_watch"].includes(action.target)) {
       changeView(action.target);
       return;
     }
@@ -306,6 +314,7 @@ export default function App() {
           <button className={activeView === "area" ? "active" : ""} onClick={() => changeView("area")}><MapPinned size={16} />My area</button>
           <button className={activeView === "facilities" ? "active" : ""} onClick={() => changeView("facilities")}><Database size={16} />Facilities</button>
           <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
+          <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Watch</button>
           <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
           <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
         </nav>
@@ -314,7 +323,7 @@ export default function App() {
           <a className="trust-link" href="/methodology/"><ShieldCheck size={14} />Trust center</a>
           <div className="release-badge">
             <i></i>
-            {activeView === "signals" ? "EIA-930 hourly data" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "area" ? "Local infrastructure report" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
+            {activeView === "signals" ? "EIA-930 hourly data" : activeView === "data_center_watch" ? "Data center watchlist" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "area" ? "Local infrastructure report" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
           </div>
         </div>
       </header>
@@ -415,6 +424,12 @@ export default function App() {
       {activeView === "analysis" && (
         <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading regional analysis...</div></main>}>
           <AnalysisView dataCenters={dataCenters} initialStates={initialStates} />
+        </Suspense>
+      )}
+
+      {activeView === "data_center_watch" && (
+        <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading Data Center Watch...</div></main>}>
+          <DataCenterWatchView />
         </Suspense>
       )}
 

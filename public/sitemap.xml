@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://usgridexplorer.com</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://usgridexplorer.com/data-center-watch/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/states/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/guides/</loc><changefreq>monthly</changefreq></url>
   <url><loc>https://usgridexplorer.com/guides/how-the-us-power-grid-works/</loc><changefreq>monthly</changefreq></url>

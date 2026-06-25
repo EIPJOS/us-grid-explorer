@@ -57,6 +57,8 @@ function staticPageRoutes() {
       request.url = `/glossary/index.html${query ? `?${query}` : ""}`;
     } else if (/^\/glossary\/[a-z-]+\/?$/.test(pathname)) {
       request.url = `${pathname.replace(/\/$/, "")}/index.html${query ? `?${query}` : ""}`;
+    } else if (/^\/data-center-watch\/?$/.test(pathname)) {
+      request.url = `/index.html${query ? `?${query}` : ""}`;
     } else {
       const route = pathname.replaceAll("/", "");
       if (trustRoutes.has(route)) request.url = `/${route}/index.html${query ? `?${query}` : ""}`;

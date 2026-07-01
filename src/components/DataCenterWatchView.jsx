@@ -18,6 +18,7 @@ const DEFAULT_FILTERS = {
 export default function DataCenterWatchView() {
   const [activeTab, setActiveTab] = useState("briefings");
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [refreshTick, setRefreshTick] = useState(0);
   const [liveFeed, setLiveFeed] = useState({
     status: "loading",
     mode: "fallback",
@@ -62,7 +63,7 @@ export default function DataCenterWatchView() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [refreshTick]);
 
   const watchItems = activeTab === "notices" ? liveFeed.items : dataCenterWatchItems;
 
@@ -91,12 +92,16 @@ export default function DataCenterWatchView() {
 
   return (
     <main className="view-shell data-watch-view">
-      <section className="watch-hero">
+      <section className="view-heading feed-heading">
         <div>
           <p className="eyebrow">Data center construction and grid intelligence</p>
           <h1>Feeds</h1>
           <p>Verified developments in U.S. data center construction, power demand, utility planning, and permitting.</p>
-          <p className="watch-feed-note">Curated from primary sources. Updated Jun 30.</p>
+        </div>
+        <div className="feed-status">
+          <span><i></i>{liveFeed.status === "live" ? "Primary feed connected" : "Using curated source set"}</span>
+          <small>{liveFeed.fetchedAt ? `Updated ${formatDate(liveFeed.fetchedAt)}` : "Updated Jun 30"}</small>
+          <button onClick={() => setRefreshTick((current) => current + 1)}>Refresh</button>
         </div>
       </section>
 

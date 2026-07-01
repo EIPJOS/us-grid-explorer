@@ -25,7 +25,8 @@ export default function DataCenterWatchView() {
     source: "Curated starter dataset",
     fetchedAt: null,
     items: dataCenterWatchItems,
-    message: ""
+    message: "",
+    unavailable: false
   });
 
   useEffect(() => {
@@ -44,7 +45,8 @@ export default function DataCenterWatchView() {
           source: payload.source ?? "Federal Register",
           fetchedAt: payload.fetchedAt ?? null,
           items: payload.items,
-          message: ""
+          message: "",
+          unavailable: false
         });
       })
       .catch((error) => {
@@ -56,7 +58,8 @@ export default function DataCenterWatchView() {
           source: "Curated starter dataset",
           fetchedAt: null,
           items: dataCenterWatchItems,
-          message: cleanFeedError(rawMessage)
+          message: cleanFeedError(rawMessage),
+          unavailable: /429|rate limit|temporarily unavailable/i.test(rawMessage)
         });
       });
 
@@ -99,7 +102,7 @@ export default function DataCenterWatchView() {
           <p>Verified developments in U.S. data center construction, power demand, utility planning, and permitting.</p>
         </div>
         <div className="signal-status">
-          <span><i></i>{liveFeed.status === "live" ? "Primary feed connected" : "Using curated source set"}</span>
+          <span><i></i>{liveFeed.status === "live" ? "Primary feed connected" : liveFeed.unavailable ? "Temporarily unavailable" : "Using curated source set"}</span>
           <small>{liveFeed.fetchedAt ? `Updated ${formatDate(liveFeed.fetchedAt)}` : "Updated Jul 1"}</small>
           <button onClick={() => setRefreshTick((current) => current + 1)}>Refresh</button>
         </div>

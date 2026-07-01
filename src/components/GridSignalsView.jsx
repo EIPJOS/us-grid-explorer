@@ -17,17 +17,23 @@ export default function GridSignalsView({ initialRegion }) {
   const [selectedRegion, setSelectedRegion] = useState(REGIONS[initialRegion] ? initialRegion : "PJM");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [temporarilyUnavailable, setTemporarilyUnavailable] = useState(false);
 
   const loadSignals = useCallback(() => {
     setLoading(true);
     setError("");
+    setTemporarilyUnavailable(false);
     fetch(buildEiaUrl())
       .then((response) => {
         if (!response.ok) throw new Error(`EIA API returned ${response.status}`);
         return response.json();
       })
       .then((payload) => setRows(payload.response?.data ?? []))
-      .catch((requestError) => setError(requestError.message))
+      .catch((requestError) => {
+        const message = requestError instanceof Error ? requestError.message : String(requestError);
+        setError(message);
+        setTemporarilyUnavailable(/429|rate limit|temporarily unavailable/i.test(message));
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -59,13 +65,13 @@ export default function GridSignalsView({ initialRegion }) {
           <p>Hourly electricity demand reported by major U.S. balancing authorities through EIA-930.</p>
         </div>
         <div className="signal-status">
-          <span><i></i>{error ? "Feed unavailable" : loading ? "Refreshing" : "EIA feed connected"}</span>
+          <span><i></i>{error ? (temporarilyUnavailable ? "Temporarily unavailable" : "Feed unavailable") : loading ? "Refreshing" : "EIA feed connected"}</span>
           <small><Clock3 size={13} />Latest period: {latestPeriod ? formatPeriod(latestPeriod) : "Waiting for data"}</small>
           <button onClick={loadSignals} disabled={loading}><RefreshCw size={15} className={loading ? "spinning" : ""} />Refresh</button>
         </div>
       </section>
 
-      {error && <div className="signal-error"><AlertCircle size={18} /><div><strong>Live feed could not be loaded</strong><span>{error}. The infrastructure map remains available.</span></div></div>}
+      {error && <div className="signal-error"><AlertCircle size={18} /><div><strong>{temporarilyUnavailable ? "Temporarily unavailable" : "Live feed could not be loaded"}</strong><span>{temporarilyUnavailable ? "The EIA feed is rate-limited right now. Try again in a bit." : `${error}. The infrastructure map remains available.`}</span></div></div>}
 
       <section className="region-grid">
         {Object.entries(REGIONS).map(([code, name]) => {

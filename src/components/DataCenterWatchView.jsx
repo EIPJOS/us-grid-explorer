@@ -92,7 +92,7 @@ export default function DataCenterWatchView() {
 
   return (
     <main className="view-shell data-watch-view">
-      <section className="view-heading">
+      <section className="view-heading feed-heading">
         <div>
           <p className="eyebrow">Data center construction and grid intelligence</p>
           <h1>Feeds</h1>

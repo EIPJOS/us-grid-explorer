@@ -92,15 +92,15 @@ export default function DataCenterWatchView() {
 
   return (
     <main className="view-shell data-watch-view">
-      <section className="view-heading feed-heading">
+      <section className="view-heading">
         <div>
           <p className="eyebrow">Data center construction and grid intelligence</p>
           <h1>Feeds</h1>
           <p>Verified developments in U.S. data center construction, power demand, utility planning, and permitting.</p>
         </div>
-        <div className="feed-status">
+        <div className="signal-status">
           <span><i></i>{liveFeed.status === "live" ? "Primary feed connected" : "Using curated source set"}</span>
-          <small>{liveFeed.fetchedAt ? `Updated ${formatDate(liveFeed.fetchedAt)}` : "Updated Jun 30"}</small>
+          <small>{liveFeed.fetchedAt ? `Updated ${formatDate(liveFeed.fetchedAt)}` : "Updated Jul 1"}</small>
           <button onClick={() => setRefreshTick((current) => current + 1)}>Refresh</button>
         </div>
       </section>

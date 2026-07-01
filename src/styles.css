@@ -180,40 +180,6 @@ button { color: inherit; }
 .view-metric small { color: var(--muted); font-size: 10px; text-transform: uppercase; }
 .view-metric strong { font-size: 18px; }
 
-.feed-heading { align-items: flex-end; }
-.feed-status {
-  display: grid;
-  justify-items: end;
-  gap: 7px;
-}
-.feed-status > span {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #cfd8e8;
-  font-size: 12px;
-}
-.feed-status > span i {
-  width: 8px;
-  height: 8px;
-  border-radius: 99px;
-  background: #66e5a5;
-  box-shadow: 0 0 0 5px rgba(102,229,165,0.12);
-}
-.feed-status small { color: var(--muted); font-size: 12px; }
-.feed-status button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--panel-solid);
-  padding: 6px 10px;
-  color: #dfe6f4;
-  cursor: pointer;
-}
-.feed-status button:hover { border-color: rgba(223,255,63,.45); color: var(--lime); }
-
 .directory-panel { max-width: 1440px; margin: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-solid); overflow: hidden; }
 .directory-toolbar { display: grid; grid-template-columns: minmax(280px, 1fr) repeat(3, 180px); gap: 8px; border-bottom: 1px solid var(--line); padding: 12px; }
 .directory-search { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 7px; background: #0c111b; padding: 0 11px; color: var(--muted); }
@@ -608,8 +574,6 @@ button { color: inherit; }
   .story-card { min-height: 470px; }
   .area-heading { grid-template-columns: 1fr; align-items: stretch; }
   .area-metrics { grid-template-columns: 1fr 1fr; }
-  .feed-heading { align-items: flex-start; flex-direction: column; }
-  .feed-status { justify-items: start; }
   .watch-hero { grid-template-columns: 1fr; }
   .watch-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .watch-top-states { grid-column: 1 / -1; }
@@ -694,7 +658,6 @@ button { color: inherit; }
   .area-radius button { flex: 1; }
   .area-context { align-items: flex-start; flex-direction: column; }
   .area-method { grid-template-columns: 1fr; gap: 5px; }
-  .feed-heading { gap: 16px; }
   .watch-tabs, .watch-stats, .watch-filters, .watch-list { grid-template-columns: 1fr; }
   .watch-tabs { display: grid; }
   .watch-search, .watch-top-states { grid-column: auto; }

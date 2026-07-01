@@ -11,7 +11,7 @@ export default function DataCenterWatchFilters({
   resultCount
 }) {
   return (
-    <section className="watch-filters" aria-label="Data Center Watch filters">
+    <section className="watch-filters" aria-label="Feed filters">
       <label className="watch-search">
         <Search size={17} />
         <input

@@ -65,7 +65,8 @@ const STATIC_SOURCES = {
 
 export default function App() {
   const initialParams = new URLSearchParams(window.location.search);
-  const initialView = window.location.pathname.replace(/^\/|\/$/g, "") === "data-center-watch"
+  const routePath = window.location.pathname.replace(/^\/|\/$/g, "");
+  const initialView = routePath === "data-center-watch"
     ? "data_center_watch"
     : initialParams.get("view");
   const initialArea = parseInitialArea(initialParams);
@@ -314,7 +315,7 @@ export default function App() {
           <button className={activeView === "area" ? "active" : ""} onClick={() => changeView("area")}><MapPinned size={16} />My area</button>
           <button className={activeView === "facilities" ? "active" : ""} onClick={() => changeView("facilities")}><Database size={16} />Facilities</button>
           <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
-          <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Watch</button>
+          <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Feeds</button>
           <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
           <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
         </nav>
@@ -323,7 +324,7 @@ export default function App() {
           <a className="trust-link" href="/methodology/"><ShieldCheck size={14} />Trust center</a>
           <div className="release-badge">
             <i></i>
-            {activeView === "signals" ? "EIA-930 hourly data" : activeView === "data_center_watch" ? "Data center watchlist" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "area" ? "Local infrastructure report" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
+            {activeView === "signals" ? "EIA-930 hourly data" : activeView === "data_center_watch" ? "Data center feeds" : activeView === "analysis" ? "EIA-860 2024 final" : activeView === "area" ? "Local infrastructure report" : activeView === "learn" ? "Learning center" : "EIA-860 2025 early release"}
           </div>
         </div>
       </header>
@@ -428,7 +429,7 @@ export default function App() {
       )}
 
       {activeView === "data_center_watch" && (
-        <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading Data Center Watch...</div></main>}>
+        <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading Feeds...</div></main>}>
           <DataCenterWatchView />
         </Suspense>
       )}
@@ -451,7 +452,7 @@ export default function App() {
           transmission: showTransmission,
           substations: showSubstations
         }}
-        onApplyAction={applyGuideAction}
+          onApplyAction={applyGuideAction}
       />
       {analyticsEnabled && <Analytics />}
     </div>

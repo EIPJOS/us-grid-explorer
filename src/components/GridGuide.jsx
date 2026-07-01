@@ -142,9 +142,9 @@ const GUIDE_ANSWERS = {
     followUps: ["power_to_city", "show_transmission", "nearby_layer"]
   },
   watch_page: {
-    label: "What is Data Center Watch?",
+    label: "What are Feeds?",
     views: ["data_center_watch"],
-    answer: () => "Data Center Watch tracks public signals that may affect data-center growth and grid planning. The current live feed uses Federal Register records and turns source metadata into short monitoring cards.\n\nIt is a watchlist, not a complete news database. The goal is to identify signals worth verifying and expanding.",
+    answer: () => "Feeds combines editor-reviewed briefs with live public notices about data-center growth and grid planning. Briefs link to the original reporting and primary documents; the live-notices tab monitors Federal Register records.\n\nIt is a discovery and context tool, not a replacement for the original source.",
     citations: [],
     action: { type: "select_view", target: "data_center_watch" },
     followUps: ["why_data_centers_matter", "data_center_coverage", "grid_signals"]

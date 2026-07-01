@@ -21,7 +21,7 @@ export function renderSiteHeader(active = "") {
     ["directories", "/directories/", "Directories"],
     ["regions", "/regions/", "Grid regions"],
     ["guides", "/guides/", "Guides"],
-    ["watch", "/data-center-watch/", "Data Center Watch"],
+    ["watch", "/data-center-watch/", "Feeds"],
     ["glossary", "/glossary/", "Glossary"],
     ["trust", "/methodology/", "Trust center"]
   ];

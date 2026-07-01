@@ -12,15 +12,19 @@
     "generate:region-pages": "node scripts/generate-region-pages.mjs",
     "generate:glossary-pages": "node scripts/generate-glossary-pages.mjs",
     "generate:pages": "npm run generate:state-pages && npm run generate:trust-pages && npm run generate:guide-pages && npm run generate:ranking-pages && npm run generate:directory-pages && npm run generate:region-pages && npm run generate:glossary-pages",
-    "validate:data": "node scripts/validate-data.mjs",
+    "validate:sources": "node scripts/validate-source-registry.mjs",
+    "validate:data": "node scripts/validate-data.mjs && npm run validate:sources",
+    "monitor:feeds": "node scripts/run-content-monitor.mjs",
+    "feed:studio": "vite --configLoader runner --config tools/feed-studio/studio.config.mjs",
     "predev": "npm run generate:pages",
-    "dev": "vite",
+    "dev": "vite --configLoader runner",
     "prebuild": "npm run generate:pages",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build --configLoader runner",
+    "preview": "vite preview --configLoader runner"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "fast-xml-parser": "^5.9.3",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.468.0",
     "openai": "^6.44.0",

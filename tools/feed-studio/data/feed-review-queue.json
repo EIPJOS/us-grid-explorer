@@ -1,0 +1,29 @@
+[
+  {
+    "id": "feed-fox-nuclear-ai-2026",
+    "source_id": "fox45-national-news-desk",
+    "source_name": "Fox45 / The National News Desk",
+    "source_tier": 3,
+    "source_type": "media",
+    "category": "general_news_energy",
+    "title": "White House ramps up nuclear power push as AI-driven energy demand surges",
+    "url": "https://foxbaltimore.com/news/nation-world/white-house-ramps-up-nuclear-power-push-as-ai-driven-energy-demand-surges-energy-secretary-texas-army-reactors",
+    "published_at": "2026-06-26T18:45:00.000Z",
+    "discovered_at": "2026-06-30T15:00:00.000Z",
+    "snippet": "Federal nuclear policy and financing are increasingly being framed around expected electricity demand from AI infrastructure.",
+    "relevance_score": 95,
+    "matched_keywords": [
+      "AI infrastructure",
+      "electricity demand",
+      "nuclear",
+      "data center"
+    ],
+    "group_id": "federal-nuclear-ai-demand",
+    "verification_status": "verified",
+    "verification_sources": [
+      "u-s-department-of-energy",
+      "white-house"
+    ],
+    "review_status": "pending"
+  }
+]

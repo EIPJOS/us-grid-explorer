@@ -16,7 +16,7 @@ const DEFAULT_FILTERS = {
 };
 
 export default function DataCenterWatchView() {
-  const [activeTab, setActiveTab] = useState("watch");
+  const [activeTab, setActiveTab] = useState("briefings");
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [liveFeed, setLiveFeed] = useState({
     status: "loading",
@@ -64,7 +64,7 @@ export default function DataCenterWatchView() {
     };
   }, []);
 
-  const watchItems = liveFeed.items;
+  const watchItems = activeTab === "notices" ? liveFeed.items : dataCenterWatchItems;
 
   const options = useMemo(() => ({
     sourceTypes: unique(watchItems.map((item) => item.sourceType)),
@@ -93,26 +93,20 @@ export default function DataCenterWatchView() {
     <main className="view-shell data-watch-view">
       <section className="watch-hero">
         <div>
-          <p className="eyebrow">Data center growth monitor</p>
-          <h1>Data Center Watch</h1>
-          <p>Tracking how AI and data center growth affects the U.S. power grid, regulation, and infrastructure investment.</p>
-          <div className="data-status">
-            <span className={liveFeed.status === "live" ? "final" : "preliminary"}>{liveFeed.status === "live" ? "Live Federal Register feed" : "Fallback starter feed"}</span>
-          </div>
-          <p className="watch-feed-note">
-            {liveFeed.status === "live"
-              ? `Updated ${liveFeed.fetchedAt ? formatDate(liveFeed.fetchedAt) : "today"}.`
-              : `Showing curated fallback records while live source is unavailable${liveFeed.message ? `: ${liveFeed.message}` : "."}`}
-          </p>
+          <p className="eyebrow">Data center construction and grid intelligence</p>
+          <h1>Feeds</h1>
+          <p>Verified developments in U.S. data center construction, power demand, utility planning, and permitting.</p>
+          <p className="watch-feed-note">Curated from primary sources. Updated Jun 30.</p>
         </div>
       </section>
 
-      <div className="watch-tabs" role="tablist" aria-label="Data Center Watch sections">
-        <button className={activeTab === "watch" ? "active" : ""} onClick={() => setActiveTab("watch")}><Bell size={16} /> Watch feed</button>
+      <div className="watch-tabs" role="tablist" aria-label="Feed sections">
+        <button className={activeTab === "briefings" ? "active" : ""} onClick={() => setActiveTab("briefings")}><Bell size={16} /> Briefings</button>
+        <button className={activeTab === "notices" ? "active" : ""} onClick={() => setActiveTab("notices")}><ListFilter size={16} /> Live notices</button>
         <button className={activeTab === "sources" ? "active" : ""} onClick={() => setActiveTab("sources")}><Library size={16} /> Source Library</button>
       </div>
 
-      {activeTab === "watch" ? (
+      {activeTab !== "sources" ? (
         <>
           <DataCenterWatchStats items={watchItems} />
           <DataCenterWatchFilters
@@ -127,8 +121,8 @@ export default function DataCenterWatchView() {
           <section className="watch-list-wrap">
             <div className="watch-section-heading">
               <div>
-                <p className="eyebrow">Monitoring queue</p>
-                <h2>Signals to verify and expand</h2>
+                <p className="eyebrow">{activeTab === "briefings" ? "Editor-reviewed" : "Automated monitoring"}</p>
+                <h2>{activeTab === "briefings" ? "Latest briefings" : "Federal Register notices"}</h2>
               </div>
               <span><ListFilter size={14} /> Sorted by {filters.sortBy.replace(/([A-Z])/g, " $1").toLowerCase()}</span>
             </div>
@@ -167,6 +161,7 @@ function searchableText(item) {
     item.agency,
     item.isoRto,
     item.summary,
+    item.whyItMatters,
     ...(item.companyNames ?? []),
     ...(item.utilityNames ?? []),
     ...item.tags

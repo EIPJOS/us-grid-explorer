@@ -93,3 +93,42 @@ Production is deployed on Vercel at [usgridexplorer.com](https://usgridexplorer.
 - More state and regional editorial pages for high-intent search traffic.
 - Expanded correction review flow and source confidence scoring.
 - Optional AI guide activation after API billing is intentionally enabled.
+
+## Feeds Source Monitor
+
+The source monitor is a review-first discovery pipeline. It never publishes automatically and does not copy article text or images. It stores source metadata, extracts factual signals, scores relevance, groups related items, and marks Tier 2 or Tier 3 discoveries for primary-source verification.
+
+### Source Tiers
+
+- **Tier 1:** official agencies, ISO/RTOs, utilities, companies, operators, and government research. Use for factual grounding.
+- **Tier 2:** specialist industry media and research. Use for discovery, then verify important claims with Tier 1.
+- **Tier 3:** general news and press-release wires. Use for discovery only; unverified items remain `needs_review`.
+
+The central registry is `src/data/sourceRegistry.js`. New entries must include the source URL, type, category, tier, reliability score, fetch method, full-text policy, paywall risk, notes, and enabled state. Keep uncertain feeds and local-government placeholders disabled until their exact URLs and access rules are confirmed.
+
+### Manual Run
+
+```powershell
+npm.cmd run validate:sources
+npm.cmd run monitor:feeds
+npm.cmd run dev
+```
+
+Use the private local studio at `http://127.0.0.1:4175/` to review the queue and draft briefs. The monitor writes discoveries to `tools/feed-studio/data/feed-review-queue.json`. Studio decisions currently use browser local storage and do not alter the repository.
+
+```powershell
+npm.cmd run feed:studio
+```
+
+Scores combine matched topic keywords, title matches, source tier, and a data-center focus bonus. URL normalization and title similarity remove likely duplicates. Related items receive a shared group key. Tier 2 and Tier 3 items become verified only when related Tier 1 material exists in the same run.
+
+Safe defaults are stored in `.env.example`. Keep `AUTO_PUBLISH=false`. GitHub Actions may eventually run the monitor on a schedule and open a pull request with queue changes. Vercel Cron should wait until persistent storage and authenticated admin access exist.
+
+### Copyright and Source Use
+
+- Always retain the original source name and URL.
+- Use metadata and factual signals to create independent US Grid Explorer analysis.
+- Do not rewrite articles sentence by sentence or publish substitutes for the originals.
+- Do not copy source images without an explicit license.
+- Do not fetch full text from paywalled sources.
+- Require human verification and approval before publication.

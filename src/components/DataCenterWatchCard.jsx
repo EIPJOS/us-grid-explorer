@@ -23,6 +23,22 @@ export default function DataCenterWatchCard({ item }) {
         {location && <span><MapPin size={13} />{location}</span>}
       </div>
       <p>{item.summary}</p>
+      {item.whyItMatters && (
+        <div className="watch-takeaway">
+          <strong>Why it matters</strong>
+          <p>{item.whyItMatters}</p>
+        </div>
+      )}
+      {item.corroboratingSources?.length > 0 && (
+        <div className="watch-corroboration">
+          <strong>Primary documents</strong>
+          {item.corroboratingSources.map((source) => (
+            <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
+              {source.label}<ExternalLink size={11} />
+            </a>
+          ))}
+        </div>
+      )}
       {detailChips.length > 0 && (
         <div className="watch-details">
           {detailChips.map((chip) => <span key={chip}>{chip}</span>)}
@@ -34,7 +50,7 @@ export default function DataCenterWatchCard({ item }) {
       <footer>
         <small>Updated {formatDate(item.updatedAt)}</small>
         <a href={item.url} target="_blank" rel="noreferrer">
-          Open source <ExternalLink size={13} />
+          Read original <ExternalLink size={13} />
         </a>
       </footer>
     </article>

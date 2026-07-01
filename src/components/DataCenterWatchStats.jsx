@@ -12,7 +12,7 @@ export default function DataCenterWatchStats({ items }) {
   ).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
   return (
-    <section className="watch-stats" aria-label="Data Center Watch summary">
+    <section className="watch-stats" aria-label="Feed summary">
       <Stat icon={<Activity size={18} />} label="Tracked items" value={items.length.toLocaleString()} note="Starter monitoring feed" />
       <Stat icon={<Landmark size={18} />} label="Government / regulation" value={regulationCount.toLocaleString()} note="Federal, state, local" />
       <Stat icon={<Database size={18} />} label="Grid / energy data" value={gridCount.toLocaleString()} note="ISO, EIA, utility signals" />

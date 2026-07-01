@@ -4,6 +4,26 @@
  */
 export const dataCenterWatchItems = [
   {
+    id: "ai-data-centers-power-system-sustainability-2026",
+    title: "Power-flexible AI data centers could become grid-responsive compute assets",
+    sourceName: "arXiv",
+    sourceType: "research",
+    url: "https://arxiv.org/abs/2606.25098",
+    publishedDate: "2026-06-23",
+    tags: ["ai_data_center", "electricity_demand", "grid_planning", "load_flexibility"],
+    summary: "The paper argues that modern GPU clusters can be treated as grid-interactive loads rather than fixed demand blocks. It describes an architecture that combines grid signals, workload scheduling, and power telemetry to shift or curtail compute when the system is stressed, and it reports experimental results on a 130 kW cluster.",
+    whyItMatters: "This is important because it points to a possible path for easing data-center-driven grid pressure: if operators can throttle or move workloads intelligently, some new demand may be served with less transmission and interconnection friction.",
+    corroboratingSources: [
+      {
+        label: "DOE data center electricity demand report",
+        url: "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+      }
+    ],
+    importanceScore: 91,
+    createdAt: "2026-07-01T14:00:00Z",
+    updatedAt: "2026-07-01T14:00:00Z"
+  },
+  {
     id: "federal-nuclear-push-ai-power-2026",
     title: "Federal nuclear push expands as AI power demand rises",
     sourceName: "Fox45 / The National News Desk",

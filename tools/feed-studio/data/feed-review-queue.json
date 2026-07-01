@@ -1,5 +1,31 @@
 [
   {
+    "id": "feed-ai-data-centers-power-system-sustainability-2026",
+    "source_id": "arxiv-ai-data-centers-power-system-sustainability",
+    "source_name": "arXiv",
+    "source_tier": 2,
+    "source_type": "academic_search",
+    "category": "general_news_energy",
+    "title": "Power-flexible AI data centers could become grid-responsive compute assets",
+    "url": "https://arxiv.org/abs/2606.25098",
+    "published_at": "2026-06-23T00:00:00.000Z",
+    "discovered_at": "2026-07-01T14:00:00.000Z",
+    "snippet": "A grid-responsive compute architecture suggests some AI data centers can shift load and help reduce grid stress instead of acting as fixed demand.",
+    "relevance_score": 91,
+    "matched_keywords": [
+      "AI data center",
+      "electricity demand",
+      "grid planning",
+      "load flexibility"
+    ],
+    "group_id": "ai-data-centers-grid-flexibility",
+    "verification_status": "verified",
+    "verification_sources": [
+      "u-s-department-of-energy"
+    ],
+    "review_status": "pending"
+  },
+  {
     "id": "feed-fox-nuclear-ai-2026",
     "source_id": "fox45-national-news-desk",
     "source_name": "Fox45 / The National News Desk",

@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-07-01T16:00:00.000Z",
+  "timezone": "America/New_York",
+  "model": "gpt-5.4-mini-medium",
+  "limit": 3,
+  "sourceCount": 3,
+  "itemCount": 3,
+  "items": [
+    {
+      "id": "feed-ai-workload-power-profiles-grid-planning-2026",
+      "title": "Measured AI workload power profiles sharpen data-center grid planning",
+      "sourceName": "arXiv",
+      "sourceType": "research",
+      "url": "https://arxiv.org/abs/2604.07345",
+      "publishedDate": "2026-04-08",
+      "tags": ["ai_data_center", "power_profile", "grid_planning", "infrastructure_planning"],
+      "summary": "This study measures training, fine-tuning, and inference workloads on an NVIDIA H100-based data center with 0.1-second resolution and then scales the results to whole-facility energy demand. The authors say the resulting profiles show realistic short-term fluctuations that matter for grid connection, on-site generation, and microgrid design.",
+      "whyItMatters": "For US Grid Explorer, this is useful because it turns AI demand from a vague forecast into an operational shape. Knowing how loads actually ramp, spike, and settle helps planners decide how much utility capacity, backup generation, and local grid reinforcement a new campus may need.",
+      "corroboratingSources": [
+        {
+          "label": "DOE data center electricity demand report",
+          "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+        }
+      ],
+      "importanceScore": 90,
+      "createdAt": "2026-07-01T16:00:00Z",
+      "updatedAt": "2026-07-01T16:00:00Z"
+    },
+    {
+      "id": "feed-ai-data-center-power-delivery-architecture-2026",
+      "title": "Next-generation AI data centers are pushing power-delivery design beyond 48V racks",
+      "sourceName": "arXiv",
+      "sourceType": "research",
+      "url": "https://arxiv.org/abs/2606.25095",
+      "publishedDate": "2026-06-23",
+      "tags": ["ai_data_center", "power_delivery", "grid_planning", "solid_state_transformer"],
+      "summary": "This review says AI workloads are stressing traditional 48V rack power, low-voltage AC distribution, and line-frequency transformer architectures. It highlights three technical building blocks for future facilities: high-voltage conversion-ratio DC/DC converters, facility-level low-voltage DC distribution, and medium-voltage solid-state transformers.",
+      "whyItMatters": "For site and grid planning, this means the power room is becoming a strategic design choice rather than a back-end utility. Facilities that adopt new power-delivery architectures may handle higher density loads more efficiently, but they also need more specialized electrical infrastructure and a closer relationship with the grid.",
+      "corroboratingSources": [
+        {
+          "label": "DOE data center electricity demand report",
+          "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+        }
+      ],
+      "importanceScore": 90,
+      "createdAt": "2026-07-01T15:00:00Z",
+      "updatedAt": "2026-07-01T15:00:00Z"
+    },
+    {
+      "id": "feed-ai-data-centers-power-system-sustainability-2026",
+      "title": "Power-flexible AI data centers could become grid-responsive compute assets",
+      "sourceName": "arXiv",
+      "sourceType": "research",
+      "url": "https://arxiv.org/abs/2606.25098",
+      "publishedDate": "2026-06-23",
+      "tags": ["ai_data_center", "electricity_demand", "grid_planning", "load_flexibility"],
+      "summary": "The paper argues that modern GPU clusters can be treated as grid-interactive loads rather than fixed demand blocks. It describes an architecture that combines grid signals, workload scheduling, and power telemetry to shift or curtail compute when the system is stressed, and it reports experimental results on a 130 kW cluster.",
+      "whyItMatters": "This is important because it points to a possible path for easing data-center-driven grid pressure: if operators can throttle or move workloads intelligently, some new demand may be served with less transmission and interconnection friction.",
+      "corroboratingSources": [
+        {
+          "label": "DOE data center electricity demand report",
+          "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+        }
+      ],
+      "importanceScore": 91,
+      "createdAt": "2026-07-01T14:00:00Z",
+      "updatedAt": "2026-07-01T14:00:00Z"
+    }
+  ]
+}

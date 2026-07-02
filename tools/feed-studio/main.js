@@ -9,6 +9,15 @@ const app = document.querySelector("#app");
 const state = loadState();
 let drafts = loadDrafts();
 let queue = [];
+let dailyBatch = {
+  generatedAt: null,
+  timezone: "America/New_York",
+  model: "",
+  limit: 3,
+  sourceCount: 0,
+  itemCount: 0,
+  items: []
+};
 
 if (!drafts.length) {
   drafts = seedTierOneSlots(SEED_LIMIT);
@@ -23,6 +32,11 @@ loadQueue().then((items) => {
     drafts = seedTierOneSlots(SEED_LIMIT);
     persistDrafts();
   }
+  render();
+});
+
+loadDailyBatch().then((payload) => {
+  dailyBatch = normalizeBatch(payload);
   render();
 });
 
@@ -99,7 +113,7 @@ app.addEventListener("click", async (event) => {
       return;
     }
     if (action === "copy-draft") {
-      const selected = drafts.find((item) => item.id === id);
+      const selected = drafts.find((item) => item.id === id) ?? dailyBatch.items.find((item) => item.id === id);
       if (!selected) return;
       await navigator.clipboard.writeText(JSON.stringify(selected, null, 2));
       actionButton.textContent = "Copied";
@@ -132,7 +146,7 @@ app.addEventListener("click", async (event) => {
       return;
     }
     if (action === "export-json") {
-      const payload = JSON.stringify({ drafts, queue }, null, 2);
+      const payload = JSON.stringify({ drafts, queue, dailyBatch }, null, 2);
       await navigator.clipboard.writeText(payload);
       actionButton.textContent = "Copied";
       setTimeout(() => {
@@ -186,6 +200,7 @@ function render() {
   const selectedDraft = drafts.find((item) => item.id === state.selectedDraftId) ?? drafts[0] ?? null;
   const tierOneCount = drafts.filter((item) => item.sourceTier === 1).length;
   const readyCount = drafts.filter((item) => item.status === "ready").length;
+  const batchCounts = countBatchTiers(dailyBatch.items);
 
   app.innerHTML = `
     <div class="studio">
@@ -200,6 +215,38 @@ function render() {
           <button class="button" data-action="export-json">Export JSON</button>
         </div>
       </header>
+
+      <section class="panel" style="margin: 16px 16px 0;">
+        <div class="panel-header">
+          <div>
+            <h2>Daily 3-article batch</h2>
+            <p>Generated briefs are tier-ordered, limited to three per run, and shown here before anything is pushed live.</p>
+          </div>
+          <div class="batch-meta">
+            <strong>${dailyBatch.items.length || 0} drafts</strong>
+            <small>${dailyBatch.generatedAt ? `Updated ${formatShortDate(dailyBatch.generatedAt)}` : "Waiting for the next run"}</small>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="summary-grid batch-summary-grid">
+            <div class="summary-card"><span>Limit</span><strong>${dailyBatch.limit ?? 3}</strong></div>
+            <div class="summary-card"><span>Tier 1</span><strong>${batchCounts[1] ?? 0}</strong></div>
+            <div class="summary-card"><span>Tier 2</span><strong>${batchCounts[2] ?? 0}</strong></div>
+            <div class="summary-card"><span>Tier 3</span><strong>${batchCounts[3] ?? 0}</strong></div>
+          </div>
+          <div class="row">
+            <label>Generation model</label>
+            <input class="input" value="${escapeHtml(dailyBatch.model || "gpt-5.4-mini-medium")}" readonly />
+          </div>
+          <div class="row">
+            <label>Batch rules</label>
+            <textarea class="textarea" readonly>Up to 3 drafts per day; Tier 1 first, then Tier 2, then Tier 3; keep AUTO_PUBLISH off; review on localhost before pushing.</textarea>
+          </div>
+        </div>
+        <div class="queue-list daily-batch-list">
+          ${dailyBatch.items.length ? dailyBatch.items.map(renderBatchCard).join("") : `<div class="empty-state">No generated batch yet. Run the daily batch generator or wait for the scheduled job.</div>`}
+        </div>
+      </section>
 
       <main class="studio-layout">
         <aside class="panel">
@@ -363,6 +410,25 @@ function renderQueueCard(item) {
   `;
 }
 
+function renderBatchCard(item) {
+  const tier = getTier(item);
+  const sourceLine = [item.sourceName, item.publishedDate ? formatShortDate(item.publishedDate) : ""].filter(Boolean).join(" · ");
+  return `
+    <article class="queue-card">
+      <div class="source-meta">
+        <span class="pill tier-${tier}">Tier ${tier || "?"}</span>
+        <span class="pill">${escapeHtml(item.sourceType || "source")}</span>
+      </div>
+      <h4>${escapeHtml(item.title || item.sourceName || "Untitled briefing")}</h4>
+      <small>${escapeHtml(sourceLine)}</small>
+      <p>${escapeHtml(item.summary || item.whyItMatters || "No summary available.")}</p>
+      <div class="draft-actions">
+        <button class="button" data-action="copy-draft" data-id="${escapeHtml(item.id || crypto.randomUUID())}" data-value="Copy JSON">Copy JSON</button>
+      </div>
+    </article>
+  `;
+}
+
 function field(label, key, value, type, multiline = false) {
   const id = `${key}-${crypto.randomUUID()}`;
   return `
@@ -480,6 +546,60 @@ async function loadQueue() {
   } catch {
     return [];
   }
+}
+
+async function loadDailyBatch() {
+  try {
+    const response = await fetch("./data/daily-feed-batch.json");
+    if (!response.ok) return null;
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+function normalizeBatch(payload) {
+  if (!payload || typeof payload !== "object") {
+    return {
+      generatedAt: null,
+      timezone: "America/New_York",
+      model: "",
+      limit: 3,
+      sourceCount: 0,
+      itemCount: 0,
+      items: []
+    };
+  }
+
+  const items = Array.isArray(payload.items) ? payload.items : [];
+  return {
+    generatedAt: payload.generatedAt ?? null,
+    timezone: payload.timezone ?? "America/New_York",
+    model: payload.model ?? "",
+    limit: Number(payload.limit ?? 3),
+    sourceCount: Number(payload.sourceCount ?? 0),
+    itemCount: Number(payload.itemCount ?? items.length),
+    items
+  };
+}
+
+function countBatchTiers(items) {
+  return items.reduce((counts, item) => {
+    const tier = getTier(item);
+    counts[tier] = (counts[tier] ?? 0) + 1;
+    return counts;
+  }, { 1: 0, 2: 0, 3: 0 });
+}
+
+function getTier(item) {
+  return Number(item.sourceTier ?? item.source_tier ?? 0) || 0;
+}
+
+function formatShortDate(value) {
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric"
+  }).format(new Date(value));
 }
 
 function escapeHtml(value) {

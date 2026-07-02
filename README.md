@@ -122,6 +122,18 @@ npm.cmd run feed:studio
 
 Scores combine matched topic keywords, title matches, source tier, and a data-center focus bonus. URL normalization and title similarity remove likely duplicates. Related items receive a shared group key. Tier 2 and Tier 3 items become verified only when related Tier 1 material exists in the same run.
 
+### Daily 3-Article Batch
+
+Each morning, a scheduled feed batch can generate up to three new briefing drafts, in tier order, at 6:00 AM America/New_York. The generated batch is written to `src/data/generated/daily-feed-batch.json` for the public Feeds page and `tools/feed-studio/data/daily-feed-batch.json` for the local review studio. If no fresh items are available, the previous batch stays in place instead of filling with weak placeholders.
+
+Run it locally with:
+
+```powershell
+npm.cmd run generate:feed-batch
+```
+
+The scheduled wrapper uses the same generator but respects the review gate by keeping `AUTO_PUBLISH=false` and updating the batch through a reviewable change set.
+
 Safe defaults are stored in `.env.example`. Keep `AUTO_PUBLISH=false`. GitHub Actions may eventually run the monitor on a schedule and open a pull request with queue changes. Vercel Cron should wait until persistent storage and authenticated admin access exist.
 
 ### Copyright and Source Use

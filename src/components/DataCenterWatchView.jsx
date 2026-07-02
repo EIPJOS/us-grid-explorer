@@ -5,6 +5,7 @@ import DataCenterWatchCard from "./DataCenterWatchCard.jsx";
 import DataCenterWatchFilters from "./DataCenterWatchFilters.jsx";
 import DataCenterWatchStats from "./DataCenterWatchStats.jsx";
 import { dataCenterSources } from "../data/dataCenterSources.js";
+import dailyFeedBatch from "../data/generated/daily-feed-batch.json";
 import { dataCenterWatchItems } from "../data/dataCenterWatchItems.js";
 
 const DEFAULT_FILTERS = {
@@ -28,6 +29,9 @@ export default function DataCenterWatchView() {
     message: "",
     unavailable: false
   });
+  const briefingItems = Array.isArray(dailyFeedBatch?.items) && dailyFeedBatch.items.length
+    ? dailyFeedBatch.items
+    : dataCenterWatchItems;
 
   useEffect(() => {
     let active = true;
@@ -68,7 +72,7 @@ export default function DataCenterWatchView() {
     };
   }, [refreshTick]);
 
-  const watchItems = activeTab === "notices" ? liveFeed.items : dataCenterWatchItems;
+  const watchItems = activeTab === "notices" ? liveFeed.items : briefingItems;
 
   const options = useMemo(() => ({
     sourceTypes: unique(watchItems.map((item) => item.sourceType)),

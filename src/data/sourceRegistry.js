@@ -123,16 +123,30 @@ const tier2 = [
 
 const tier3 = [
   ["Reuters Energy", "https://www.reuters.com/business/energy/", "media", "general_news_energy", "medium"],
+  ["Reuters Technology", "https://www.reuters.com/technology/", "media", "general_news_tech", "medium"],
   ["Bloomberg Energy and Technology", "https://www.bloomberg.com/energy", "media", "general_business_news", "high"],
   ["Wall Street Journal", "https://www.wsj.com/news/business/energy-oil-gas", "media", "general_business_news", "high"],
   ["CNBC", "https://www.cnbc.com/energy/", "media", "general_business_news", "medium"],
+  ["CNBC Technology", "https://www.cnbc.com/technology/", "media", "general_news_tech", "medium"],
   ["AP News", "https://apnews.com/hub/energy", "media", "general_news", "low"],
+  ["AP Technology", "https://apnews.com/hub/technology", "media", "general_news_tech", "low"],
+  ["AP Climate and Environment", "https://apnews.com/hub/climate-and-environment", "media", "general_news_energy", "low"],
   ["Axios", "https://www.axios.com/technology/artificial-intelligence", "media", "general_news", "medium"],
+  ["Axios Technology", "https://www.axios.com/technology", "media", "general_news_tech", "medium"],
+  ["Axios Energy", "https://www.axios.com/energy-environment", "media", "general_news_energy", "medium"],
   ["The Verge", "https://www.theverge.com/ai-artificial-intelligence", "media", "tech_media", "low"],
+  ["The Verge AI", "https://www.theverge.com/ai-artificial-intelligence", "media", "tech_media", "low"],
   ["TechCrunch", "https://techcrunch.com/category/artificial-intelligence/", "media", "tech_media", "medium"],
+  ["TechCrunch AI", "https://techcrunch.com/category/artificial-intelligence/", "media", "tech_media", "medium"],
   ["PR Newswire", "https://www.prnewswire.com/news-releases/", "press_release", "press_release_wire", "low"],
+  ["PR Newswire Energy", "https://www.prnewswire.com/news-releases/energy-latest-news/", "press_release", "press_release_wire", "low"],
+  ["PR Newswire Computer Electronics", "https://www.prnewswire.com/news-releases/computer-electronics-latest-news/", "press_release", "press_release_wire", "low"],
   ["Business Wire", "https://www.businesswire.com/portal/site/home/news/", "press_release", "press_release_wire", "low"],
+  ["Business Wire Energy", "https://www.businesswire.com/portal/site/home/news/industry/?vnsId=31237", "press_release", "press_release_wire", "low"],
+  ["Business Wire Technology", "https://www.businesswire.com/portal/site/home/news/industry/?vnsId=31320", "press_release", "press_release_wire", "low"],
   ["GlobeNewswire", "https://www.globenewswire.com/", "press_release", "press_release_wire", "low"],
+  ["GlobeNewswire Energy", "https://www.globenewswire.com/en/search/industry/Energy", "press_release", "press_release_wire", "low"],
+  ["GlobeNewswire Technology", "https://www.globenewswire.com/en/search/industry/Technology", "press_release", "press_release_wire", "low"],
   ["Accesswire", "https://www.accesswire.com/newsroom", "press_release", "press_release_wire", "low"]
 ].map(([name, url, type, category, paywall]) => source({ name, url, type, category, tier: 3, paywall, notes: "Discovery only. Major claims require Tier 1 verification before approval." }));
 
@@ -169,5 +183,5 @@ export const contentPipelineDefaults = {
   CONTENT_PIPELINE_ENABLED: true,
   AUTO_PUBLISH: false,
   MIN_RELEVANCE_SCORE: 70,
-  MAX_ARTICLES_PER_RUN: 10
+  MAX_ARTICLES_PER_RUN: 3
 };

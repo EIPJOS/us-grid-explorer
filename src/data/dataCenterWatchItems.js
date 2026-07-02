@@ -4,6 +4,26 @@
  */
 export const dataCenterWatchItems = [
   {
+    id: "ai-workload-power-profiles-grid-planning-2026",
+    title: "Measured AI workload power profiles sharpen data-center grid planning",
+    sourceName: "arXiv",
+    sourceType: "research",
+    url: "https://arxiv.org/abs/2604.07345",
+    publishedDate: "2026-04-08",
+    tags: ["ai_data_center", "power_profile", "grid_planning", "infrastructure_planning"],
+    summary: "This study measures training, fine-tuning, and inference workloads on an NVIDIA H100-based data center with 0.1-second resolution and then scales the results to whole-facility energy demand. The authors say the resulting profiles show realistic short-term fluctuations that matter for grid connection, on-site generation, and microgrid design.",
+    whyItMatters: "For US Grid Explorer, this is useful because it turns AI demand from a vague forecast into an operational shape. Knowing how loads actually ramp, spike, and settle helps planners decide how much utility capacity, backup generation, and local grid reinforcement a new campus may need.",
+    corroboratingSources: [
+      {
+        label: "DOE data center electricity demand report",
+        url: "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+      }
+    ],
+    importanceScore: 90,
+    createdAt: "2026-07-01T16:00:00Z",
+    updatedAt: "2026-07-01T16:00:00Z"
+  },
+  {
     id: "ai-data-center-power-delivery-architecture-2026",
     title: "Next-generation AI data centers are pushing power-delivery design beyond 48V racks",
     sourceName: "arXiv",

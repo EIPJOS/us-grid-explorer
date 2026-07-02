@@ -11,6 +11,8 @@
     "generate:directory-pages": "node scripts/generate-fuel-directories.mjs",
     "generate:region-pages": "node scripts/generate-region-pages.mjs",
     "generate:glossary-pages": "node scripts/generate-glossary-pages.mjs",
+    "generate:feed-batch": "node scripts/generate-daily-feed-batch.mjs",
+    "schedule:feed-batch": "node scripts/run-daily-feed-batch.mjs",
     "generate:pages": "npm run generate:state-pages && npm run generate:trust-pages && npm run generate:guide-pages && npm run generate:ranking-pages && npm run generate:directory-pages && npm run generate:region-pages && npm run generate:glossary-pages",
     "validate:sources": "node scripts/validate-source-registry.mjs",
     "validate:data": "node scripts/validate-data.mjs && npm run validate:sources",

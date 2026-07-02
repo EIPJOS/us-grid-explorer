@@ -1,0 +1,46 @@
+name: Daily Feed Batch
+
+on:
+  schedule:
+    # 6:00 AM America/New_York during EDT and EST respectively.
+    - cron: "0 10,11 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate-feed-batch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate daily feed batch
+        run: npm run schedule:feed-batch
+
+      - name: Validate data
+        run: npm run validate:data
+
+      - name: Build
+        run: npm run build
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: daily-feed-batch
+          commit-message: "Update daily feed batch"
+          title: "Daily feed batch update"
+          body: |
+            Automated update from the daily Feeds workflow.
+
+            This keeps the batch review-first: the scheduled job refreshes the draft set, but nothing auto-publishes.
+          delete-branch: true

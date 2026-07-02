@@ -259,6 +259,10 @@ a { color: inherit; }
   gap: 10px;
 }
 
+.batch-summary-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .summary-card {
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -289,6 +293,26 @@ a { color: inherit; }
   max-height: calc(100vh - 182px);
 }
 
+.daily-batch-list {
+  max-height: none;
+}
+
+.batch-meta {
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+  text-align: right;
+}
+
+.batch-meta strong {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.batch-meta small {
+  color: var(--muted);
+}
+
 .queue-card {
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -306,7 +330,8 @@ a { color: inherit; }
 
 @media (max-width: 760px) {
   .studio-header { align-items: flex-start; flex-direction: column; padding: 16px; }
-  .summary-grid, .editor-grid { grid-template-columns: 1fr; }
+  .summary-grid, .editor-grid, .batch-summary-grid { grid-template-columns: 1fr; }
   .button-row { width: 100%; }
   .button { flex: 1; }
+  .batch-meta { justify-items: start; text-align: left; }
 }

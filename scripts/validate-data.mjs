@@ -160,10 +160,51 @@ function validateStateAnalysis() {
   console.log(`Validated ${seen.size.toLocaleString()} state analysis records`);
 }
 
+function validateDailyFeedBatch() {
+  const batchPath = path.join(root, "src/data/generated/daily-feed-batch.json");
+  if (!fs.existsSync(batchPath)) {
+    errors.push("daily feed batch: src/data/generated/daily-feed-batch.json is missing");
+    return;
+  }
+
+  const json = readJson("src/data/generated/daily-feed-batch.json");
+  if (!json || typeof json !== "object") {
+    errors.push("daily feed batch: file must contain a JSON object");
+    return;
+  }
+
+  if (!Array.isArray(json.items)) {
+    errors.push("daily feed batch: items array is missing");
+    return;
+  }
+
+  if (json.items.length > 3) {
+    errors.push(`daily feed batch: contains ${json.items.length} items; maximum is 3`);
+  }
+
+  const seen = new Set();
+  for (const item of json.items) {
+    if (!item.id) errors.push("daily feed batch: item missing id");
+    if (item.id && seen.has(item.id)) errors.push(`daily feed batch: duplicate item id ${item.id}`);
+    if (item.id) seen.add(item.id);
+
+    for (const field of ["title", "sourceName", "sourceType", "url", "summary", "whyItMatters", "publishedDate"]) {
+      if (!item[field]) errors.push(`daily feed batch: ${item.id || "unknown item"} missing ${field}`);
+    }
+
+    if (item.corroboratingSources != null && !Array.isArray(item.corroboratingSources)) {
+      errors.push(`daily feed batch: ${item.id || "unknown item"} corroboratingSources must be an array when present`);
+    }
+  }
+
+  console.log(`Validated ${json.items.length.toLocaleString()} daily feed batch records`);
+}
+
 for (const dataset of datasets) {
   validateFeatureDataset(dataset);
 }
 validateStateAnalysis();
+validateDailyFeedBatch();
 
 for (const warning of warnings) {
   console.warn(`Warning: ${warning}`);

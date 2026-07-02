@@ -4,6 +4,26 @@
  */
 export const dataCenterWatchItems = [
   {
+    id: "ai-data-center-power-delivery-architecture-2026",
+    title: "Next-generation AI data centers are pushing power-delivery design beyond 48V racks",
+    sourceName: "arXiv",
+    sourceType: "research",
+    url: "https://arxiv.org/abs/2606.25095",
+    publishedDate: "2026-06-23",
+    tags: ["ai_data_center", "power_delivery", "grid_planning", "solid_state_transformer"],
+    summary: "This review says AI workloads are stressing traditional 48V rack power, low-voltage AC distribution, and line-frequency transformer architectures. It highlights three technical building blocks for future facilities: high-voltage conversion-ratio DC/DC converters, facility-level low-voltage DC distribution, and medium-voltage solid-state transformers.",
+    whyItMatters: "For site and grid planning, this means the power room is becoming a strategic design choice rather than a back-end utility. Facilities that adopt new power-delivery architectures may handle higher density loads more efficiently, but they also need more specialized electrical infrastructure and a closer relationship with the grid.",
+    corroboratingSources: [
+      {
+        label: "DOE data center electricity demand report",
+        url: "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+      }
+    ],
+    importanceScore: 90,
+    createdAt: "2026-07-01T15:00:00Z",
+    updatedAt: "2026-07-01T15:00:00Z"
+  },
+  {
     id: "ai-data-centers-power-system-sustainability-2026",
     title: "Power-flexible AI data centers could become grid-responsive compute assets",
     sourceName: "arXiv",

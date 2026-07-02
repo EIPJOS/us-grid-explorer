@@ -1,5 +1,31 @@
 [
   {
+    "id": "feed-ai-data-center-power-delivery-architecture-2026",
+    "source_id": "arxiv-ai-data-center-power-delivery-architecture",
+    "source_name": "arXiv",
+    "source_tier": 2,
+    "source_type": "academic_search",
+    "category": "general_news_energy",
+    "title": "Next-generation AI data centers are pushing power-delivery design beyond 48V racks",
+    "url": "https://arxiv.org/abs/2606.25095",
+    "published_at": "2026-06-23T00:00:00.000Z",
+    "discovered_at": "2026-07-01T15:00:00.000Z",
+    "snippet": "A review of future AI data center design says power architecture is moving toward higher-voltage conversion, low-voltage DC distribution, and medium-voltage solid-state transformers.",
+    "relevance_score": 90,
+    "matched_keywords": [
+      "AI data center",
+      "power delivery",
+      "grid planning",
+      "solid-state transformer"
+    ],
+    "group_id": "ai-data-centers-power-architecture",
+    "verification_status": "verified",
+    "verification_sources": [
+      "u-s-department-of-energy"
+    ],
+    "review_status": "pending"
+  },
+  {
     "id": "feed-ai-data-centers-power-system-sustainability-2026",
     "source_id": "arxiv-ai-data-centers-power-system-sustainability",
     "source_name": "arXiv",

@@ -29,9 +29,27 @@ export default function DataCenterWatchView() {
     message: "",
     unavailable: false
   });
-  const briefingItems = Array.isArray(dailyFeedBatch?.items) && dailyFeedBatch.items.length
+  const [publishedArticles, setPublishedArticles] = useState([]);
+  const staticBriefingItems = Array.isArray(dailyFeedBatch?.items) && dailyFeedBatch.items.length
     ? dailyFeedBatch.items
     : dataCenterWatchItems;
+  const briefingItems = useMemo(() => {
+    const seen = new Set(publishedArticles.map((item) => item.url).filter(Boolean));
+    return [...publishedArticles, ...staticBriefingItems.filter((item) => !item.url || !seen.has(item.url))];
+  }, [publishedArticles, staticBriefingItems]);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/watch-articles?limit=30")
+      .then((response) => (response.ok ? response.json() : { items: [] }))
+      .then((payload) => {
+        if (active && Array.isArray(payload.items) && payload.items.length) setPublishedArticles(payload.items);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [refreshTick]);
 
   useEffect(() => {
     let active = true;

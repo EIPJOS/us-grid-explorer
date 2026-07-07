@@ -4,6 +4,7 @@ import DataCenterSourceLibrary from "./DataCenterSourceLibrary.jsx";
 import DataCenterWatchCard from "./DataCenterWatchCard.jsx";
 import DataCenterWatchFilters from "./DataCenterWatchFilters.jsx";
 import DataCenterWatchStats from "./DataCenterWatchStats.jsx";
+import DigestSignup from "./DigestSignup.jsx";
 import { dataCenterSources } from "../data/dataCenterSources.js";
 import dailyFeedBatch from "../data/generated/daily-feed-batch.json";
 import { dataCenterWatchItems } from "../data/dataCenterWatchItems.js";
@@ -139,6 +140,7 @@ export default function DataCenterWatchView() {
       {activeTab !== "sources" ? (
         <>
           <DataCenterWatchStats items={watchItems} />
+          {activeTab === "briefings" && <DigestSignup />}
           <DataCenterWatchFilters
             filters={filters}
             sourceTypes={options.sourceTypes}

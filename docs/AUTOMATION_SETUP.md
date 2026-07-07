@@ -63,7 +63,7 @@ Then open `https://usgridexplorer.com/data-center-watch/` — the new cards appe
 ## Tuning knobs (env vars in the workflow file)
 | Variable | Default | Meaning |
 |---|---|---|
-| `ARTICLE_MODEL` | `claude-sonnet-4-6` | Anthropic model for summaries |
+| `ARTICLE_MODEL` | `claude-sonnet-5` | Anthropic model for summaries |
 | `ARTICLE_LIMIT` | `3` | Articles per run |
 | `ARTICLE_MIN_SCORE` | `55` | Minimum relevance score to qualify |
 

@@ -18,7 +18,7 @@
  *   SUPABASE_SERVICE_ROLE_KEY  Supabase service-role key (server-side only!)
  *
  * Optional:
- *   ARTICLE_MODEL              default "claude-sonnet-4-6"
+ *   ARTICLE_MODEL              default "claude-sonnet-5"
  *   ARTICLE_LIMIT              default 3
  *   ARTICLE_MIN_SCORE          default 55
  */
@@ -30,7 +30,7 @@ const ANTHROPIC_API_KEY = requireEnv("ANTHROPIC_API_KEY");
 const SUPABASE_URL = requireEnv("SUPABASE_URL").replace(/\/+$/, "");
 const SUPABASE_SERVICE_ROLE_KEY = requireEnv("SUPABASE_SERVICE_ROLE_KEY");
 
-const MODEL = process.env.ARTICLE_MODEL || "claude-sonnet-4-6";
+const MODEL = process.env.ARTICLE_MODEL || "claude-sonnet-5";
 const LIMIT = Number(process.env.ARTICLE_LIMIT || 3);
 const MIN_SCORE = Number(process.env.ARTICLE_MIN_SCORE || 55);
 
@@ -45,7 +45,7 @@ const rssSources = [
   rss("Utility Dive (RSS)", "https://www.utilitydive.com/feeds/news/", "media", "energy_media", 2),
   rss("Data Center Knowledge (RSS)", "https://www.datacenterknowledge.com/rss.xml", "media", "data_center_media", 2),
   rss("Data Center Dynamics (RSS)", "https://www.datacenterdynamics.com/rss/", "media", "data_center_media", 2),
-  rss("Data Center Frontier (RSS)", "https://www.datacenterfrontier.com/rss.xml", "media", "data_center_media", 2),
+  rss("Data Center Frontier (RSS)", "https://www.datacenterfrontier.com/__rss/website-scheduled-content.xml?input=%7B%22sectionAlias%22%3A%22home%22%7D", "media", "data_center_media", 2),
   rss("POWER Magazine (RSS)", "https://www.powermag.com/feed/", "media", "power_generation", 2),
   rss("PV Magazine USA (RSS)", "https://pv-magazine-usa.com/feed/", "media", "solar_storage_media", 2),
   rss("Renewable Energy World (RSS)", "https://www.renewableenergyworld.com/feed/", "media", "renewable_energy_media", 2),

@@ -1,0 +1,38 @@
+name: Publish Daily Articles
+
+on:
+  schedule:
+    # 10:30 UTC = 6:30 AM EDT / 5:30 AM EST, Monday-Friday.
+    - cron: "30 10 * * 1-5"
+  workflow_dispatch: {}
+
+concurrency:
+  group: publish-daily-articles
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate and publish 3 daily articles
+        run: node scripts/publish-daily-articles.mjs
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ARTICLE_MODEL: claude-sonnet-5
+          ARTICLE_LIMIT: "3"

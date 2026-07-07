@@ -178,8 +178,8 @@ function validateDailyFeedBatch() {
     return;
   }
 
-  if (json.items.length > 3) {
-    errors.push(`daily feed batch: contains ${json.items.length} items; maximum is 3`);
+  if (json.items.length > 30) {
+    errors.push(`daily feed batch: contains ${json.items.length} items; maximum is 30`);
   }
 
   const seen = new Set();

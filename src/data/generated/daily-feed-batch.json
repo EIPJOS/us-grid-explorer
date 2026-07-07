@@ -2,9 +2,9 @@
   "generatedAt": "2026-07-07T16:00:00.000Z",
   "timezone": "America/New_York",
   "model": "claude-sonnet-5",
-  "limit": 3,
-  "sourceCount": 2,
-  "itemCount": 3,
+  "limit": 12,
+  "sourceCount": 5,
+  "itemCount": 12,
   "items": [
     {
       "id": "feed-utilities-triage-ai-data-center-grid-access-2026",
@@ -65,6 +65,186 @@
       "importanceScore": 90,
       "createdAt": "2026-07-07T14:00:00Z",
       "updatedAt": "2026-07-07T14:00:00Z"
+    },
+    {
+      "id": "feed-nerc-flags-ai-data-center-grid-reliability-risks-2026",
+      "title": "NERC flags gigawatt-scale AI data centers as an emerging grid-reliability risk",
+      "sourceName": "Data Center Knowledge",
+      "sourceType": "news",
+      "url": "https://www.datacenterknowledge.com/energy-power-supply/nerc-flags-ai-data-center-grid-risks-in-report",
+      "publishedDate": "2026-07-03",
+      "tags": ["ai_data_center", "grid_reliability", "nerc", "load_growth", "regulation"],
+      "summary": "Data Center Knowledge reports that the North American Electric Reliability Corporation's 2026 assessment warns that as individual data-center campuses approach gigawatt scale and cluster in the same regions, their abrupt disconnections from the grid can now threaten system stability. NERC argues the phenomenon calls for new modeling standards, tighter operational coordination, and updated regulatory frameworks. The concern centers on how quickly such large loads can drop off or ramp, stressing a grid built around more predictable demand.",
+      "whyItMatters": "When a single load rivals a mid-sized city, its sudden loss or surge becomes a system-wide event rather than a local one. NERC's flag signals that reliability rules — not just capacity — will increasingly shape where and how fast large data centers can interconnect, adding a compliance dimension developers and utilities must plan around.",
+      "corroboratingSources": [
+        {
+          "label": "NERC reliability assessments",
+          "url": "https://www.nerc.com/pa/RAPA/ra/Pages/default.aspx"
+        }
+      ],
+      "importanceScore": 86,
+      "createdAt": "2026-07-07T13:30:00Z",
+      "updatedAt": "2026-07-07T13:30:00Z"
+    },
+    {
+      "id": "feed-ferc-large-load-tariff-review-data-centers-2026",
+      "title": "FERC presses grid operators to rework large-load rules for data centers",
+      "sourceName": "Data Center Knowledge",
+      "sourceType": "news",
+      "url": "https://www.datacenterknowledge.com/build-design/ferc-targets-grid-rules-for-data-centers-and-large-loads",
+      "publishedDate": "2026-06-18",
+      "tags": ["ferc", "large_load", "tariffs", "interconnection", "regulation"],
+      "summary": "According to Data Center Knowledge, the Federal Energy Regulatory Commission has directed six grid operators to justify or revise their large-load tariffs, giving them 60 days to respond and 30 days to explain how they intend to serve rapidly growing AI-driven demand. The move signals that federal regulators want a more consistent framework for how outsized loads connect and pay for grid service. It puts the terms of large-load interconnection squarely on the federal agenda.",
+      "whyItMatters": "Tariff design determines who bears the cost of the transmission and generation that data centers require — existing ratepayers or the new loads themselves. A FERC-driven overhaul could standardize cost allocation and interconnection terms across regions, reducing uncertainty for developers while shaping the economics of every large campus.",
+      "corroboratingSources": [
+        {
+          "label": "FERC news and events",
+          "url": "https://www.ferc.gov/news-events/news"
+        }
+      ],
+      "importanceScore": 85,
+      "createdAt": "2026-07-07T13:00:00Z",
+      "updatedAt": "2026-07-07T13:00:00Z"
+    },
+    {
+      "id": "feed-duke-energy-north-carolina-data-center-rules-2026",
+      "title": "Duke Energy proposes special data-center rules and rates in North Carolina",
+      "sourceName": "Canary Media",
+      "sourceType": "news",
+      "url": "https://www.canarymedia.com/articles/data-centers/duke-energy-proposes-special-rules-for-data-centers-in-north-carolina",
+      "publishedDate": "2026-07-06",
+      "tags": ["data_center", "utility_rates", "north_carolina", "duke_energy", "ratepayer_protection"],
+      "summary": "Canary Media reports that Duke Energy has proposed special rules and pricing for data centers in North Carolina, reversing its earlier position that such measures were unnecessary. Clean-energy and consumer advocates had pressed the utility for months to follow a national trend toward dedicated large-load tariffs meant to keep data-center costs from landing on ordinary customers. The proposal would set distinct terms for how the state's dominant utility serves these power-hungry facilities.",
+      "whyItMatters": "Dedicated data-center tariffs are becoming a key tool for shielding residential ratepayers from the cost of serving giant new loads. Duke's shift in one of the fastest-growing utility territories adds momentum to a national move toward treating data centers as a distinct customer class with their own cost responsibilities.",
+      "corroboratingSources": [
+        {
+          "label": "DOE data center electricity demand report",
+          "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+        }
+      ],
+      "importanceScore": 83,
+      "createdAt": "2026-07-07T12:30:00Z",
+      "updatedAt": "2026-07-07T12:30:00Z"
+    },
+    {
+      "id": "feed-qts-canceled-digital-gateway-siting-lessons-2026",
+      "title": "QTS's canceled $30B project shows permitting risk now rivals power availability",
+      "sourceName": "Data Center Knowledge",
+      "sourceType": "news",
+      "url": "https://www.datacenterknowledge.com/data-center-site-selection/what-qts-canceled-30b-project-reveals-about-ai-data-center-development",
+      "publishedDate": "2026-07-06",
+      "tags": ["data_center", "site_selection", "permitting", "community_opposition", "development_risk"],
+      "summary": "Data Center Knowledge examines QTS's decision to withdraw its $30 billion Digital Gateway project despite strong underlying infrastructure. The reporting frames the cancellation as evidence that permitting certainty and local community opposition can now sink a project even where power and land are available. It suggests siting risk is broadening beyond the familiar constraint of electricity supply.",
+      "whyItMatters": "For years, power availability has been treated as the make-or-break factor in data-center siting. If permitting and community acceptance are becoming equally decisive, developers must invest earlier in local engagement and regulatory strategy, and analysts should weight social license alongside megawatts when judging which projects will proceed.",
+      "corroboratingSources": [
+        {
+          "label": "DOE data center electricity demand report",
+          "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+        }
+      ],
+      "importanceScore": 82,
+      "createdAt": "2026-07-07T12:00:00Z",
+      "updatedAt": "2026-07-07T12:00:00Z"
+    },
+    {
+      "id": "feed-caiso-solar-surpasses-natural-gas-2026",
+      "title": "Solar out-generated natural gas in California's grid through early 2026, EIA finds",
+      "sourceName": "U.S. Energy Information Administration",
+      "sourceType": "government",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=67784",
+      "publishedDate": "2026-06-16",
+      "tags": ["solar", "natural_gas", "caiso", "generation_mix", "eia"],
+      "summary": "The U.S. Energy Information Administration reports that over the first five months of 2026, utility-scale solar generation in the California Independent System Operator surpassed generation from natural gas. Solar output rose about 21% compared with the same period in 2024, while gas generation declined. The shift reflects continued solar buildout on the CAISO system and its growing share of the daytime generation mix.",
+      "whyItMatters": "California's crossover point is a preview of where high-solar grids are heading, and it matters for data centers seeking low-carbon power. But solar's midday abundance also sharpens the evening ramp challenge, reinforcing why storage and flexible large loads are becoming central to keeping high-renewable systems reliable.",
+      "corroboratingSources": [
+        {
+          "label": "EIA Short-Term Energy Outlook",
+          "url": "https://www.eia.gov/outlooks/steo/"
+        }
+      ],
+      "importanceScore": 80,
+      "createdAt": "2026-07-07T11:30:00Z",
+      "updatedAt": "2026-07-07T11:30:00Z"
+    },
+    {
+      "id": "feed-eia-aeo2026-data-center-server-energy-projection-2026",
+      "title": "EIA's long-term outlook projects data-center server power climbing for decades",
+      "sourceName": "U.S. Energy Information Administration",
+      "sourceType": "government",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=67704",
+      "publishedDate": "2026-05-19",
+      "tags": ["data_center", "electricity_demand", "aeo2026", "load_growth", "eia"],
+      "summary": "In its Annual Energy Outlook 2026, the U.S. Energy Information Administration projects that electricity consumed by data-center servers will keep rising across the commercial building stock, with growth concentrated in standalone data centers more than in server rooms embedded in other buildings. EIA's long-term modeling extends the trend out to 2050, treating dedicated data-center facilities as the dominant driver of this segment of commercial demand.",
+      "whyItMatters": "A multi-decade official projection gives planners and investors a baseline for how durable data-center load growth may be, rather than treating it as a short-term spike. Distinguishing standalone facilities from embedded server rooms also helps target where new generation and grid investment will actually be needed.",
+      "corroboratingSources": [
+        {
+          "label": "EIA Annual Energy Outlook 2026",
+          "url": "https://www.eia.gov/outlooks/aeo/"
+        }
+      ],
+      "importanceScore": 84,
+      "createdAt": "2026-07-07T11:00:00Z",
+      "updatedAt": "2026-07-07T11:00:00Z"
+    },
+    {
+      "id": "feed-ai-data-centers-raise-value-existing-power-plants-2026",
+      "title": "AI demand is making existing power plants more valuable, buyers are paying up",
+      "sourceName": "Data Center Knowledge",
+      "sourceType": "news",
+      "url": "https://www.datacenterknowledge.com/energy-power-supply/why-ai-data-centers-make-existing-power-plants-more-valuable",
+      "publishedDate": "2026-06-30",
+      "tags": ["ai_data_center", "power_plant", "electricity_demand", "generation_assets", "investment"],
+      "summary": "Data Center Knowledge reports that as AI accelerates electricity demand, utilities and investors are paying a growing premium for existing generation that can reach the grid faster than newly built projects. With interconnection queues long and construction timelines stretched, already-connected plants command scarcity value. The dynamic is reshaping how buyers price generation assets in an era of tight capacity.",
+      "whyItMatters": "The premium on existing generation signals that speed-to-grid, not just nameplate capacity, is now a decisive asset quality. For investors it reframes older plants as strategic; for data-center developers it underscores why co-location with or acquisition of existing generation has become a serious siting strategy.",
+      "corroboratingSources": [
+        {
+          "label": "DOE data center electricity demand report",
+          "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+        }
+      ],
+      "importanceScore": 81,
+      "createdAt": "2026-07-07T10:30:00Z",
+      "updatedAt": "2026-07-07T10:30:00Z"
+    },
+    {
+      "id": "feed-water-critical-constraint-ai-data-centers-2026",
+      "title": "Water is emerging as a make-or-break constraint for AI data centers",
+      "sourceName": "Data Center Frontier",
+      "sourceType": "news",
+      "url": "https://www.datacenterfrontier.com/machine-learning/podcast/55381502/water-emerges-as-a-critical-constraint-for-ai-data-centers",
+      "publishedDate": "2026-06-02",
+      "tags": ["ai_data_center", "water_use", "cooling", "site_selection", "sustainability"],
+      "summary": "Data Center Frontier reports that as AI infrastructure expands, water availability, reuse, and discharge management are moving from sustainability talking points to core business concerns. Operators are increasingly treating water as a strategic continuity issue that can shape cooling design, site selection, and long-term operations. The framing positions water alongside power as a first-order constraint on where large campuses can be built.",
+      "whyItMatters": "Many prime data-center regions are also water-stressed, so water access can determine whether a site is viable regardless of available power. Treating water as a strategic resource affects cooling technology choices, permitting, and community relations — factors that increasingly decide which projects clear approval.",
+      "corroboratingSources": [
+        {
+          "label": "DOE data center electricity demand report",
+          "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+        }
+      ],
+      "importanceScore": 79,
+      "createdAt": "2026-07-07T10:00:00Z",
+      "updatedAt": "2026-07-07T10:00:00Z"
+    },
+    {
+      "id": "feed-hidden-water-geography-hyperscale-data-centers-2026",
+      "title": "Study maps the 'hidden' water footprint behind U.S. hyperscale data centers",
+      "sourceName": "arXiv",
+      "sourceType": "research",
+      "url": "https://arxiv.org/abs/2607.02531",
+      "publishedDate": "2026-06-05",
+      "tags": ["data_center", "water_use", "hyperscale", "electricity_demand", "research"],
+      "summary": "This study argues that data-center water use is usually reported as a single number but is actually consumed through two distinct pathways: directly on site for cooling, and indirectly in the power system that generates the facility's electricity. The authors mapped both pathways for 472 U.S. hyperscale facilities by linking each site to its location and power supply. The result is a more complete geography of where — and through which mechanism — data-center water demand actually lands.",
+      "whyItMatters": "Because much of a data center's water footprint is embedded in its electricity, siting decisions and the local generation mix quietly shape regional water stress. Separating on-site cooling from power-related water use gives planners and communities a sharper picture of the true resource burden a new campus imposes.",
+      "corroboratingSources": [
+        {
+          "label": "DOE data center electricity demand report",
+          "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers"
+        }
+      ],
+      "importanceScore": 78,
+      "createdAt": "2026-07-07T09:30:00Z",
+      "updatedAt": "2026-07-07T09:30:00Z"
     }
   ]
 }

@@ -4,31 +4,37 @@ Pages: `/data-center-permits/` (hub) and `/data-center-permits/{region}/` (Loudo
 County, VA live now; Dallas–Fort Worth, Phoenix, Chicago, Atlanta listed as
 "coming soon" waitlist pages).
 
-This is lead capture only — a separate Resend audience from the main
-`RESEND_AUDIENCE_ID` weekly digest, since Grid Permit Alerts is a different
-product (paid, county-specific permit tracking) with different content and
-cadence than the free nationwide grid newsletter. Signups here do **not**
-automatically become Grid Permit Alerts subscribers or receive the real weekly
-digest — that digest is sent separately from the `grid-permit-alerts` repo
+This is lead capture only. **It reuses the existing `RESEND_AUDIENCE_ID`** (the
+same one the weekly digest uses) rather than a separate audience — Resend's
+free plan only allows one audience per account, and a second one requires the
+$40/mo Pro plan. To keep the two lists distinguishable, every contact created
+here is tagged with a `signup_source: permit-alerts` Contact Property, so you
+can filter it out in Resend before sending a Broadcast and never accidentally
+email permit-alert leads with newsletter content (or vice versa). Signups here
+do **not** automatically receive the real weekly Grid Permit Alerts digest —
+that's sent separately from the `grid-permit-alerts` repo
 (`python -m pipeline.digest`). This page's job is purely to validate demand and
 build a list you follow up with manually.
 
+If demand grows enough to justify it, upgrading to Resend Pro and giving this
+its own dedicated audience is a clean follow-up — not needed to launch.
+
 ## One-time setup
 
-### 1. Create a new Resend audience
-1. In the same Resend account as the main digest: **Audiences → Create Audience**
-   (e.g. "Grid Permit Alerts Waitlist") — copy its Audience ID.
-2. You can reuse the existing `RESEND_API_KEY` — API keys aren't tied to one
-   audience.
+### 1. Create the `signup_source` Contact Property
+In Resend: **Audience → Properties → Add property**.
+- Key: `signup_source`
+- Type: `string`
+- Fallback value: `newsletter` (so existing/older contacts read as the default
+  list if you ever filter by this property)
+
+If you skip this step, signups still work — the code falls back to creating
+the contact without the tag — but you'll lose the ability to tell the two
+lists apart until you add it.
 
 ### 2. Environment variables
-
-**Vercel** (Project → Settings → Environment Variables, all environments):
-
-| Variable | Value |
-|---|---|
-| `RESEND_API_KEY` | Same key as the main digest (`re_...`) |
-| `RESEND_PERMIT_ALERTS_AUDIENCE_ID` | The new audience ID from step 1 |
+None needed. This reuses `RESEND_API_KEY` and `RESEND_AUDIENCE_ID`, both
+already configured in Vercel for the weekly digest.
 
 No sending-domain verification is needed for this endpoint — it only writes
 contacts to Resend, it doesn't send email itself.
@@ -36,8 +42,9 @@ contacts to Resend, it doesn't send email itself.
 ### 3. Test
 1. Deploy, then open `/data-center-permits/loudoun-va/` and submit a test email
    in the signup form.
-2. Check **Resend → Audiences → Grid Permit Alerts Waitlist → Contacts** — your
-   test address should appear there within a few seconds.
+2. Check **Resend → Audience → Contacts**, find your test address, and confirm
+   its `signup_source` property (Properties tab or contact detail view) reads
+   `permit-alerts`.
 
 ## Regenerating the pages
 These pages are static-generated at build time, same as state/region/guide

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { BarChart3, BookOpen, Database, Map, MapPinned, Newspaper, Radio, Search, ShieldCheck, Zap } from "lucide-react";
+import { BarChart3, BellRing, BookOpen, Database, Map, MapPinned, Newspaper, Radio, Search, ShieldCheck, Zap } from "lucide-react";
 import { Analytics } from "@vercel/analytics/react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
@@ -321,6 +321,7 @@ export default function App() {
         </nav>
 
         <div className="topbar-meta">
+          <a className="trust-link" href="/data-center-permits/"><BellRing size={14} />Permit Alerts</a>
           <a className="trust-link" href="/methodology/"><ShieldCheck size={14} />Trust center</a>
           <div className="release-badge">
             <i></i>

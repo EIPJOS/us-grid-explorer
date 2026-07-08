@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Phoenix, AZ Data Center Permit Alerts | US Grid Explorer</title><meta name="description" content="Low-cost power and land have made metro Phoenix one of the largest data center markets in the country."><link rel="canonical" href="https://usgridexplorer.com/data-center-permits/phoenix-az/"><meta property="og:type" content="website"><meta property="og:title" content="Phoenix, AZ Data Center Permit Alerts"><meta property="og:description" content="Low-cost power and land have made metro Phoenix one of the largest data center markets in the country."><meta property="og:url" content="https://usgridexplorer.com/data-center-permits/phoenix-az/"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/state-pages.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Data center permit alerts — Phoenix, AZ","description":"Low-cost power and land have made metro Phoenix one of the largest data center markets in the country.","url":"https://usgridexplorer.com/data-center-permits/phoenix-az/","areaServed":"Phoenix, Arizona","provider":{"@type":"Organization","name":"US Grid Explorer / Grid Permit Alerts"}}</script></head><body class="region-page" style="--region:#ffb77a"><header class="site-header">
+    <a class="brand" href="/"><span>US</span><strong>US Grid Explorer<small>Infrastructure intelligence</small></strong></a>
+    <nav aria-label="Primary navigation"><a href="/">Explore map</a><a href="/?view=area">My area</a><a href="/states/">State profiles</a><a href="/rankings/">Rankings</a><a href="/directories/">Directories</a><a href="/regions/">Grid regions</a><a href="/guides/">Guides</a><a href="/data-center-watch/">Feeds</a><a class="active" href="/data-center-permits/">Permit Alerts</a><a href="/glossary/">Glossary</a><a href="/methodology/">Trust center</a></nav>
+  </header><main class="region-main"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/data-center-permits/">Permit Alerts</a><span>/</span><b>Phoenix, AZ</b></nav>
+    <header class="region-profile-hero"><div><p class="eyebrow">Data Center Permit Alerts &middot; 100+ facilities on cheap, reliable power</p><h1>Phoenix, Arizona</h1><p>Low-cost power and land have made metro Phoenix one of the largest data center markets in the country.</p><p>This market's permit tracker isn't built yet — join the waitlist and we'll email you when it launches. Signing up also helps decide which market gets built next.</p></div><aside><span>Status</span><strong>Coming soon</strong><small>Demand-validated before we build it</small></aside></header>
+    <section class="permit-signup" data-region="Phoenix, AZ">
+    <div>
+      <p class="eyebrow">Free during beta</p>
+      <h2>Get notified when Phoenix, AZ launches</h2>
+      <p>One email a week. No spam, unsubscribe anytime.</p>
+    </div>
+    <form class="permit-signup-form" onsubmit="return false;">
+      <label class="permit-hp" aria-hidden="true">Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+      <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="you@company.com" aria-label="Email address" required>
+      <button type="submit">Join the waitlist</button>
+    </form>
+    <p class="permit-msg" role="status"></p>
+  </section>
+  <script>(()=>{const sections=document.querySelectorAll('.permit-signup');sections.forEach(section=>{const form=section.querySelector('form');const msg=section.querySelector('.permit-msg');const button=form.querySelector('button');form.addEventListener('submit',async(event)=>{event.preventDefault();const email=form.email.value.trim();const company=form.company.value.trim();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.textContent='Please enter a valid email address.';msg.className='permit-msg error';return}button.disabled=true;const original=button.textContent;button.textContent='Joining...';msg.textContent='';msg.className='permit-msg';try{const response=await fetch('/api/subscribe-permit-alerts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,company,region:section.dataset.region})});const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.message||'Something went wrong. Please try again.');msg.textContent=payload.message||"You're in.";msg.className='permit-msg success';form.reset();button.textContent='Done';}catch(error){msg.textContent=error instanceof Error?error.message:'Something went wrong. Please try again.';msg.className='permit-msg error';button.disabled=false;button.textContent=original;}})});})();</script>
+    <section class="profile-links region-related"><div><p class="eyebrow">More markets</p><h2>See another region</h2><a class="all-states-link" href="/data-center-permits/">All permit alerts &rarr;</a></div><a style="border-top:2px solid var(--line)" href="/data-center-permits/loudoun-va/"><span>Permit alerts</span><strong>loudoun va</strong></a><a style="border-top:2px solid var(--line)" href="/data-center-permits/dallas-fort-worth-tx/"><span>Permit alerts</span><strong>dallas fort worth tx</strong></a><a style="border-top:2px solid var(--line)" href="/data-center-permits/chicago-il/"><span>Permit alerts</span><strong>chicago il</strong></a></section>
+    </main><footer class="site-footer">
+    <div><strong>US Grid Explorer</strong><span>County-level data center permit tracking, built from official public records</span></div>
+    <nav aria-label="Trust and policy links">
+      <a href="/about/">About</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/sources/">Sources</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="mailto:contact@usgridexplorer.com">Contact</a>
+      <a href="/corrections/">Corrections</a>
+    </nav>
+  </footer></body></html>

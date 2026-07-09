@@ -115,34 +115,117 @@ function renderRegion(route, region) {
     ? `<main class="region-main"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/data-center-permits/">Permit Alerts</a><span>/</span><b>${region.short}</b></nav>
     <header class="region-profile-hero"><div><p class="eyebrow">Data Center Permit Alerts &middot; ${region.market}</p><h1>${region.name}</h1><p>${region.dek}</p></div><aside><span>Coverage</span><strong>Live now</strong><small>Daily scrape, weekly digest</small></aside></header>
     <section class="metrics">${region.stats.map((stat) => `<article><span>${stat.label}</span><strong>${stat.value}</strong><small>${stat.note}</small></article>`).join("")}</section>
-    ${permitSignup(region)}
+    ${permitSignup(region, route)}
     <div class="trust-content">${region.body}</div>
     <section class="region-sources"><div><p class="eyebrow">Sources</p><h2>Where this comes from</h2></div><p>${region.sourceNote}</p></section>
     ${relatedRegions(route)}
     </main>`
     : `<main class="region-main"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/data-center-permits/">Permit Alerts</a><span>/</span><b>${region.short}</b></nav>
     <header class="region-profile-hero"><div><p class="eyebrow">Data Center Permit Alerts &middot; ${region.market}</p><h1>${region.name}</h1><p>${region.dek}</p><p>This market's permit tracker isn't built yet — join the waitlist and we'll email you when it launches. Signing up also helps decide which market gets built next.</p></div><aside><span>Status</span><strong>Coming soon</strong><small>Demand-validated before we build it</small></aside></header>
-    ${permitSignup(region)}
+    ${permitSignup(region, route)}
     ${relatedRegions(route)}
     </main>`;
   return shell({ title: `${region.short} Data Center Permit Alerts`, description: region.dek, canonical, schema, region, body });
 }
 
-function permitSignup(region) {
-  return `<section class="permit-signup" data-region="${region.short}">
-    <div>
-      <p class="eyebrow">Free during beta</p>
-      <h2>${region.status === "live" ? `Get the weekly ${region.short} digest` : `Get notified when ${region.short} launches`}</h2>
-      <p>One email a week. No spam, unsubscribe anytime.</p>
-    </div>
-    <form class="permit-signup-form" onsubmit="return false;">
-      <label class="permit-hp" aria-hidden="true">Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
-      <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="you@company.com" aria-label="Email address" required>
-      <button type="submit">${region.status === "live" ? "Get the digest" : "Join the waitlist"}</button>
-    </form>
-    <p class="permit-msg" role="status"></p>
+function permitSignup(region, route) {
+  const isLive = region.status === "live";
+  const paidBlock = isLive
+    ? `<div class="permit-paid-cta" data-county="${route}">
+        <div>
+          <p class="eyebrow">$49/mo</p>
+          <h3>Same-day alerts + hearing calendar</h3>
+          <p>Skip the 1-week delay. Get relevant filings the day they're scraped, plus Planning Commission and Board of Supervisors hearing dates. Cancel anytime.</p>
+        </div>
+        <button type="button" class="permit-paid-button" data-email-target="paid-email-${route}">Subscribe — $49/mo</button>
+        <input type="email" id="paid-email-${route}" class="permit-paid-email" inputmode="email" autocomplete="email" placeholder="you@company.com" aria-label="Email address for paid subscription">
+        <p class="permit-msg permit-paid-msg" role="status"></p>
+      </div>`
+    : "";
+  return `<section class="permit-signup-row">
+    <section class="permit-signup" data-region="${region.short}">
+      <div>
+        <p class="eyebrow">Free${isLive ? ", 1-week delay" : " during beta"}</p>
+        <h2>${isLive ? `Get the weekly ${region.short} digest` : `Get notified when ${region.short} launches`}</h2>
+        <p>One email a week. No spam, unsubscribe anytime.</p>
+      </div>
+      <form class="permit-signup-form" onsubmit="return false;">
+        <label class="permit-hp" aria-hidden="true">Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+        <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="you@company.com" aria-label="Email address" required>
+        <button type="submit">${isLive ? "Get the free digest" : "Join the waitlist"}</button>
+      </form>
+      <p class="permit-msg" role="status"></p>
+    </section>
+    ${paidBlock}
   </section>
-  <script>(()=>{const sections=document.querySelectorAll('.permit-signup');sections.forEach(section=>{const form=section.querySelector('form');const msg=section.querySelector('.permit-msg');const button=form.querySelector('button');form.addEventListener('submit',async(event)=>{event.preventDefault();const email=form.email.value.trim();const company=form.company.value.trim();if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){msg.textContent='Please enter a valid email address.';msg.className='permit-msg error';return}button.disabled=true;const original=button.textContent;button.textContent='Joining...';msg.textContent='';msg.className='permit-msg';try{const response=await fetch('/api/subscribe-permit-alerts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,company,region:section.dataset.region})});const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.message||'Something went wrong. Please try again.');msg.textContent=payload.message||"You're in.";msg.className='permit-msg success';form.reset();button.textContent='Done';}catch(error){msg.textContent=error instanceof Error?error.message:'Something went wrong. Please try again.';msg.className='permit-msg error';button.disabled=false;button.textContent=original;}})});})();</script>`;
+  ${isLive ? `<p class="permit-manage-link">Already a paid subscriber? <a href="#" data-manage-billing>Manage your subscription</a></p>` : ""}
+  <script>(()=>{
+    const sections=document.querySelectorAll('.permit-signup');
+    sections.forEach(section=>{
+      const form=section.querySelector('form');
+      const msg=section.querySelector('.permit-msg');
+      const button=form.querySelector('button');
+      form.addEventListener('submit',async(event)=>{
+        event.preventDefault();
+        const email=form.email.value.trim();
+        const company=form.company.value.trim();
+        if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){msg.textContent='Please enter a valid email address.';msg.className='permit-msg error';return}
+        button.disabled=true;const original=button.textContent;button.textContent='Joining...';msg.textContent='';msg.className='permit-msg';
+        try{
+          const response=await fetch('/api/subscribe-permit-alerts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,company,region:section.dataset.region})});
+          const payload=await response.json().catch(()=>({}));
+          if(!response.ok)throw new Error(payload.message||'Something went wrong. Please try again.');
+          msg.textContent=payload.message||"You're in.";msg.className='permit-msg success';form.reset();button.textContent='Done';
+        }catch(error){
+          msg.textContent=error instanceof Error?error.message:'Something went wrong. Please try again.';msg.className='permit-msg error';button.disabled=false;button.textContent=original;
+        }
+      });
+    });
+    document.querySelectorAll('.permit-paid-cta').forEach(cta=>{
+      const county=cta.dataset.county;
+      const button=cta.querySelector('.permit-paid-button');
+      const emailInput=cta.querySelector('.permit-paid-email');
+      const msg=cta.querySelector('.permit-paid-msg');
+      button.addEventListener('click',async()=>{
+        const email=emailInput.value.trim();
+        if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){msg.textContent='Please enter a valid email address.';msg.className='permit-msg permit-paid-msg error';return}
+        button.disabled=true;const original=button.textContent;button.textContent='Redirecting to checkout...';msg.textContent='';msg.className='permit-msg permit-paid-msg';
+        try{
+          const response=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,county})});
+          const payload=await response.json().catch(()=>({}));
+          if(!response.ok||!payload.url)throw new Error(payload.message||'Could not start checkout. Please try again.');
+          window.location.href=payload.url;
+        }catch(error){
+          msg.textContent=error instanceof Error?error.message:'Could not start checkout. Please try again.';msg.className='permit-msg permit-paid-msg error';button.disabled=false;button.textContent=original;
+        }
+      });
+    });
+    document.querySelectorAll('[data-manage-billing]').forEach(link=>{
+      link.addEventListener('click',async(event)=>{
+        event.preventDefault();
+        const email=window.prompt('Enter the email address on your paid subscription:');
+        if(!email)return;
+        try{
+          const response=await fetch('/api/create-portal-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.trim()})});
+          const payload=await response.json().catch(()=>({}));
+          if(!response.ok||!payload.url){window.alert(payload.message||"Couldn't find an active paid subscription for that email.");return}
+          window.location.href=payload.url;
+        }catch(error){window.alert('Could not reach the billing service. Please try again.');}
+      });
+    });
+    const checkoutState=new URLSearchParams(window.location.search).get('checkout');
+    if(checkoutState==='success'){
+      const banner=document.createElement('p');
+      banner.className='permit-checkout-banner success';
+      banner.textContent="You're subscribed! Same-day alerts start with the next filing.";
+      document.querySelector('main')?.prepend(banner);
+    }else if(checkoutState==='cancelled'){
+      const banner=document.createElement('p');
+      banner.className='permit-checkout-banner';
+      banner.textContent='Checkout cancelled — no charge was made.';
+      document.querySelector('main')?.prepend(banner);
+    }
+  })();</script>`;
 }
 
 function relatedRegions(current) {

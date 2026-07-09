@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { BarChart3, BellRing, BookOpen, Database, Map, MapPinned, Newspaper, Radio, Search, ShieldCheck, Zap } from "lucide-react";
+import { BarChart3, BellRing, BookOpen, ChevronDown, Database, Landmark, Layers, Map, MapPinned, Network, Newspaper, Radio, Search, ShieldCheck, Type, Zap } from "lucide-react";
 import { Analytics } from "@vercel/analytics/react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
@@ -328,6 +328,17 @@ export default function App() {
           <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Feeds</button>
           <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
           <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
+          <details className="nav-more">
+            <summary><ChevronDown size={16} />More</summary>
+            <div className="nav-more-menu">
+              <a href="/states/"><Landmark size={16} />State profiles</a>
+              <a href="/rankings/"><BarChart3 size={16} />Rankings</a>
+              <a href="/directories/"><Layers size={16} />Directories</a>
+              <a href="/regions/"><Network size={16} />Grid regions</a>
+              <a href="/guides/"><BookOpen size={16} />Guides</a>
+              <a href="/glossary/"><Type size={16} />Glossary</a>
+            </div>
+          </details>
         </nav>
 
         <div className="topbar-meta">

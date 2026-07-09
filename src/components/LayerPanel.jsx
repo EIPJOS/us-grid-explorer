@@ -48,7 +48,7 @@ export default function LayerPanel({
         aria-expanded={!collapsed}
         onClick={() => setCollapsed((current) => !current)}
       >
-        <span><Database size={15} />Map layers</span>
+        <span><Database size={16} />Map layers</span>
         <ChevronDown size={16} />
       </button>
 
@@ -129,7 +129,7 @@ export default function LayerPanel({
           )}
 
           {loadError && <p className="panel-error">Could not load power plants: {loadError}</p>}
-          <button className="tour-launch" onClick={onStartTour}><Compass size={15} />Take the map tour</button>
+          <button className="tour-launch" onClick={onStartTour}><Compass size={16} />Take the map tour</button>
         </div>
       )}
     </aside>

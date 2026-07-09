@@ -9,6 +9,7 @@ import FacilitiesView from "./components/FacilitiesView.jsx";
 import GridGuide from "./components/GridGuide.jsx";
 import { analyticsEnabled, trackEvent } from "./lib/analytics.js";
 
+const HomeView = lazy(() => import("./components/HomeView.jsx"));
 const GridSignalsView = lazy(() => import("./components/GridSignalsView.jsx"));
 const AnalysisView = lazy(() => import("./components/AnalysisView.jsx"));
 const LearnView = lazy(() => import("./components/LearnView.jsx"));
@@ -77,7 +78,7 @@ export default function App() {
     .map((state) => state.trim().toUpperCase())
     .filter(Boolean);
   const [activeView, setActiveView] = useState(
-    ["explore", "area", "facilities", "signals", "analysis", "learn", "data_center_watch"].includes(initialView) ? initialView : "explore"
+    ["home", "explore", "area", "facilities", "signals", "analysis", "learn", "data_center_watch"].includes(initialView) ? initialView : "home"
   );
   const [tourOpen, setTourOpen] = useState(false);
   const [plantPayload, setPlantPayload] = useState(null);
@@ -261,7 +262,7 @@ export default function App() {
     if (view === "data_center_watch") {
       window.history.pushState(null, "", "/data-center-watch/");
     } else if (window.location.pathname === "/data-center-watch/" || window.location.pathname === "/data-center-watch") {
-      window.history.pushState(null, "", view === "explore" ? "/" : `/?view=${view}`);
+      window.history.pushState(null, "", view === "explore" || view === "home" ? "/" : `/?view=${view}`);
     }
     setActiveView(view);
   }
@@ -302,7 +303,16 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <a className="brand" href="/" aria-label="US Grid Explorer home">
+        <a
+          className="brand"
+          href="/"
+          aria-label="US Grid Explorer home"
+          onClick={(event) => {
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.button === 1) return;
+            event.preventDefault();
+            changeView("home");
+          }}
+        >
           <span className="brand-mark"><Zap size={18} strokeWidth={2.6} /></span>
           <span>
             <strong>US Grid Explorer</strong>
@@ -329,6 +339,12 @@ export default function App() {
           </div>
         </div>
       </header>
+
+      {activeView === "home" && (
+        <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading...</div></main>}>
+          <HomeView plantCount={plants.length} dataCenterCount={dataCenters.length} onNavigate={changeView} />
+        </Suspense>
+      )}
 
       {activeView === "explore" && (
         <main className="explore-shell">

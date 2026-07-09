@@ -25,7 +25,7 @@ export default async function handler(request, response) {
 
   try {
     const upstream = await fetch(endpoint, {
-      headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}` },
+      headers: { apikey: anonKey },
       signal: AbortSignal.timeout(15000)
     });
     if (!upstream.ok) throw new Error(`Supabase returned HTTP ${upstream.status}`);

@@ -59,9 +59,9 @@ export default function DigestSignup({ compact = false }) {
   return (
     <div className={`digest-signup${compact ? " compact" : ""}`}>
       <div className="digest-copy">
-        <p className="eyebrow"><Mail size={13} /> Weekly briefing</p>
+        <p className="eyebrow"><Mail size={13} /> Weekly briefing <span className="digest-free-badge">Free</span></p>
         <h3>Get the week's grid &amp; data-center intelligence</h3>
-        <p>One email every week — the developments that move U.S. power demand, siting, and utility planning. Free, no spam, unsubscribe anytime.</p>
+        <p>One email every week — the developments that move U.S. power demand, siting, and utility planning. Always free, no spam, unsubscribe anytime.</p>
       </div>
       <form onSubmit={handleSubmit} noValidate>
         <label className="digest-hp" aria-hidden="true">

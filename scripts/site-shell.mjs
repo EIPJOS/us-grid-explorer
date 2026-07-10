@@ -110,7 +110,7 @@ export function renderSiteHeader(active = "") {
   const desktopGroups = NAV_GROUPS.map(([label, keys]) => {
     const groupActive = keys.includes(active);
     const items = keys.map((key) => navLink(ALL_NAV_BY_KEY[key])).join("");
-    return `<details class="nav-group"><summary${groupActive ? ' class="active"' : ""}><span class="nav-icon">${ICONS.chevronDown}</span>${label}</summary><div class="nav-group-menu">${items}</div></details>`;
+    return `<div class="nav-group"><button type="button" class="nav-group-trigger${groupActive ? " active" : ""}"><span class="nav-icon">${ICONS.chevronDown}</span>${label}</button><div class="nav-group-menu">${items}</div></div>`;
   }).join("");
   const mobileGroups = NAV_GROUPS.map(([label, keys]) =>
     `<div class="mobile-mega-col"><span class="mobile-mega-label">${label}</span>${keys.map((key) => navLink(ALL_NAV_BY_KEY[key])).join("")}</div>`

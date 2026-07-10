@@ -11,14 +11,16 @@ a { color:inherit; }
 .site-header nav { display:flex; align-items:stretch; align-self:stretch; gap:2px; }
 .nav-icon { display:inline-flex; }
 .nav-icon svg { display:block; }
-.site-header nav details.nav-group { position:relative; align-self:stretch; }
-.site-header nav details.nav-group summary { display:flex; align-items:center; gap:7px; height:100%; border-bottom:2px solid transparent; padding:0 16px; color:var(--muted); cursor:pointer; list-style:none; }
-.site-header nav details.nav-group summary::-webkit-details-marker { display:none; }
-.site-header nav details.nav-group summary:hover { color:var(--lime); }
-.site-header nav details.nav-group summary.active { border-bottom-color:var(--lime); color:var(--text); }
-.site-header nav details.nav-group[open] summary .nav-icon svg { transform:rotate(180deg); }
-.site-header nav details.nav-group summary .nav-icon svg { transition:transform .15s ease; }
-.nav-group-menu { position:absolute; top:calc(100% + 1px); left:0; z-index:20; display:grid; gap:2px; min-width:200px; border:1px solid var(--line); border-radius:8px; background:var(--panel); padding:6px; box-shadow:0 18px 50px rgba(0,0,0,.3); }
+.site-header nav .nav-group { position:relative; display:flex; align-self:stretch; }
+.nav-group-trigger { display:flex; align-items:center; gap:7px; height:100%; border:0; border-bottom:2px solid transparent; background:transparent; padding:0 16px; color:var(--muted); cursor:pointer; font:inherit; }
+.nav-group-trigger:hover { color:var(--lime); }
+.nav-group-trigger.active { border-bottom-color:var(--lime); color:var(--text); }
+.nav-group-trigger .nav-icon svg { transition:transform .15s ease; }
+.site-header nav .nav-group:hover .nav-group-trigger .nav-icon svg,
+.site-header nav .nav-group:focus-within .nav-group-trigger .nav-icon svg { transform:rotate(180deg); }
+.nav-group-menu { display:none; position:absolute; top:100%; left:0; z-index:20; grid-template-columns:none; gap:2px; min-width:200px; border:1px solid var(--line); border-radius:8px; background:var(--panel); padding:6px; box-shadow:0 18px 50px rgba(0,0,0,.3); }
+.site-header nav .nav-group:hover .nav-group-menu,
+.site-header nav .nav-group:focus-within .nav-group-menu { display:grid; }
 .nav-group-menu a { border-bottom:0 !important; height:auto !important; border-radius:6px; padding:8px 10px !important; font-size:13px; }
 .nav-group-menu a:hover { background:rgba(223,255,63,.08); }
 .nav-group-menu a.active { background:rgba(223,255,63,.1); color:var(--lime) !important; }

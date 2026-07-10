@@ -38,14 +38,16 @@ button { color: inherit; }
 .brand small { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
 
 .topbar nav { display: flex; align-self: stretch; }
-.topbar nav details.nav-group { position: relative; align-self: stretch; }
-.topbar nav details.nav-group summary { display: flex; align-items: center; gap: 7px; height: 100%; border-bottom: 2px solid transparent; padding: 0 16px; color: var(--muted); cursor: pointer; list-style: none; }
-.topbar nav details.nav-group summary::-webkit-details-marker { display: none; }
-.topbar nav details.nav-group summary:hover { color: var(--lime); }
-.topbar nav details.nav-group summary.active { border-bottom-color: var(--lime); color: var(--text); }
-.topbar nav details.nav-group summary svg { transition: transform .15s ease; }
-.topbar nav details.nav-group[open] summary svg { transform: rotate(180deg); }
-.topbar .nav-group-menu { position: absolute; top: calc(100% + 1px); left: 0; z-index: 20; display: grid; gap: 2px; min-width: 200px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-solid); padding: 6px; box-shadow: 0 18px 50px rgba(0,0,0,.3); }
+.topbar nav .nav-group { position: relative; display: flex; align-self: stretch; }
+.topbar nav .nav-group-trigger { display: flex; align-items: center; gap: 7px; height: 100%; border: 0; border-bottom: 2px solid transparent; background: transparent; padding: 0 16px; color: var(--muted); cursor: pointer; font: inherit; }
+.topbar nav .nav-group-trigger:hover { color: var(--lime); }
+.topbar nav .nav-group-trigger.active { border-bottom-color: var(--lime); color: var(--text); }
+.topbar nav .nav-group-trigger svg { transition: transform .15s ease; }
+.topbar nav .nav-group:hover .nav-group-trigger svg,
+.topbar nav .nav-group:focus-within .nav-group-trigger svg { transform: rotate(180deg); }
+.topbar .nav-group-menu { display: none; position: absolute; top: 100%; left: 0; z-index: 20; grid-template-columns: none; gap: 2px; min-width: 200px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-solid); padding: 6px; box-shadow: 0 18px 50px rgba(0,0,0,.3); }
+.topbar nav .nav-group:hover .nav-group-menu,
+.topbar nav .nav-group:focus-within .nav-group-menu { display: grid; }
 .topbar .nav-group-menu button, .topbar .nav-group-menu a { display: flex; align-items: center; gap: 7px; border: 0; border-radius: 6px; background: transparent; padding: 8px 10px; color: var(--muted); font-size: 13px; text-decoration: none; cursor: pointer; text-align: left; }
 .topbar .nav-group-menu button:hover, .topbar .nav-group-menu a:hover { background: rgba(223,255,63,.08); color: var(--text); }
 .topbar .nav-group-menu button.active, .topbar .nav-group-menu a.active { background: rgba(223,255,63,.1); color: var(--lime); }

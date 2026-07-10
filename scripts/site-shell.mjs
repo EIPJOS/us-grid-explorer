@@ -80,12 +80,14 @@ const TRUST_NAV = [
   ["trust", "/methodology/", "Trust center", ICONS.shieldCheck]
 ];
 
-// The mobile mega-menu regroups the same 13 nav items by what a user is
-// trying to do, rather than by PRIMARY_NAV/MORE_NAV's SPA-view-vs-static-page
-// split -- that split is an implementation detail and made the mobile menu
-// feel like a flat wall of 13 options. Grouping decided 2026-07-10 (Austin).
+// Both the desktop nav and the mobile mega-menu regroup the same 13 nav
+// items by what a user is trying to do, rather than by PRIMARY_NAV/MORE_NAV's
+// SPA-view-vs-static-page split -- that split is an implementation detail,
+// not something a visitor cares about. Grouping decided 2026-07-10 (Austin),
+// applied to desktop 2026-07-10 (Austin: "apply the grouping the same on
+// pc as well").
 const ALL_NAV_BY_KEY = Object.fromEntries([...PRIMARY_NAV, ...MORE_NAV].map((item) => [item[0], item]));
-const MOBILE_NAV_GROUPS = [
+const NAV_GROUPS = [
   ["Explore", ["explore", "area", "facilities", "directories"]],
   ["Live updates", ["signals", "watch"]],
   ["Compare & rank", ["analysis", "rankings", "regions", "states"]],
@@ -97,18 +99,20 @@ export function renderAnalyticsScript() {
 }
 
 export function renderSiteHeader(active = "") {
-  const moreActive = MORE_NAV.some(([key]) => key === active);
   const navLink = ([key, href, label, icon]) =>
     `<a${active === key ? ' class="active"' : ""} href="${href}"><span class="nav-icon">${icon}</span>${label}</a>`;
-  const primary = PRIMARY_NAV.map(navLink).join("");
-  const moreItems = MORE_NAV.map(navLink).join("");
   const trust = TRUST_NAV.map(([key, href, label, icon]) =>
     `<a class="trust-link${active === key ? " active" : ""}" href="${href}"><span class="nav-icon">${icon}</span>${label}</a>`
   ).join("");
   const mobileTrustItems = TRUST_NAV.map(([key, href, label, icon]) =>
     `<a${active === key ? ' class="active"' : ""} href="${href}"><span class="nav-icon">${icon}</span>${label}</a>`
   ).join("");
-  const mobileGroups = MOBILE_NAV_GROUPS.map(([label, keys]) =>
+  const desktopGroups = NAV_GROUPS.map(([label, keys]) => {
+    const groupActive = keys.includes(active);
+    const items = keys.map((key) => navLink(ALL_NAV_BY_KEY[key])).join("");
+    return `<details class="nav-group"><summary${groupActive ? ' class="active"' : ""}><span class="nav-icon">${ICONS.chevronDown}</span>${label}</summary><div class="nav-group-menu">${items}</div></details>`;
+  }).join("");
+  const mobileGroups = NAV_GROUPS.map(([label, keys]) =>
     `<div class="mobile-mega-col"><span class="mobile-mega-label">${label}</span>${keys.map((key) => navLink(ALL_NAV_BY_KEY[key])).join("")}</div>`
   ).join("");
   return `<header class="site-header">
@@ -120,7 +124,7 @@ export function renderSiteHeader(active = "") {
       </div>
     </details>
     <a class="brand" href="/"><span>${brandZapIcon}</span><strong>US Grid Explorer<small>Infrastructure intelligence</small></strong></a>
-    <nav aria-label="Primary navigation">${primary}<details class="nav-more"${moreActive ? " open" : ""}><summary><span class="nav-icon">${ICONS.chevronDown}</span>More</summary><div class="nav-more-menu">${moreItems}</div></details></nav>
+    <nav aria-label="Primary navigation">${desktopGroups}</nav>
     <div class="site-header-meta">${trust}</div>
   </header>`;
 }

@@ -355,21 +355,43 @@ export default function App() {
           </span>
         </a>
 
-        <nav aria-label="Primary navigation">
-          <button className={activeView === "explore" ? "active" : ""} onClick={() => changeView("explore")}><Map size={16} />Explore</button>
-          <button className={activeView === "area" ? "active" : ""} onClick={() => changeView("area")}><MapPinned size={16} />My area</button>
-          <button className={activeView === "facilities" ? "active" : ""} onClick={() => changeView("facilities")}><Database size={16} />Facilities</button>
-          <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
-          <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Feeds</button>
-          <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
-          <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
-          <details className="nav-more">
-            <summary><ChevronDown size={16} />More</summary>
-            <div className="nav-more-menu">
-              <a href="/states/"><Landmark size={16} />State profiles</a>
-              <a href="/rankings/"><BarChart3 size={16} />Rankings</a>
+        <nav
+          aria-label="Primary navigation"
+          onClick={(event) => {
+            const target = event.target.closest("button, a");
+            const details = event.target.closest("details.nav-group");
+            if (target && details) details.open = false;
+          }}
+        >
+          <details className="nav-group">
+            <summary className={["explore", "area", "facilities"].includes(activeView) ? "active" : ""}><ChevronDown size={16} />Explore</summary>
+            <div className="nav-group-menu">
+              <button className={activeView === "explore" ? "active" : ""} onClick={() => changeView("explore")}><Map size={16} />Explore</button>
+              <button className={activeView === "area" ? "active" : ""} onClick={() => changeView("area")}><MapPinned size={16} />My area</button>
+              <button className={activeView === "facilities" ? "active" : ""} onClick={() => changeView("facilities")}><Database size={16} />Facilities</button>
               <a href="/directories/"><Layers size={16} />Directories</a>
+            </div>
+          </details>
+          <details className="nav-group">
+            <summary className={["signals", "data_center_watch"].includes(activeView) ? "active" : ""}><ChevronDown size={16} />Live updates</summary>
+            <div className="nav-group-menu">
+              <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
+              <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Feeds</button>
+            </div>
+          </details>
+          <details className="nav-group">
+            <summary className={activeView === "analysis" ? "active" : ""}><ChevronDown size={16} />Compare &amp; rank</summary>
+            <div className="nav-group-menu">
+              <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
+              <a href="/rankings/"><BarChart3 size={16} />Rankings</a>
               <a href="/regions/"><Network size={16} />Grid regions</a>
+              <a href="/states/"><Landmark size={16} />State profiles</a>
+            </div>
+          </details>
+          <details className="nav-group">
+            <summary className={activeView === "learn" ? "active" : ""}><ChevronDown size={16} />Learn</summary>
+            <div className="nav-group-menu">
+              <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
               <a href="/guides/"><BookOpen size={16} />Guides</a>
               <a href="/glossary/"><Type size={16} />Glossary</a>
             </div>

@@ -80,6 +80,18 @@ const TRUST_NAV = [
   ["trust", "/methodology/", "Trust center", ICONS.shieldCheck]
 ];
 
+// The mobile mega-menu regroups the same 13 nav items by what a user is
+// trying to do, rather than by PRIMARY_NAV/MORE_NAV's SPA-view-vs-static-page
+// split -- that split is an implementation detail and made the mobile menu
+// feel like a flat wall of 13 options. Grouping decided 2026-07-10 (Austin).
+const ALL_NAV_BY_KEY = Object.fromEntries([...PRIMARY_NAV, ...MORE_NAV].map((item) => [item[0], item]));
+const MOBILE_NAV_GROUPS = [
+  ["Explore", ["explore", "area", "facilities", "directories"]],
+  ["Live updates", ["signals", "watch"]],
+  ["Compare & rank", ["analysis", "rankings", "regions", "states"]],
+  ["Learn", ["learn", "guides", "glossary"]]
+];
+
 export function renderAnalyticsScript() {
   return analyticsEnabled ? '<script defer src="/_vercel/insights/script.js"></script>' : "";
 }
@@ -96,18 +108,14 @@ export function renderSiteHeader(active = "") {
   const mobileTrustItems = TRUST_NAV.map(([key, href, label, icon]) =>
     `<a${active === key ? ' class="active"' : ""} href="${href}"><span class="nav-icon">${icon}</span>${label}</a>`
   ).join("");
+  const mobileGroups = MOBILE_NAV_GROUPS.map(([label, keys]) =>
+    `<div class="mobile-mega-col"><span class="mobile-mega-label">${label}</span>${keys.map((key) => navLink(ALL_NAV_BY_KEY[key])).join("")}</div>`
+  ).join("");
   return `<header class="site-header">
     <details class="mobile-nav">
       <summary aria-label="Open menu"><span class="nav-icon">${ICONS.menu}</span></summary>
       <div class="mobile-mega-menu" role="dialog" aria-label="Site navigation">
-        <div class="mobile-mega-col">
-          <span class="mobile-mega-label">Explore</span>
-          ${primary}
-        </div>
-        <div class="mobile-mega-col">
-          <span class="mobile-mega-label">Resources</span>
-          ${moreItems}
-        </div>
+        ${mobileGroups}
         <div class="mobile-mega-trust">${mobileTrustItems}</div>
       </div>
     </details>

@@ -400,17 +400,23 @@ export default function App() {
               <button className={activeView === "explore" ? "active" : ""} onClick={() => changeView("explore")}><Map size={16} />Explore</button>
               <button className={activeView === "area" ? "active" : ""} onClick={() => changeView("area")}><MapPinned size={16} />My area</button>
               <button className={activeView === "facilities" ? "active" : ""} onClick={() => changeView("facilities")}><Database size={16} />Facilities</button>
-              <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
-              <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Feeds</button>
-              <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
-              <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
+              <a href="/directories/" onClick={() => setMobileMenuOpen(false)}><Layers size={16} />Directories</a>
             </div>
             <div className="mobile-mega-col">
-              <span className="mobile-mega-label">Resources</span>
-              <a href="/states/" onClick={() => setMobileMenuOpen(false)}><Landmark size={16} />State profiles</a>
+              <span className="mobile-mega-label">Live updates</span>
+              <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
+              <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Feeds</button>
+            </div>
+            <div className="mobile-mega-col">
+              <span className="mobile-mega-label">Compare &amp; rank</span>
+              <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
               <a href="/rankings/" onClick={() => setMobileMenuOpen(false)}><BarChart3 size={16} />Rankings</a>
-              <a href="/directories/" onClick={() => setMobileMenuOpen(false)}><Layers size={16} />Directories</a>
               <a href="/regions/" onClick={() => setMobileMenuOpen(false)}><Network size={16} />Grid regions</a>
+              <a href="/states/" onClick={() => setMobileMenuOpen(false)}><Landmark size={16} />State profiles</a>
+            </div>
+            <div className="mobile-mega-col">
+              <span className="mobile-mega-label">Learn</span>
+              <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
               <a href="/guides/" onClick={() => setMobileMenuOpen(false)}><BookOpen size={16} />Guides</a>
               <a href="/glossary/" onClick={() => setMobileMenuOpen(false)}><Type size={16} />Glossary</a>
             </div>

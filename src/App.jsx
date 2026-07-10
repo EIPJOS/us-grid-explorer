@@ -272,7 +272,7 @@ export default function App() {
     trackEvent("View Changed", { view });
     const nextPath = view === "data_center_watch"
       ? "/data-center-watch/"
-      : (view === "explore" || view === "home" ? "/" : `/?view=${view}`);
+      : (view === "home" ? "/" : `/?view=${view}`);
     const currentPath = window.location.pathname + window.location.search;
     if (nextPath !== currentPath) {
       window.history.pushState({ view }, "", nextPath);

@@ -699,7 +699,8 @@ button { color: inherit; }
   .app-footer nav { width: 100%; justify-content: space-between; gap: 5px; }
   .app-footer a { font-size: 8px; }
   .grid-guide { right: 8px; bottom: 38px; left: 8px; }
-  .guide-launch { margin-left: auto; }
+  .guide-launch { margin-left: auto; width: 40px; height: 40px; justify-content: center; padding: 0; }
+  .guide-launch b { display: none; }
   .guide-panel { width: 100%; height: min(640px, calc(100vh - 74px)); }
   .guide-question-bank > div { grid-template-columns: 1fr; }
   .area-view { padding-top: 16px; }

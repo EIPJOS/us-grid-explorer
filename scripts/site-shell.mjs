@@ -45,7 +45,8 @@ const ICONS = {
   type: navIcon('<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/>'),
   bellRing: navIcon('<path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/>'),
   shieldCheck: navIcon('<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'),
-  chevronDown: navIcon('<path d="m6 9 6 6 6-6"/>')
+  chevronDown: navIcon('<path d="m6 9 6 6 6-6"/>'),
+  menu: navIcon('<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>')
 };
 
 // Same 7 primary items as src/App.jsx's topbar nav, in the same order. Views
@@ -53,7 +54,7 @@ const ICONS = {
 // own pushState scheme in App.jsx) so a click from a static page lands
 // directly on that view in the app.
 const PRIMARY_NAV = [
-  ["explore", "/", "Explore", ICONS.map],
+  ["explore", "/?view=explore", "Explore", ICONS.map],
   ["area", "/?view=area", "My area", ICONS.mapPinned],
   ["facilities", "/?view=facilities", "Facilities", ICONS.database],
   ["signals", "/?view=signals", "Grid signals", ICONS.radio],
@@ -92,7 +93,24 @@ export function renderSiteHeader(active = "") {
   const trust = TRUST_NAV.map(([key, href, label, icon]) =>
     `<a class="trust-link${active === key ? " active" : ""}" href="${href}"><span class="nav-icon">${icon}</span>${label}</a>`
   ).join("");
+  const mobileTrustItems = TRUST_NAV.map(([key, href, label, icon]) =>
+    `<a${active === key ? ' class="active"' : ""} href="${href}"><span class="nav-icon">${icon}</span>${label}</a>`
+  ).join("");
   return `<header class="site-header">
+    <details class="mobile-nav">
+      <summary aria-label="Open menu"><span class="nav-icon">${ICONS.menu}</span></summary>
+      <div class="mobile-mega-menu" role="dialog" aria-label="Site navigation">
+        <div class="mobile-mega-col">
+          <span class="mobile-mega-label">Explore</span>
+          ${primary}
+        </div>
+        <div class="mobile-mega-col">
+          <span class="mobile-mega-label">Resources</span>
+          ${moreItems}
+        </div>
+        <div class="mobile-mega-trust">${mobileTrustItems}</div>
+      </div>
+    </details>
     <a class="brand" href="/"><span>${brandZapIcon}</span><strong>US Grid Explorer<small>Infrastructure intelligence</small></strong></a>
     <nav aria-label="Primary navigation">${primary}<details class="nav-more"${moreActive ? " open" : ""}><summary><span class="nav-icon">${ICONS.chevronDown}</span>More</summary><div class="nav-more-menu">${moreItems}</div></details></nav>
     <div class="site-header-meta">${trust}</div>

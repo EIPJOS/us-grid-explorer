@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { BarChart3, BellRing, BookOpen, ChevronDown, Database, Landmark, Layers, Map, MapPinned, Network, Newspaper, Radio, Search, ShieldCheck, Type, Zap } from "lucide-react";
+import { BarChart3, BellRing, BookOpen, ChevronDown, Database, Landmark, Layers, Map, MapPinned, Menu, Network, Newspaper, Radio, Search, ShieldCheck, Type, X, Zap } from "lucide-react";
 import { Analytics } from "@vercel/analytics/react";
 import ExploreMap from "./components/ExploreMap.jsx";
 import LayerPanel from "./components/LayerPanel.jsx";
@@ -83,6 +83,7 @@ export default function App() {
     .map((state) => state.trim().toUpperCase())
     .filter(Boolean);
   const [activeView, setActiveView] = useState(deriveViewFromLocation);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [tourOpen, setTourOpen] = useState(false);
   const [plantPayload, setPlantPayload] = useState(null);
   const [dataCenterPayload, setDataCenterPayload] = useState(null);
@@ -102,10 +103,20 @@ export default function App() {
   useEffect(() => {
     function handlePopState() {
       setActiveView(deriveViewFromLocation());
+      setMobileMenuOpen(false);
     }
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     let active = true;
@@ -278,6 +289,7 @@ export default function App() {
       window.history.pushState({ view }, "", nextPath);
     }
     setActiveView(view);
+    setMobileMenuOpen(false);
   }
 
   function selectMapFeature(selection) {
@@ -316,6 +328,16 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
+        <button
+          type="button"
+          className="mobile-menu-button"
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+
         <a
           className="brand"
           href="/"
@@ -363,6 +385,42 @@ export default function App() {
           </div>
         </div>
       </header>
+
+      {mobileMenuOpen && (
+        <>
+          <button
+            type="button"
+            className="mobile-menu-backdrop"
+            aria-label="Close menu"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="mobile-mega-menu" role="dialog" aria-label="Site navigation">
+            <div className="mobile-mega-col">
+              <span className="mobile-mega-label">Explore</span>
+              <button className={activeView === "explore" ? "active" : ""} onClick={() => changeView("explore")}><Map size={16} />Explore</button>
+              <button className={activeView === "area" ? "active" : ""} onClick={() => changeView("area")}><MapPinned size={16} />My area</button>
+              <button className={activeView === "facilities" ? "active" : ""} onClick={() => changeView("facilities")}><Database size={16} />Facilities</button>
+              <button className={activeView === "signals" ? "active" : ""} onClick={() => changeView("signals")}><Radio size={16} />Grid signals</button>
+              <button className={activeView === "data_center_watch" ? "active" : ""} onClick={() => changeView("data_center_watch")}><Newspaper size={16} />Feeds</button>
+              <button className={activeView === "analysis" ? "active" : ""} onClick={() => changeView("analysis")}><BarChart3 size={16} />Analysis</button>
+              <button className={activeView === "learn" ? "active" : ""} onClick={() => changeView("learn")}><BookOpen size={16} />Learn</button>
+            </div>
+            <div className="mobile-mega-col">
+              <span className="mobile-mega-label">Resources</span>
+              <a href="/states/" onClick={() => setMobileMenuOpen(false)}><Landmark size={16} />State profiles</a>
+              <a href="/rankings/" onClick={() => setMobileMenuOpen(false)}><BarChart3 size={16} />Rankings</a>
+              <a href="/directories/" onClick={() => setMobileMenuOpen(false)}><Layers size={16} />Directories</a>
+              <a href="/regions/" onClick={() => setMobileMenuOpen(false)}><Network size={16} />Grid regions</a>
+              <a href="/guides/" onClick={() => setMobileMenuOpen(false)}><BookOpen size={16} />Guides</a>
+              <a href="/glossary/" onClick={() => setMobileMenuOpen(false)}><Type size={16} />Glossary</a>
+            </div>
+            <div className="mobile-mega-trust">
+              <a href="/data-center-permits/" onClick={() => setMobileMenuOpen(false)}><BellRing size={16} />Permit Alerts</a>
+              <a href="/methodology/" onClick={() => setMobileMenuOpen(false)}><ShieldCheck size={16} />Trust center</a>
+            </div>
+          </div>
+        </>
+      )}
 
       {activeView === "home" && (
         <Suspense fallback={<main className="view-shell"><div className="page-loading">Loading...</div></main>}>

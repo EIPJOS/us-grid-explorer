@@ -64,12 +64,17 @@ const STATIC_SOURCES = {
   }
 };
 
+const NAVIGABLE_VIEWS = ["home", "explore", "area", "facilities", "signals", "analysis", "learn", "data_center_watch"];
+
+function deriveViewFromLocation() {
+  const params = new URLSearchParams(window.location.search);
+  const path = window.location.pathname.replace(/^\/|\/$/g, "");
+  const view = path === "data-center-watch" ? "data_center_watch" : params.get("view");
+  return NAVIGABLE_VIEWS.includes(view) ? view : "home";
+}
+
 export default function App() {
   const initialParams = new URLSearchParams(window.location.search);
-  const routePath = window.location.pathname.replace(/^\/|\/$/g, "");
-  const initialView = routePath === "data-center-watch"
-    ? "data_center_watch"
-    : initialParams.get("view");
   const initialArea = parseInitialArea(initialParams);
   const initialRegion = initialParams.get("region")?.toUpperCase();
   const initialPlantCode = Number(initialParams.get("plant"));
@@ -77,9 +82,7 @@ export default function App() {
     .split(",")
     .map((state) => state.trim().toUpperCase())
     .filter(Boolean);
-  const [activeView, setActiveView] = useState(
-    ["home", "explore", "area", "facilities", "signals", "analysis", "learn", "data_center_watch"].includes(initialView) ? initialView : "home"
-  );
+  const [activeView, setActiveView] = useState(deriveViewFromLocation);
   const [tourOpen, setTourOpen] = useState(false);
   const [plantPayload, setPlantPayload] = useState(null);
   const [dataCenterPayload, setDataCenterPayload] = useState(null);
@@ -95,6 +98,14 @@ export default function App() {
   const [plantStatusVisibility, setPlantStatusVisibility] = useState(INITIAL_PLANT_STATUS_VISIBILITY);
   const hasChosenFuel = useRef(false);
   const initialPlantFocused = useRef(false);
+
+  useEffect(() => {
+    function handlePopState() {
+      setActiveView(deriveViewFromLocation());
+    }
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -259,10 +270,12 @@ export default function App() {
 
   function changeView(view) {
     trackEvent("View Changed", { view });
-    if (view === "data_center_watch") {
-      window.history.pushState(null, "", "/data-center-watch/");
-    } else if (window.location.pathname === "/data-center-watch/" || window.location.pathname === "/data-center-watch") {
-      window.history.pushState(null, "", view === "explore" || view === "home" ? "/" : `/?view=${view}`);
+    const nextPath = view === "data_center_watch"
+      ? "/data-center-watch/"
+      : (view === "explore" || view === "home" ? "/" : `/?view=${view}`);
+    const currentPath = window.location.pathname + window.location.search;
+    if (nextPath !== currentPath) {
+      window.history.pushState({ view }, "", nextPath);
     }
     setActiveView(view);
   }

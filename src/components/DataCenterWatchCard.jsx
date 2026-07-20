@@ -14,7 +14,6 @@ export default function DataCenterWatchCard({ item }) {
     <article className="watch-card">
       <div className="watch-card-top">
         <span className={`source-type ${item.sourceType}`}>{DATA_CENTER_SOURCE_CATEGORIES[item.sourceType] ?? item.sourceType}</span>
-        <strong>{item.importanceScore}</strong>
       </div>
       <h2>{item.title}</h2>
       <div className="watch-meta">

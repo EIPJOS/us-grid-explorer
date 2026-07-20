@@ -19,6 +19,7 @@ const regions = {
     market: 'Northern Virginia — the original "Data Center Alley"',
     accent: "#dfff3f",
     status: "live",
+    paidTierAvailable: true,
     dek: "Every legislative land-use filing tied to data center development in Loudoun County — rezonings, special exceptions, substations, energy storage — summarized in plain English, grouped by hearing date, and linked straight back to the source record.",
     stats: [
       { label: "Of county commercial tax base", value: "~73%", note: "is data centers (Tax Year 2025)" },
@@ -30,13 +31,37 @@ const regions = {
     <section><h2>What's coming</h2><p>Phase 2 (in progress at the county) will add new noise, height, generator, and setback standards for data centers, expected to reach adoption by the end of 2026 — subscribers get that regulatory context alongside the filing tracker, not as a separate research project.</p></section>`,
     sourceNote: "Loudoun County LandMARC (Tyler EnerGov Self-Service) permitting system and the county's Planning Commission / Board of Supervisors hearing calendar (Laserfiche WebLink). Both are public county systems; every alert links back to the original record."
   },
-  "dallas-fort-worth-tx": {
-    name: "Dallas–Fort Worth, Texas",
-    short: "Dallas–Fort Worth, TX",
-    market: "One of the fastest-growing U.S. data center markets by inventory added",
+  "fort-worth-tx": {
+    name: "Fort Worth, Texas",
+    short: "Fort Worth, TX",
+    market: "4 operational data centers, 5 more planned or under construction",
     accent: "#7d9fff",
-    status: "coming_soon",
-    dek: "Hyperscaler and AI-driven demand has made DFW one of the largest gainers in data center capacity of any U.S. market this year.",
+    status: "live",
+    dek: "A live, contested data-center zoning fight — the city's own proposed rules were sent back to Council for a vote — tracked from the same public rezoning-case record as everything else in the county's own system.",
+    stats: [
+      { label: "Data centers in the city", value: "4 live", note: "plus 5 more planned or under construction" },
+      { label: "Largest single rezoning tracked", value: "450+ ac", note: "agricultural to light-industrial, Far South sector" },
+      { label: "Zoning Commission vote", value: "7-4 denial", note: "sent back to City Council for an Aug 11, 2026 vote" }
+    ],
+    body: `<section><h2>Why this matters more than it used to</h2><p>Fort Worth is one of the few cities in the country actively writing a data-center-specific zoning ordinance right now — the Zoning Commission voted 7-4 against the city's own proposed rules (setback distances, which industrial zones qualify) and sent it to City Council, with a vote scheduled for August 11, 2026. That means every rezoning case tied to a data center campus, and the policy fight shaping how the next ones get approved, has a real public record attached to it before ground breaks.</p></section>
+    <section><h2>What the alert covers</h2><ul><li>Every case in the city's public Zoning Cases record with data-center-relevant language in the rezoning description — new campuses, planned-development amendments adding substations or data center use, and related site plans</li><li>A plain-English summary and a one-line "why it matters" for every relevant filing — not a raw zoning-code dump</li><li>A direct link back to the source record on every item, so anything can be independently verified</li></ul></section>`,
+    sourceNote: "City of Fort Worth's public Zoning Cases record (ArcGIS-based, city-wide), covering current and recently-decided rezoning cases. Every alert links back to the original record."
+  },
+  "irving-tx": {
+    name: "Irving, Texas",
+    short: "Irving, TX",
+    market: "Microsoft alone is reportedly building 4 of 7 planned data centers here",
+    accent: "#7d9fff",
+    status: "live",
+    dek: "Tracks large industrial and technology-park rezonings in one of DFW's most active data-center corridors, cross-referenced against known data-center developers and site size.",
+    stats: [
+      { label: "Microsoft data centers reported here", value: "4 of 7", note: "planned across the DFW market" },
+      { label: "Largest tracked rezoning", value: "24.5 ac", note: "light-industrial parcel, denied then approved on resubmission" },
+      { label: "Hearing stages tracked", value: "2", note: "Planning & Zoning Commission, then City Council" }
+    ],
+    body: `<section><h2>Why this matters more than it used to</h2><p>Irving sits inside one of the busiest stretches of the DFW data-center corridor, with Microsoft alone reported to be building several campuses in the area. Unlike some neighboring cities, Irving's own public rezoning records don't spell out project descriptions in plain language — so this tracker flags large industrial-zoned rezonings and known data-center-developer names directly, and every flagged filing still gets a plain-English AI summary and relevance check before it reaches the digest.</p></section>
+    <section><h2>What the alert covers</h2><ul><li>Rezoning cases tied to known data-center developers and operators active in the market</li><li>Large-parcel light-industrial rezonings, the zoning pattern data center campuses typically use</li><li>Both hearing stages — Planning & Zoning Commission recommendation, then City Council's final vote — with dates for each</li><li>A direct link back to the source record on every item</li></ul></section>`,
+    sourceNote: "City of Irving's public zoning-case record (ArcGIS-based). Because Irving's own system doesn't publish project descriptions, coverage here leans on parcel size, zoning type, and developer/owner name — broader zoning activity may exist beyond what's flagged. Every alert links back to the original record for independent verification."
   },
   "phoenix-az": {
     name: "Phoenix, Arizona",
@@ -92,7 +117,7 @@ function renderHub() {
     description: "Weekly, plain-English alerts on data center permit filings and hearing calendars in the country's busiest data center markets — starting with Loudoun County, VA.",
     canonical: `${siteUrl}/data-center-permits/`,
     body: `<main class="region-main"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><b>Permit Alerts</b></nav>
-    <header class="region-hero"><p class="eyebrow">Grid Permit Alerts &middot; County-level filing tracker</p><h1>Data center permit filings, tracked by region</h1><p>A weekly digest of every land-use filing tied to data center development in the country's busiest markets — rezonings, special exceptions, substations, and the hearing dates attached to them. Loudoun County, VA is live now; four more markets are next.</p></header>
+    <header class="region-hero"><p class="eyebrow">Grid Permit Alerts &middot; County-level filing tracker</p><h1>Data center permit filings, tracked by region</h1><p>A weekly digest of every land-use filing tied to data center development in the country's busiest markets — rezonings, special exceptions, substations, and the hearing dates attached to them. Loudoun County, VA, Fort Worth, TX, and Irving, TX are live now; three more markets are next.</p></header>
     <section class="region-directory">${cards}</section>
     <section class="region-boundary-note"><div><p class="eyebrow">How this works</p><h2>Built from the county's own public record</h2></div><p>Every alert is generated from official county permitting systems and hearing calendars, not third-party estimates — and every item links back to the source filing so it can be independently verified.</p><a href="/data-center-permits/loudoun-va/">See the Loudoun County tracker &rarr;</a></section>
     </main>`
@@ -130,7 +155,13 @@ function renderRegion(route, region) {
 
 function permitSignup(region, route) {
   const isLive = region.status === "live";
-  const paidBlock = isLive
+  // Paid checkout needs a Stripe price configured per region (see
+  // api/create-checkout-session.js's COUNTY_PRICE_IDS) -- only Loudoun has one
+  // today, so a region being "live" for the free weekly digest doesn't imply
+  // the $49/mo tier is ready. Showing that CTA without a real price behind it
+  // would just send subscribers into a "This market isn't available for paid
+  // alerts yet" error.
+  const paidBlock = isLive && region.paidTierAvailable
     ? `<div class="permit-paid-cta" data-county="${route}">
         <div>
           <p class="eyebrow">$49/mo</p>
@@ -158,7 +189,7 @@ function permitSignup(region, route) {
     </section>
     ${paidBlock}
   </section>
-  ${isLive ? `<p class="permit-manage-link">Already a paid subscriber? <a href="#" data-manage-billing>Manage your subscription</a></p>` : ""}
+  ${isLive && region.paidTierAvailable ? `<p class="permit-manage-link">Already a paid subscriber? <a href="#" data-manage-billing>Manage your subscription</a></p>` : ""}
   <script>(()=>{
     const sections=document.querySelectorAll('.permit-signup');
     sections.forEach(section=>{

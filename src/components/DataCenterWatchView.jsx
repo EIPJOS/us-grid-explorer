@@ -31,6 +31,7 @@ export default function DataCenterWatchView() {
     unavailable: false
   });
   const [publishedArticles, setPublishedArticles] = useState([]);
+  const [briefingsLoading, setBriefingsLoading] = useState(true);
   const staticBriefingItems = Array.isArray(dailyFeedBatch?.items) && dailyFeedBatch.items.length
     ? dailyFeedBatch.items
     : dataCenterWatchItems;
@@ -46,7 +47,10 @@ export default function DataCenterWatchView() {
       .then((payload) => {
         if (active && Array.isArray(payload.items) && payload.items.length) setPublishedArticles(payload.items);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        if (active) setBriefingsLoading(false);
+      });
     return () => {
       active = false;
     };
@@ -139,7 +143,7 @@ export default function DataCenterWatchView() {
 
       {activeTab !== "sources" ? (
         <>
-          <DataCenterWatchStats items={watchItems} />
+          <DataCenterWatchStats items={watchItems} loading={activeTab === "briefings" && briefingsLoading} />
           {activeTab === "briefings" && <DigestSignup />}
           <DataCenterWatchFilters
             filters={filters}

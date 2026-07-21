@@ -5,7 +5,7 @@ export const guideRoutes = ["how-the-us-power-grid-works", "nuclear-power-by-sta
 export const rankingRoutes = ["operating-capacity", "renewable-share", "nuclear-capacity", "proposed-capacity", "storage-capacity"];
 export const fuelDirectoryRoutes = ["nuclear", "coal", "oil-and-gas", "solar", "wind", "energy-storage"];
 export const regionRoutes = ["pjm", "ercot", "caiso", "miso", "nyiso", "iso-ne", "spp"];
-export const permitAlertsRoutes = ["loudoun-va", "fort-worth-tx", "irving-tx", "phoenix-az", "chicago-il", "atlanta-ga"];
+export const permitAlertsRoutes = ["loudoun-va", "fort-worth-tx", "irving-tx", "atlanta-ga", "prince-william-va", "phoenix-az", "chicago-il"];
 export const glossaryRoutes = ["balancing-authority", "capacity", "capacity-factor", "demand", "distributed-generation", "electricity-generation", "energy-storage", "generator", "independent-system-operator", "interconnection", "megawatt", "megawatt-hour", "nameplate-capacity", "power-grid", "power-plant", "renewable-energy", "regional-transmission-organization", "substation", "transmission", "wholesale-electricity-market"];
 export const analyticsEnabled = process.env.VITE_ANALYTICS_ENABLED === "true";
 

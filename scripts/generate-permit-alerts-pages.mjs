@@ -94,6 +94,22 @@ const regions = {
     body: `<section><h2>Why this matters more than it used to</h2><p>Atlanta has spent the last two years actively rewriting how — and where — data centers can be built: a 2024 ban within 2,640 feet of high-capacity transit stops, a Beltline Overlay District ban, and a 2025 ordinance requiring a Special Use Permit for any new data center citywide. In December 2024, Mayor Andre Dickens personally intervened to help kill a proposed data center near the West End MARTA station. This is a live, contested policy fight, not a settled process — every rezoning case tied to it has a real public record.</p></section>
     <section><h2>What the alert covers</h2><ul><li>Rezoning cases from the city's public record with data-center-relevant language, extracted directly from the adopted ordinance text</li><li>Full multi-stage hearing history — Zoning Committee recommendation, then City Council's final vote — with dates for each stage</li><li>A plain-English summary and a one-line "why it matters" for every relevant filing</li><li>A direct link back to the source ordinance on every item, so anything can be independently verified</li></ul></section>`,
     sourceNote: "City of Atlanta's public Rezoning Cases record (ArcGIS-based) and the linked adopted-ordinance documents. Every alert links back to the original ordinance for independent verification."
+  },
+  "prince-william-va": {
+    name: "Prince William County, Virginia",
+    short: "Prince William County, VA",
+    market: "Home to Digital Gateway — one of the most litigated data center fights in the country",
+    accent: "#dfff3f",
+    status: "live",
+    dek: "Tracked from the same county land-use system as Loudoun — including the Digital Gateway rezoning, a 2,000-acre campus whose approval was overturned in court and is now under appeal.",
+    stats: [
+      { label: "Digital Gateway campus", value: "~2,000 ac", note: "up to 37 data center buildings near Manassas National Battlefield" },
+      { label: "Rezoning status", value: "Overturned", note: "a circuit court judge voided the 2023 approval; under appeal" },
+      { label: "Zoning Overlay updates", value: "2 tracked", note: "text amendments to the county's Data Center Opportunity Zone Overlay" }
+    ],
+    body: `<section><h2>Why this matters more than it used to</h2><p>Prince William County is home to Digital Gateway, a roughly 2,000-acre, up to 37-building data center campus near Manassas National Battlefield Park — one of the most litigated data-center zoning fights in the country. A circuit court judge overturned the county's 2023 rezoning approval, and the Board of County Supervisors is appealing. Alongside it, the county keeps revising its own Data Center Opportunity Zone Overlay District rules — this is a live, contested process, not a settled one.</p></section>
+    <section><h2>What the alert covers</h2><ul><li>Rezoning and land development cases from the county's public land-use record — including named projects like Digital Gateway, Gainesville Crossing, and others</li><li>Zoning text amendments affecting the Data Center Opportunity Zone Overlay District</li><li>A plain-English summary and a one-line "why it matters" for every relevant filing</li><li>A direct link to the source record on every item, so anything can be independently verified</li></ul></section>`,
+    sourceNote: "Prince William County's public land-use case management system (Tyler EnerGov, the same platform family as Loudoun County's). Every alert links back to the original record."
   }
 };
 
@@ -125,7 +141,7 @@ function renderHub() {
     description: "Weekly, plain-English alerts on data center permit filings and hearing calendars in the country's busiest data center markets — starting with Loudoun County, VA.",
     canonical: `${siteUrl}/data-center-permits/`,
     body: `<main class="region-main"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><b>Permit Alerts</b></nav>
-    <header class="region-hero"><p class="eyebrow">Grid Permit Alerts &middot; County-level filing tracker</p><h1>Data center permit filings, tracked by region</h1><p>A weekly digest of every land-use filing tied to data center development in the country's busiest markets — rezonings, special exceptions, substations, and the hearing dates attached to them. Loudoun County, VA, Fort Worth, TX, Irving, TX, and Atlanta, GA are live now; two more markets are next.</p></header>
+    <header class="region-hero"><p class="eyebrow">Grid Permit Alerts &middot; County-level filing tracker</p><h1>Data center permit filings, tracked by region</h1><p>A weekly digest of every land-use filing tied to data center development in the country's busiest markets — rezonings, special exceptions, substations, and the hearing dates attached to them. Loudoun County, VA, Fort Worth, TX, Irving, TX, Atlanta, GA, and Prince William County, VA are live now; two more markets are next.</p></header>
     <section class="region-directory">${cards}</section>
     <section class="region-boundary-note"><div><p class="eyebrow">How this works</p><h2>Built from the county's own public record</h2></div><p>Every alert is generated from official county permitting systems and hearing calendars, not third-party estimates — and every item links back to the source filing so it can be independently verified.</p><a href="/data-center-permits/loudoun-va/">See the Loudoun County tracker &rarr;</a></section>
     </main>`

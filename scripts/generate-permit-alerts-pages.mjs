@@ -84,8 +84,16 @@ const regions = {
     short: "Atlanta, GA",
     market: "Now the 4th-largest U.S. data center market",
     accent: "#75eab0",
-    status: "coming_soon",
-    dek: "80+ facilities and growing — Southeast hyperscale demand has pushed Atlanta past several legacy markets.",
+    status: "live",
+    dek: "Atlanta is actively rewriting its own data-center rules — a Special Use Permit requirement, a transit-proximity ban, a Beltline ban — tracked straight from the city's own rezoning-case record.",
+    stats: [
+      { label: "U.S. data center market rank", value: "#4", note: "80+ facilities and growing, Southeast hyperscale demand" },
+      { label: "New rule (2025)", value: "SUP required", note: "data centers now need a Special Use Permit citywide" },
+      { label: "Transit-proximity ban", value: "2,640 ft", note: "data centers barred within this distance of high-capacity transit (2024)" }
+    ],
+    body: `<section><h2>Why this matters more than it used to</h2><p>Atlanta has spent the last two years actively rewriting how — and where — data centers can be built: a 2024 ban within 2,640 feet of high-capacity transit stops, a Beltline Overlay District ban, and a 2025 ordinance requiring a Special Use Permit for any new data center citywide. In December 2024, Mayor Andre Dickens personally intervened to help kill a proposed data center near the West End MARTA station. This is a live, contested policy fight, not a settled process — every rezoning case tied to it has a real public record.</p></section>
+    <section><h2>What the alert covers</h2><ul><li>Rezoning cases from the city's public record with data-center-relevant language, extracted directly from the adopted ordinance text</li><li>Full multi-stage hearing history — Zoning Committee recommendation, then City Council's final vote — with dates for each stage</li><li>A plain-English summary and a one-line "why it matters" for every relevant filing</li><li>A direct link back to the source ordinance on every item, so anything can be independently verified</li></ul></section>`,
+    sourceNote: "City of Atlanta's public Rezoning Cases record (ArcGIS-based) and the linked adopted-ordinance documents. Every alert links back to the original ordinance for independent verification."
   }
 };
 
@@ -117,7 +125,7 @@ function renderHub() {
     description: "Weekly, plain-English alerts on data center permit filings and hearing calendars in the country's busiest data center markets — starting with Loudoun County, VA.",
     canonical: `${siteUrl}/data-center-permits/`,
     body: `<main class="region-main"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><b>Permit Alerts</b></nav>
-    <header class="region-hero"><p class="eyebrow">Grid Permit Alerts &middot; County-level filing tracker</p><h1>Data center permit filings, tracked by region</h1><p>A weekly digest of every land-use filing tied to data center development in the country's busiest markets — rezonings, special exceptions, substations, and the hearing dates attached to them. Loudoun County, VA, Fort Worth, TX, and Irving, TX are live now; three more markets are next.</p></header>
+    <header class="region-hero"><p class="eyebrow">Grid Permit Alerts &middot; County-level filing tracker</p><h1>Data center permit filings, tracked by region</h1><p>A weekly digest of every land-use filing tied to data center development in the country's busiest markets — rezonings, special exceptions, substations, and the hearing dates attached to them. Loudoun County, VA, Fort Worth, TX, Irving, TX, and Atlanta, GA are live now; two more markets are next.</p></header>
     <section class="region-directory">${cards}</section>
     <section class="region-boundary-note"><div><p class="eyebrow">How this works</p><h2>Built from the county's own public record</h2></div><p>Every alert is generated from official county permitting systems and hearing calendars, not third-party estimates — and every item links back to the source filing so it can be independently verified.</p><a href="/data-center-permits/loudoun-va/">See the Loudoun County tracker &rarr;</a></section>
     </main>`

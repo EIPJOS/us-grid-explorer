@@ -8,10 +8,14 @@ const outputDir = path.join(root, "public", "data-center-permits");
 
 // Grid Permit Alerts: a companion B2B product (separate Supabase project + Resend
 // audience from the main US Grid Explorer digest) that tracks county-level data
-// center permit filings and hearing calendars. Loudoun, VA is the only region with
-// a live scraper right now (see the grid-permit-alerts repo); the other four are
-// listed here as a waitlist/demand-validation signal before building their
-// scrapers -- same signup form and audience for every region on this page.
+// center permit filings and hearing calendars. Loudoun, VA is the only ACTIVE region
+// right now -- Fort Worth, Irving, Atlanta, and Prince William have working, validated
+// scrapers (grid-permit-alerts repo) but are PAUSED as of 2026-07-24 per a new gate:
+// no new region runs until the current one has real paying subscribers, since
+// Anthropic classification cost scales with region count, not subscriber count. Their
+// `status` below is temporarily "coming_soon" to match -- flip back to "live" only
+// alongside re-enabling them in scraper/run.py's COUNTY_RUNNERS. Phoenix/Chicago were
+// never built; they're genuine waitlist-only entries.
 const regions = {
   "loudoun-va": {
     name: "Loudoun County, Virginia",
@@ -36,7 +40,7 @@ const regions = {
     short: "Fort Worth, TX",
     market: "4 operational data centers, 5 more planned or under construction",
     accent: "#7d9fff",
-    status: "live",
+    status: "coming_soon", // paused 2026-07-24 (SPEC.md gate) -- scraper built, not currently running
     dek: "A live, contested data-center zoning fight — the city's own proposed rules were sent back to Council for a vote — tracked from the same public rezoning-case record as everything else in the county's own system.",
     stats: [
       { label: "Data centers in the city", value: "4 live", note: "plus 5 more planned or under construction" },
@@ -52,7 +56,7 @@ const regions = {
     short: "Irving, TX",
     market: "Microsoft alone is reportedly building 4 of 7 planned data centers here",
     accent: "#7d9fff",
-    status: "live",
+    status: "coming_soon", // paused 2026-07-24 (SPEC.md gate) -- scraper built, not currently running
     dek: "Tracks large industrial and technology-park rezonings in one of DFW's most active data-center corridors, cross-referenced against known data-center developers and site size.",
     stats: [
       { label: "Microsoft data centers reported here", value: "4 of 7", note: "planned across the DFW market" },
@@ -84,7 +88,7 @@ const regions = {
     short: "Atlanta, GA",
     market: "Now the 4th-largest U.S. data center market",
     accent: "#75eab0",
-    status: "live",
+    status: "coming_soon", // paused 2026-07-24 (SPEC.md gate) -- scraper built, not currently running
     dek: "Atlanta is actively rewriting its own data-center rules — a Special Use Permit requirement, a transit-proximity ban, a Beltline ban — tracked straight from the city's own rezoning-case record.",
     stats: [
       { label: "U.S. data center market rank", value: "#4", note: "80+ facilities and growing, Southeast hyperscale demand" },
@@ -100,7 +104,7 @@ const regions = {
     short: "Prince William County, VA",
     market: "Home to Digital Gateway — one of the most litigated data center fights in the country",
     accent: "#dfff3f",
-    status: "live",
+    status: "coming_soon", // paused 2026-07-24 (SPEC.md gate) -- scraper built, not currently running
     dek: "Tracked from the same county land-use system as Loudoun — including the Digital Gateway rezoning, a 2,000-acre campus whose approval was overturned in court and is now under appeal.",
     stats: [
       { label: "Digital Gateway campus", value: "~2,000 ac", note: "up to 37 data center buildings near Manassas National Battlefield" },
@@ -141,7 +145,7 @@ function renderHub() {
     description: "Weekly, plain-English alerts on data center permit filings and hearing calendars in the country's busiest data center markets — starting with Loudoun County, VA.",
     canonical: `${siteUrl}/data-center-permits/`,
     body: `<main class="region-main"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><b>Permit Alerts</b></nav>
-    <header class="region-hero"><p class="eyebrow">Grid Permit Alerts &middot; County-level filing tracker</p><h1>Data center permit filings, tracked by region</h1><p>A weekly digest of every land-use filing tied to data center development in the country's busiest markets — rezonings, special exceptions, substations, and the hearing dates attached to them. Loudoun County, VA, Fort Worth, TX, Irving, TX, Atlanta, GA, and Prince William County, VA are live now; two more markets are next.</p></header>
+    <header class="region-hero"><p class="eyebrow">Grid Permit Alerts &middot; County-level filing tracker</p><h1>Data center permit filings, tracked by region</h1><p>A weekly digest of every land-use filing tied to data center development in the country's busiest markets — rezonings, special exceptions, substations, and the hearing dates attached to them. Loudoun County, VA is live now; more markets are next.</p></header>
     <section class="region-directory">${cards}</section>
     <section class="region-boundary-note"><div><p class="eyebrow">How this works</p><h2>Built from the county's own public record</h2></div><p>Every alert is generated from official county permitting systems and hearing calendars, not third-party estimates — and every item links back to the source filing so it can be independently verified.</p><a href="/data-center-permits/loudoun-va/">See the Loudoun County tracker &rarr;</a></section>
     </main>`

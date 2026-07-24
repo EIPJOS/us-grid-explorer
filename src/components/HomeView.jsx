@@ -137,13 +137,12 @@ export default function HomeView({ plantCount, dataCenterCount, onNavigate }) {
 
       <section className="home-permit-spotlight">
         <div>
-          <p className="eyebrow">Now live in 5 markets</p>
+          <p className="eyebrow">Now live in Northern Virginia</p>
           <h2>Get notified the moment a new data center permit is filed</h2>
           <p>
             Grid Permit Alerts tracks every land-use filing tied to data center development in
-            Loudoun County, VA, Fort Worth, TX, Irving, TX, Atlanta, GA, and Prince William
-            County, VA — rezonings, special exceptions, substations, and the hearing dates
-            attached to them — delivered as a weekly digest. Phoenix and Chicago are next.
+            Loudoun County, VA — rezonings, special exceptions, substations, and the hearing
+            dates attached to them — delivered as a weekly digest. More markets are next.
           </p>
         </div>
         <a className="primary" href="/data-center-permits/">
